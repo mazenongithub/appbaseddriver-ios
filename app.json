@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "AppBasedDriver",
+    "slug": "AppBasedDriver",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
