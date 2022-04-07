@@ -1,21 +1,66 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions, Image } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from './actions';
+import { MyStylesheet } from './styles';
+import AppBasedDriver from './appbaseddriver'
 
-
-class AppBasedDriver extends Component {
+class MyApp extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
-        
-        
+        this.state = { width: 0, height: 0 }
+        this.updatedimesions = this.updatedimesions.bind(this)
+
     }
 
-    render(){
-        return(<View>
-            <Text>Hello App</Text>
-        </View>)
+    componentDidMount() {
+        this.setState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height, orientation:Dimensions.get('screen')})
+        Dimensions.addEventListener('change', this.updatedimesions)
+
+    }
+    
+    componentWillUnmount() {
+        Dimensions.removeEventListener('change', this.updatedimesions)
+    }
+
+    updatedimesions() {
+        this.setState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
+    }
+
+
+    render() {
+        const styles = MyStylesheet();
+        const appbaseddriver = new AppBasedDriver();
+        const orientation = appbaseddriver.getOrientation.call(this)
+        const checkdimensions = () => {
+            console.log(`checkdemisions , width:${this.state.width}, height: ${this.state.height}`)
+        }
+        const logoWidth = () => {
+            if(orientation === 'portrait') {
+            return ({ width: Math.round(0.9 * this.state.width), height: Math.round(0.12 * this.state.width) })
+
+            } else {
+                return ({ width: Math.round(0.6 * this.state.width), height: Math.round(0.09 * this.state.width) })
+            }
+        }
+        const getMargin = () => {
+            if(orientation === 'portrait') {
+                return { marginTop: 40, marginLeft: 5}
+            } else {
+                return { marginTop: 5, marginLeft: 5 }
+            }
+        }
+        return (
+            <View style={{ ...getMargin() }}>
+                {checkdimensions()}
+                <View style={styles.alignCenter}>
+                    <Image
+                        source={{ uri: 'https://civilengineer.io/appbaseddriver/icons/2x/appbaseddriver.png' }}
+                        style={logoWidth()} />
+
+                </View>
+                <Text style={{ fontSize: 20 }}>Hello My App World</Text>
+            </View>)
     }
 
 
@@ -30,7 +75,7 @@ function mapStateToProps(state) {
 
 }
 
-export default connect(mapStateToProps, actions)(AppBasedDriver)
+export default connect(mapStateToProps, actions)(MyApp)
 
 
 
