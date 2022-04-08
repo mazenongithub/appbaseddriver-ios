@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from './actions';
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver'
+import Header from './header'
 
 class MyApp extends Component {
     constructor(props) {
@@ -50,6 +51,11 @@ class MyApp extends Component {
                 return { marginTop: 5, marginLeft: 5 }
             }
         }
+
+        const header = new Header();
+        const navigation = appbaseddriver.getNavigation.call(this)
+        console.log(`navigation: ${navigation.navigation}`)
+
         return (
             <View style={{ ...getMargin() }}>
                 {checkdimensions()}
@@ -59,7 +65,7 @@ class MyApp extends Component {
                         style={logoWidth()} />
 
                 </View>
-                <Text style={{ fontSize: 20 }}>Hello My App World</Text>
+                 {header.showheader.call(this)}
             </View>)
     }
 
