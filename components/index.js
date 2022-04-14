@@ -6,6 +6,7 @@ import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver'
 import Header from './header'
 
+
 class MyApp extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +16,9 @@ class MyApp extends Component {
     }
 
     componentDidMount() {
+        const appbaseddriver = new AppBasedDriver();
+        appbaseddriver.checkuser.call(this)
+        this.props.reduxNavigation({ navigation: 'landing' })
         this.setState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height, orientation:Dimensions.get('screen')})
         Dimensions.addEventListener('change', this.updatedimesions)
 
@@ -55,6 +59,8 @@ class MyApp extends Component {
         const header = new Header();
         const navigation = appbaseddriver.getNavigation.call(this)
         console.log(`navigation: ${navigation.navigation}`)
+        const variables = appbaseddriver.enviornmentalVariables.call(this)
+        console.log(`Server API : ${variables.serverAPI}`)
 
         return (
             <View style={{ ...getMargin() }}>
@@ -65,7 +71,7 @@ class MyApp extends Component {
                         style={logoWidth()} />
 
                 </View>
-                 {header.showheader.call(this)}
+                {header.showheader.call(this)}
             </View>)
     }
 

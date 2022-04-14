@@ -1,4 +1,42 @@
+import { CheckUser } from './actions/api'
+
 class AppBasedDriver {
+
+    async checkuser() {
+             
+        try {
+          let response = await CheckUser();
+          if (response.hasOwnProperty("driverid")) {
+            this.props.reduxUser(response)
+            this.setState({ render: 'render' })
+          }
+    
+        } catch (err) {
+        
+          
+          alert(err)
+        }
+      }
+
+
+    enviornmentalVariables() {
+        const variables = {
+            development: {
+                serverAPI:'http://34.207.66.207:8081'
+            },
+            production: {
+                serverAPI: 'https://api.civilengineer.io'
+            }
+        };
+
+        if (__DEV__) {
+
+            return variables.development; // return this if in development mode
+        }
+
+        return variables.production; // otherwise, return this
+    }
+
     getOrientation() {
         if(this.state.width<this.state.height) {
             return ('portrait')
