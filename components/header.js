@@ -119,28 +119,69 @@ class Header {
             }
         }
 
-        
+
+
+
 
 
         const menu = () => {
 
-            return (
-                <View style={{ ...styles.generalFlex }}>
+            if (orientation === 'portrait') {
 
+                return (
+                    <View style={{ ...styles.generalContainer }}>
 
-                    <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                        <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {homelink(myuser)}
 
-                        <View style={{ ...styles.generalContainer, ...styles.padding5, ...styles.bottomMargin10 }}>
-                            {homelink(myuser)}
-                            {equipmentlink(myuser)}
-                            {showdriver(myuser)}
-                            {loginlink(myuser)}
+                            </View>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {equipmentlink(myuser)}
+                            </View>
+
+                        </View>
+                        <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
+
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {showdriver(myuser)}
+
+                            </View>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {loginlink(myuser)}
+
+                            </View>
                         </View>
 
                     </View>
 
-                </View>
-            )
+                )
+
+            } else {
+
+                return (
+
+
+                    <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
+                        <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                            {homelink(myuser)}
+                        </View>
+                        <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+
+                            {equipmentlink(myuser)}
+                        </View>
+
+                        <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                            {showdriver(myuser)}
+                        </View>
+                        <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                            {loginlink(myuser)}
+                        </View>
+                    </View>
+
+                )
+
+            }
 
 
         }
@@ -157,7 +198,7 @@ class Header {
 
                 </View>
 
-            </View>)
+            </View >)
     }
 }
 
