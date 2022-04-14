@@ -37,9 +37,9 @@ class MyApp extends Component {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const orientation = appbaseddriver.getOrientation.call(this)
-        const checkdimensions = () => {
-            console.log(`checkdemisions , width:${this.state.width}, height: ${this.state.height}`)
-        }
+        // const checkdimensions = () => {
+        //     console.log(`checkdemisions , width:${this.state.width}, height: ${this.state.height}`)
+        // }
         const logoWidth = () => {
             if(orientation === 'portrait') {
             return ({ width: Math.round(0.9 * this.state.width), height: Math.round(0.12 * this.state.width) })
@@ -57,19 +57,14 @@ class MyApp extends Component {
         }
 
         const header = new Header();
-        const navigation = appbaseddriver.getNavigation.call(this)
-        console.log(`navigation: ${navigation.navigation}`)
-        const variables = appbaseddriver.enviornmentalVariables.call(this)
-        console.log(`Server API : ${variables.serverAPI}`)
+
 
         return (
             <View style={{ ...getMargin() }}>
-                {checkdimensions()}
                 <View style={styles.alignCenter}>
                     <Image
                         source={{ uri: 'https://civilengineer.io/appbaseddriver/icons/2x/appbaseddriver.png' }}
                         style={logoWidth()} />
-
                 </View>
                 {header.showheader.call(this)}
             </View>)
