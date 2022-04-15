@@ -25,6 +25,9 @@ export function MyStylesheet() {
         addMargin: {
             margin: 5
         },
+        generalContainer:{
+            accessible:true,
+        },
         generalFlex: {
             flexDirection: 'row',
             flexWrap: 'wrap',

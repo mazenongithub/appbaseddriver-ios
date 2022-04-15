@@ -6,39 +6,7 @@ import AppBasedDriver from './appbaseddriver';
 
 class Header {
 
-    showsubheader() {
-        const appbaseddriver = new AppBasedDriver();
-        const mynav = appbaseddriver.getNavigation.call(this)
-        const myuser = appbaseddriver.getuser.call(this)
-        const styles = MyStylesheet();
-        let subheader = [];
-        if (mynav) {
-            if (myuser) {
-                switch (mynav.navigation) {
-                    case 'driver':
-                        subheader.push(
-                            <View style={{ ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter }} key={`subheader-2`}>
-                                <Text style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor, ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin }}>/driver</Text>
-                            </View>
-                        )
-                        break
-                    case 'equipment':
-                        subheader.push(
-                            <View style={{ ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter }} key={`subheader-2`}>
-                                <Text style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor, ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin }}>/equipment</Text>
-                            </View>
-                        )
-                        break;
 
-                    default:
-                        break;
-
-                }
-            }
-
-        }
-        return subheader;
-    }
 
 
 
@@ -47,6 +15,73 @@ class Header {
         const appbaseddriver = new AppBasedDriver()
         const myuser = appbaseddriver.getuser.call(this)
         const orientation = appbaseddriver.getOrientation.call(this)
+
+        const showsubheader = (myuser) => {
+            const appbaseddriver = new AppBasedDriver();
+            const mynav = appbaseddriver.getNavigation.call(this)
+            
+            const styles = MyStylesheet();
+            let subheader = [];
+            if (mynav) {
+                if (myuser) {
+                    switch (mynav.navigation) {
+                        case 'driver':
+                            subheader.push(
+                                <View style={{
+                                    ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
+                                    ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin
+                                }} key={`subheader-2`}>
+                                    <Text
+                                        onPress={() => {
+                                            this.props.reduxNavigation({ navigation: 'driver' })
+                                            this.setState({ render: 'render' })
+                                        }}
+                                        style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/driver</Text>
+                                </View>
+                            )
+                            break
+                        case 'equipment':
+                            subheader.push(
+                                <View style={{
+                                    ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
+                                    ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin
+                                }} key={`subheader-2`}>
+                                    <Text
+                                        onPress={() => {
+                                            this.props.reduxNavigation({ navigation: 'equipment' })
+                                            this.setState({ render: 'render' })
+                                        }}
+                                        style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/equipment</Text>
+                                </View>
+                            )
+                            break;
+                        case 'profile':
+                            subheader.push(
+
+                                <View style={{ ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin, ...styles.alignCenter }} key={`subheader-2`}>
+                                    <Text
+                                        onPress={() => {
+                                            this.props.reduxNavigation({ navigation: 'profile' })
+                                            this.setState({ render: 'render' })
+                                        }}
+                                        style={{
+                                            ...styles.boldFont, ...styles.font24, ...styles.menuColor
+
+                                        }}>/{myuser.driverid}</Text>
+                                </View>
+                            )
+                            break;
+
+                        default:
+                            break;
+
+                    }
+                }
+
+            }
+            return subheader;
+        }
+
 
         const loginlink = (myuser) => {
             if (myuser) {
@@ -124,7 +159,7 @@ class Header {
 
 
 
-        const menu = () => {
+        const menu = (myuser) => {
 
             if (orientation === 'portrait') {
 
@@ -153,6 +188,13 @@ class Header {
                             </View>
                         </View>
 
+
+                        <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {showsubheader(myuser)}
+                            </View>
+                        </View>
+
                     </View>
 
                 )
@@ -160,23 +202,31 @@ class Header {
             } else {
 
                 return (
+                    <View style={{ ...styles.generalContainer }}>
 
+                        <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {homelink(myuser)}
+                            </View>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
 
-                    <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
-                        <View style={{ ...styles.flex1, ...styles.alignCenter }}>
-                            {homelink(myuser)}
-                        </View>
-                        <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {equipmentlink(myuser)}
+                            </View>
 
-                            {equipmentlink(myuser)}
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {showdriver(myuser)}
+                            </View>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {loginlink(myuser)}
+                            </View>
                         </View>
 
-                        <View style={{ ...styles.flex1, ...styles.alignCenter }}>
-                            {showdriver(myuser)}
+                        <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {showsubheader(myuser)}
+                            </View>
                         </View>
-                        <View style={{ ...styles.flex1, ...styles.alignCenter }}>
-                            {loginlink(myuser)}
-                        </View>
+
                     </View>
 
                 )
@@ -192,13 +242,14 @@ class Header {
 
 
 
-                    {menu()}
+                    {menu(myuser)}
+
 
 
 
                 </View>
 
-            </View >)
+            </View>)
     }
 }
 
