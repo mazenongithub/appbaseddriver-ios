@@ -41,6 +41,25 @@ export function MyStylesheet() {
         bottomMargin10: {
             marginBottom: 10
         },
+        bottomMargin15:{
+            marginBottom:15
+        },
+        regularFont:{
+            fontSize:20
+        },
+        generalField: {
+            height: 40,
+            borderColor: 'gray',
+            borderWidth: 1,
+            margin: 2,
+            width:'99%'
+        },
+        headerFont:{
+            fontSize:24
+        },
+        activeBackground: {
+            backgroundColor: '#D8879E'
+        }
 
     })
 }
