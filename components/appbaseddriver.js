@@ -1,5 +1,5 @@
 import { CheckUser } from './actions/api'
-import {getMonString} from './functions'
+import {getMonString, sorttimes} from './functions'
 
 
 class AppBasedDriver {
@@ -7,7 +7,7 @@ class AppBasedDriver {
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI:'http://18.233.165.160:8081'
+                serverAPI:'http://44.203.141.218:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'
@@ -20,6 +20,32 @@ class AppBasedDriver {
         }
 
         return variables.production; // otherwise, return this
+    }
+
+    getEquipmentID() {
+        let equipmentid = "";
+        let navigation = {};
+      
+        if(this.props.navigation) {
+            navigation = this.props.navigation;
+            if(navigation.hasOwnProperty("equipmentid")) {
+           
+                equipmentid = navigation.equipmentid;
+
+            } 
+
+        } 
+        return equipmentid;
+    }
+
+    radioIconWidth() {
+        if (this.state.width > 1200) {
+            return ({ width: 60 })
+        } else if (this.state.width > 600) {
+            return ({ width: 50 })
+        } else {
+            return ({ width: 40 })
+        }
     }
 
     getRegularFont() {
@@ -52,6 +78,26 @@ class AppBasedDriver {
         }
     }
 
+    getgocheckheight() {
+        if (this.state.width > 1200) {
+            return ({
+                width: 69,
+                height: 69
+            })
+        } else if (this.state.width > 600) {
+            return ({
+                width: 59,
+                height:59
+            })
+        } else {
+            return ({
+                width: 49,
+                height: 49
+            })
+        }
+
+    }
+
 
     getequipment() {
         const appbaseddriver = new AppBasedDriver();
@@ -68,6 +114,76 @@ class AppBasedDriver {
         return equipment;
 
     }
+
+
+    getequipmentkeybyid(equipmentid) {
+        const appbaseddriver = new AppBasedDriver();
+        const myequipment = appbaseddriver.getequipment.call(this)
+        let key = false;
+        if (myequipment) {
+            // eslint-disable-next-line
+            myequipment.map((equipment, i) => {
+
+                if (equipment.equipmentid === equipmentid) {
+                    key = i;
+                }
+            })
+        }
+
+        return key;
+
+    }
+
+    getequipmentcostkeybyid(equipmentid, costid) {
+
+        const appbaseddriver = new AppBasedDriver();
+        const costs = appbaseddriver.getequipmentscosts.call(this, equipmentid)
+        let key = false;
+        if (costs) {
+            // eslint-disable-next-line
+            costs.map((cost, i) => {
+                if (cost.costid === costid) {
+                    key = i
+                }
+            })
+        }
+        return key;
+
+    }
+
+    getequipmentscosts(equipmentid) {
+        const appbaseddriver = new AppBasedDriver();
+        const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
+        let costs = false;
+        if (equipment) {
+            if (equipment.hasOwnProperty("costs")) {
+                costs = equipment.costs;
+                costs.sort((a, b) => {
+                    return sorttimes(a.purchasedate, b.purchasedate)
+                })
+            }
+        }
+        return costs;
+
+    }
+
+
+    getequipmentcostbyid(equipmentid, costid) {
+        const appbaseddriver = new AppBasedDriver();
+        const costs = appbaseddriver.getequipmentscosts.call(this, equipmentid)
+        let mycost = false;
+        if (costs) {
+            // eslint-disable-next-line
+            costs.map(cost => {
+                if (cost.costid === costid) {
+                    mycost = cost;
+                }
+            })
+        }
+        return mycost;
+
+    }
+
 
 
     createEquipmentList() {
@@ -93,6 +209,26 @@ class AppBasedDriver {
     updateUI(year) {
 
         this.setState({ uistart:year - 3, uiend:year })
+    }
+
+
+    getequipmentbyid(equipmentid) {
+        const appbaseddriver = new AppBasedDriver();
+        const myequipment = appbaseddriver.getequipment.call(this)
+        let getequipment = false;
+
+        if (myequipment) {
+            // eslint-disable-next-line
+            myequipment.map(equipment => {
+
+                if (equipment.equipmentid === equipmentid) {
+                    getequipment = equipment;
+                }
+            })
+        }
+
+        return getequipment;
+
     }
 
 
