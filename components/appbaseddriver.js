@@ -1,13 +1,15 @@
 import { CheckUser } from './actions/api'
-import {getMonString, sorttimes} from './functions'
-
+import { getMonString, sorttimes, compareDates } from './functions'
+import { MyStylesheet } from './styles';
+import { View, Text } from 'react-native'
+import { AppleLogin, LogoutUser, SaveDriver } from './actions/api'
 
 class AppBasedDriver {
 
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI:'http://44.203.141.218:8081'
+                serverAPI: 'http://34.205.24.143:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'
@@ -25,16 +27,16 @@ class AppBasedDriver {
     getEquipmentID() {
         let equipmentid = "";
         let navigation = {};
-      
-        if(this.props.navigation) {
+
+        if (this.props.navigation) {
             navigation = this.props.navigation;
-            if(navigation.hasOwnProperty("equipmentid")) {
-           
+            if (navigation.hasOwnProperty("equipmentid")) {
+
                 equipmentid = navigation.equipmentid;
 
-            } 
+            }
 
-        } 
+        }
         return equipmentid;
     }
 
@@ -87,7 +89,7 @@ class AppBasedDriver {
         } else if (this.state.width > 600) {
             return ({
                 width: 59,
-                height:59
+                height: 59
             })
         } else {
             return ({
@@ -96,6 +98,27 @@ class AppBasedDriver {
             })
         }
 
+    }
+
+    getdropicon() {
+        if (this.state.width > 1200) {
+            return (
+                {
+                    width: 93
+                })
+
+        } else if (this.state.width > 600) {
+            return (
+                {
+                    width: 78
+                })
+
+        } else {
+            return (
+                {
+                    width: 62
+                })
+        }
     }
 
 
@@ -208,7 +231,7 @@ class AppBasedDriver {
 
     updateUI(year) {
 
-        this.setState({ uistart:year - 3, uiend:year })
+        this.setState({ uistart: year - 3, uiend: year })
     }
 
 
@@ -297,29 +320,29 @@ class AppBasedDriver {
     }
 
     async checkuser() {
-             
+
         try {
-          let response = await CheckUser();
-          if (response.hasOwnProperty("driverid")) {
-            this.props.reduxUser(response)
-            this.setState({ render: 'render' })
-          }
-    
+            let response = await CheckUser();
+            if (response.hasOwnProperty("driverid")) {
+                this.props.reduxUser(response)
+                this.setState({ render: 'render' })
+            }
+
         } catch (err) {
-        
-          
-          alert(err)
+
+
+            alert(err)
         }
-      }
+    }
 
 
- 
+
 
     getOrientation() {
-        if(this.state.width<this.state.height) {
+        if (this.state.width < this.state.height) {
             return ('portrait')
         } else {
-            return('landscape')
+            return ('landscape')
         }
     }
 
@@ -340,6 +363,106 @@ class AppBasedDriver {
             }
         }
         return user;
+    }
+
+    validatesavedriver() {
+        const appbaseddriver = new AppBasedDriver();
+        const myuser = appbaseddriver.getuser.call(this)
+
+        let error = "";
+        if (myuser) {
+
+            if (myuser.hasOwnProperty("equipment")) {
+                // eslint-disable-next-line
+                myuser.equipment.map(equipment => {
+
+                    if (equipment.hasOwnProperty("repayment")) {
+                        if (!compareDates(equipment.purchasedate, equipment.salvagedate)) {
+                            error += `${equipment.equipment} purchase date ${equipment.repayment.purchasedate} is less than the salvage date ${equipment.repayment.salvagedate}`
+                        }
+                    }
+                })
+
+            }
+
+        } else {
+            error += `There is no user Logged In `
+
+
+        }
+        return error;
+    }
+
+
+
+    async savedriver() {
+
+        const appbaseddriver = new AppBasedDriver();
+        const myuser = appbaseddriver.getuser.call(this)
+        const message = appbaseddriver.validatesavedriver.call(this)
+        if (!message) {
+            if (myuser) {
+
+                try {
+
+                    this.setState({ spinner: true })
+                    let response = await SaveDriver({ myuser })
+                    console.log(response)
+                    if (response.hasOwnProperty("driverid")) {
+                        this.props.reduxUser(response)
+                        let message = `Driver Updated ${new Date().toLocaleTimeString()}`
+                        this.setState({ spinner: false, message })
+                    }
+
+
+                } catch (err) {
+                    alert(err);
+                    this.setState(({ spinner: false }))
+
+                }
+            }
+
+        } else {
+            this.setState({ message })
+        }
+
+
+    }
+
+
+
+    showsavedriver() {
+        const styles = MyStylesheet();
+        const appbaseddriver = new AppBasedDriver();
+        const menufont = appbaseddriver.getHeaderFont.call(this)
+        const regularFont = appbaseddriver.getRegularFont.call(this)
+
+        if (!this.state.spinner) {
+            return (
+
+                <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
+                    <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+
+                    <View style={{ ...styles.generalContainer, ...styles.alignCenter, ...styles.bottomMargin15 }}>
+                        <Text style={{ ...styles.generalFont, ...regularFont }}>{this.state.message} </Text>
+                    </View>
+
+                        <View style={{
+                            ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
+                            ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin
+                        }} >
+                            <Text
+                                onPress={() => {
+                                    appbaseddriver.savedriver.call(this)
+                                }}
+                                style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>Save Driver</Text>
+                        </View>
+
+                                
+                    </View>
+                </View>
+            )
+        } 
     }
 
     async logoutuser() {

@@ -216,6 +216,8 @@ class Equipment {
 
                                 {equipment.showequipmentids.call(this)}
 
+                                {appbaseddriver.showsavedriver.call(this)}
+
 
 
 

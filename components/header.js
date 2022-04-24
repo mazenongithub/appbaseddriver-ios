@@ -17,10 +17,10 @@ class Header {
         const orientation = appbaseddriver.getOrientation.call(this)
 
         const showsubheader = (myuser) => {
-            const appbaseddriver = new AppBasedDriver();
             const mynav = appbaseddriver.getNavigation.call(this)
-            
+
             const styles = MyStylesheet();
+            let equipmentid = ``;
             let subheader = [];
             if (mynav) {
                 if (myuser) {
@@ -55,6 +55,47 @@ class Header {
                                 </View>
                             )
                             break;
+                        case 'viewequipment':
+                           
+                            equipmentid = appbaseddriver.getEquipmentID.call(this);
+                          
+                            const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
+                            if (equipment) {
+
+                                subheader.push(
+                                    <View style={{
+                                        ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
+                                        ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin
+                                    }} key={`subheader-2`}>
+                                        <Text
+                                            onPress={() => {
+                                                this.props.reduxNavigation({ navigation: 'equipment' })
+                                                this.setState({ render: 'render' })
+                                            }}
+                                            style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/equipment</Text>
+                                    </View>
+                                )
+
+                                subheader.push(
+
+                                    <View style={{
+                                        ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
+                                        ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin
+                                    }}
+                                    key={`subheader-3`}>
+                                        <Text
+                                            onPress={() => {
+                                                this.props.reduxNavigation({ navigation: 'viewequipment', equipmentid })
+                                                this.setState({ render: 'render' })
+                                            }}
+                                            style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/{equipment.equipment}</Text>
+                                    </View>
+
+                                )
+
+                            }
+                            break;
+
                         case 'profile':
                             subheader.push(
 

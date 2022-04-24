@@ -33,6 +33,7 @@ class MyApp extends Component {
         this.timeindefault();
         this.timeoutdefault();
         this.setUI();
+        this.equipmentdatedefault()
 
     }
 
@@ -176,6 +177,30 @@ class MyApp extends Component {
 
 
         this.setState({ timeinmonth: timeinmonth(), timeinday: timeinday(), timeinyear: timeinyear(), timeinhours: timeinhours(), timeinminutes: timeinminutes(), timeinampm: timeinampm() })
+    }
+
+
+    equipmentdatedefault() {
+        const equipmentmonth = () => {
+            let month = new Date().getMonth() + 1;
+            if (month < 10) {
+                month = `0${month}`
+            }
+            return month;
+        }
+        const equipmentday = () => {
+            let day = new Date().getDate();
+            if (day < 10) {
+                day = `0${day}`
+            }
+            return day;
+        }
+        const equipmentyear = () => {
+            let year = new Date().getFullYear();
+
+            return year;
+        }
+        this.setState({ equipmentyear: equipmentyear(), equipmentmonth: equipmentmonth(), equipmentday: equipmentday() })
     }
 
 

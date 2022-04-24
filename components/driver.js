@@ -622,6 +622,7 @@ class Driver {
         const styles = MyStylesheet();
         const driver = new Driver();
         const driverui = new DriverUI();
+        const appbaseddriver = new AppBasedDriver();
         return (<View style={{ ...styles.generalContainer }}>
             {driver.showtimes.call(this)}
 
@@ -654,7 +655,7 @@ class Driver {
 
             {driver.showshifts.call(this)}
 
-
+            {appbaseddriver.showsavedriver.call(this)}
 
 
         </View>)

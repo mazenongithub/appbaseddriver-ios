@@ -3,16 +3,16 @@ import { View, Text, TextInput, Alert } from 'react-native'
 import { MyStylesheet } from './styles';
 import MakeID from './makeid';
 import AppBasedDriver from './appbaseddriver';
-// import EquipmentDate from './equipmentdate';
-// import SalvageDate from './salvagedate'
-// import PurchaseDate from './purchasedate'
+import EquipmentDate from './equipmentdate';
+import SalvageDate from './salvagedate'
+import PurchaseDate from './purchasedate'
 import { isNumeric, formatDateStringDisplay, checkactivedate } from './functions'
 // import Costs from './costs';
 // import SmallDiagram from './smallcostdiagram';
 // import MediumDiagram from './mediumcostdiagram'
 // import Diagrams from './costdiagrams';
 // import Recharge from './recharge'
-// import { Text } from 'react-router-dom'
+
 
 
 
@@ -692,9 +692,9 @@ class ViewEquipment {
         const TextWidth = appbaseddriver.radioIconWidth.call(this)
         const viewequipment = new ViewEquipment();
 
-        // const equipmentdate = new EquipmentDate();
-        // const salvagedate = new SalvageDate();
-        // const purchasedate = new PurchaseDate();
+        const equipmentdate = new EquipmentDate();
+        const salvagedate = new SalvageDate();
+        const purchasedate = new PurchaseDate();
         // const costs = new Costs();
         // const smalldiagram = new SmallDiagram();
         // const mediumdiagram = new MediumDiagram();
@@ -726,6 +726,7 @@ class ViewEquipment {
                         return (
                             <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                 <View style={{ ...styles.flex1 }}>
+                                {purchasedate.showdate.call(this)}
 
                                 </View>
                                 <View style={{ ...styles.flex1 }}>
@@ -749,6 +750,7 @@ class ViewEquipment {
 
                                     <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                         <View style={{ ...styles.flex1 }}>
+                                        {purchasedate.showdate.call(this)}
 
                                         </View>
                                     </View>
@@ -776,6 +778,7 @@ class ViewEquipment {
                         return (
                             <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                 <View style={{ ...styles.flex1 }}>
+                                {salvagedate.showdate.call(this)}
 
                                 </View>
                                 <View style={{ ...styles.flex1 }}>
@@ -799,7 +802,7 @@ class ViewEquipment {
 
                                     <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                         <View style={{ ...styles.flex1 }}>
-
+                                        {salvagedate.showdate.call(this)}
                                         </View>
                                     </View>
 
@@ -983,17 +986,6 @@ class ViewEquipment {
                         <View style={{ ...styles.flex1 }}>
 
 
-
-
-
-                            <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
-                                <View style={{ ...styles.flex1, ...styles.alignCenter }}>
-                                    <Text style={{ ...styles.generalText, ...styles.headerStyle, ...styles.boldFont, ...menufont, ...styles.menuColor, ...styles.menuBackColor, ...styles.addBorderRadius5, ...styles.generalPadding, ...styles.whiteOutline, ...styles.addMargin }}>/{equipment.equipment}</Text>
-
-                                </View>
-                            </View>
-
-
                             {repayment(equipment)}
 
 
@@ -1002,6 +994,10 @@ class ViewEquipment {
                                     <Text style={{ ...styles.generalFont, ...headerFont, ...styles.boldFont }}>Costs</Text>
                                 </View>
                             </View>
+
+                            {equipmentdate.showequipment.call(this)}
+
+                            {appbaseddriver.showsavedriver.call(this)}
 
 
 
@@ -1026,6 +1022,9 @@ class ViewEquipment {
 
 
                             {viewequipment.showequipmentids.call(this)}
+
+
+
 
 
                         </View>
