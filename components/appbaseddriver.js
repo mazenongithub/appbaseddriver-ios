@@ -3,13 +3,14 @@ import { getMonString, sorttimes, compareDates } from './functions'
 import { MyStylesheet } from './styles';
 import { View, Text } from 'react-native'
 import { AppleLogin, LogoutUser, SaveDriver } from './actions/api'
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 class AppBasedDriver {
 
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI: 'http://34.205.24.143:8081'
+                serverAPI: 'http://3.83.131.135:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'
@@ -52,21 +53,21 @@ class AppBasedDriver {
 
     getRegularFont() {
         if (this.state.width > 1200) {
-            return ({ fontSize: 30 })
-        } else if (this.state.width > 600) {
             return ({ fontSize: 24 })
-        } else {
+        } else if (this.state.width > 600) {
             return ({ fontSize: 20 })
+        } else {
+            return ({ fontSize: 16 })
         }
     }
 
     getHeaderFont() {
         if (this.state.width > 1200) {
-            return ({ fontSize: 36 })
-        } else if (this.state.width > 600) {
             return ({ fontSize: 30 })
-        } else {
+        } else if (this.state.width > 600) {
             return ({ fontSize: 24 })
+        } else {
+            return ({ fontSize: 20 })
         }
     }
 
@@ -96,6 +97,18 @@ class AppBasedDriver {
                 width: 49,
                 height: 49
             })
+        }
+
+    }
+
+    getgoogleicon() {
+
+        if (this.state.width > 1200) {
+            return ({ width: 365, height: 87 })
+        } else if (this.state.width > 600) {
+            return ({ width: 277, height: 66 })
+        } else {
+            return ({ width: 140, height: 33 })
         }
 
     }
@@ -468,6 +481,74 @@ class AppBasedDriver {
     async logoutuser() {
         console.log("logout user")
 
+    }
+
+    resetState() {
+
+        this.setState({ firstname: '', lastname: '', emailaddress: '', profileurl: '', phonenumber: '', apple: '', google: '', driverid: '', message: '' })
+
+    }
+
+    async appleSignIn() {
+        const appbaseddriver = new AppBasedDriver();
+
+
+        try {
+
+            console.log(`Apple Sign In`)
+            const credential = await AppleAuthentication.signInAsync({
+                requestedScopes: [
+                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                ],
+            });
+            // signed in
+
+            console.log("CREDENTIAL", credential)
+
+            if (credential.hasOwnProperty("user")) {
+                console.log("CREDENTIAL", credential)
+                let emailaddress = credential.email;
+                let clientid = credential.user;
+                let firstname = credential.fullName.givenName;
+                let lastname = credential.fullName.familyName;
+                
+                this.setState({ emailaddress, apple:clientid, firstname, lastname})
+
+                appbaseddriver.clientlogin.call(this)
+            }
+
+
+
+        } catch (err) {
+            alert(err)
+        }
+    }
+
+    async clientlogin() {
+        const appbaseddriver = new AppBasedDriver();
+        const { firstname, lastname, emailaddress, profileurl, phonenumber, apple, google, driverid } = this.state;
+        const values = { firstname, lastname, emailaddress, profileurl, phonenumber, apple, google, driverid }
+        try {
+            this.setState({ spinner: true })
+            let response = await AppleLogin(values)
+            this.setState({ spinner: false })
+
+            if (response.hasOwnProperty("driverid")) {
+
+                appbaseddriver.resetState.call(this)
+                this.props.reduxUser(response)
+
+            } else if (response.hasOwnProperty("register")) {
+
+                this.setState({ access: 'register' })
+            }
+
+
+        } catch (err) {
+            this.setState({ spinner: false })
+            alert(err)
+        }
     }
 
 

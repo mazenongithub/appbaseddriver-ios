@@ -10,7 +10,7 @@ import { getMonString } from './functions'
 import Equipment from './equipment';
 import ViewEquipment from './viewequipment';
 import Profile from './profile'
-
+import Access from './access'
 
 class MyApp extends Component {
     constructor(props) {
@@ -213,6 +213,7 @@ class MyApp extends Component {
         const equipment = new Equipment();
         const viewequipment = new ViewEquipment();
         const profile = new Profile();
+        const access = new Access();
         
 
         switch (navigation) {
@@ -220,12 +221,12 @@ class MyApp extends Component {
                 return (profile.showprofile.call(this));
             case 'driver':
                 return (driver.showDriver.call(this))
-
             case 'equipment':
                 return(equipment.showequipment.call(this))
-            
             case 'viewequipment':
                 return(viewequipment.showViewEquipment.call(this));
+            case 'access':
+                return(access.showaccess.call(this));     
             default:
                 break;
         }

@@ -15,6 +15,7 @@ class Header {
         const appbaseddriver = new AppBasedDriver()
         const myuser = appbaseddriver.getuser.call(this)
         const orientation = appbaseddriver.getOrientation.call(this)
+        const headerFont = appbaseddriver.getHeaderFont.call(this)
 
         const showsubheader = (myuser) => {
             const mynav = appbaseddriver.getNavigation.call(this)
@@ -36,7 +37,7 @@ class Header {
                                             this.props.reduxNavigation({ navigation: 'driver' })
                                             this.setState({ render: 'render' })
                                         }}
-                                        style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/driver</Text>
+                                        style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/driver</Text>
                                 </View>
                             )
                             break
@@ -51,7 +52,7 @@ class Header {
                                             this.props.reduxNavigation({ navigation: 'equipment' })
                                             this.setState({ render: 'render' })
                                         }}
-                                        style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/equipment</Text>
+                                        style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/equipment</Text>
                                 </View>
                             )
                             break;
@@ -72,7 +73,7 @@ class Header {
                                                 this.props.reduxNavigation({ navigation: 'equipment' })
                                                 this.setState({ render: 'render' })
                                             }}
-                                            style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/equipment</Text>
+                                            style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/equipment</Text>
                                     </View>
                                 )
 
@@ -88,7 +89,7 @@ class Header {
                                                 this.props.reduxNavigation({ navigation: 'viewequipment', equipmentid })
                                                 this.setState({ render: 'render' })
                                             }}
-                                            style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/{equipment.equipment}</Text>
+                                            style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/{equipment.equipment}</Text>
                                     </View>
 
                                 )
@@ -106,7 +107,7 @@ class Header {
                                             this.setState({ render: 'render' })
                                         }}
                                         style={{
-                                            ...styles.boldFont, ...styles.font24, ...styles.menuColor
+                                            ...styles.boldFont, ...headerFont, ...styles.menuColor
 
                                         }}>/{myuser.driverid}</Text>
                                 </View>
@@ -130,7 +131,7 @@ class Header {
                     <View style={{ ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin, ...styles.alignCenter }}>
 
                         <Text
-                            style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}
+                            style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}
                             onPress={() => appbaseddriver.logoutuser.call(this)}>
                             Logout
                         </Text>
@@ -140,9 +141,9 @@ class Header {
             } else {
                 return (
                     <View style={{ ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin, ...styles.alignCenter }}>
-                        <Text style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}
+                        <Text style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}
                             onPress={() => {
-                                this.props.reduxNavigation({ navigation: 'login' })
+                                this.props.reduxNavigation({ navigation: 'access' })
                                 this.setState({ render: 'render' })
                             }}
                         >Access</Text>
@@ -161,7 +162,7 @@ class Header {
                             this.props.reduxNavigation({ navigation: 'equipment' })
                             this.setState({ render: 'render' })
                         }}
-                            style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/equipment</Text>
+                            style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/equipment</Text>
 
                     </View>)
 
@@ -177,7 +178,7 @@ class Header {
                             this.props.reduxNavigation({ navigation: 'driver' })
                             this.setState({ render: 'render' })
                         }}
-                            style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/driver</Text>
+                            style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/driver</Text>
                     </View>)
 
             }
@@ -190,7 +191,7 @@ class Header {
                         <Text onPress={() => {
                             this.props.reduxNavigation({ navigation: 'profile' })
                             this.setState({ render: 'render' })
-                        }} style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>/{myuser.driverid}</Text>
+                        }} style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/{myuser.driverid}</Text>
                     </View>)
             }
         }
