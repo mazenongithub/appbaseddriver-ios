@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
 
@@ -16,12 +16,23 @@ class Header {
         const myuser = appbaseddriver.getuser.call(this)
         const orientation = appbaseddriver.getOrientation.call(this)
         const headerFont = appbaseddriver.getHeaderFont.call(this)
+   
+      
+        const logoWidth = () => {
+            if (orientation === 'portrait') {
+                return ({ width: Math.round(0.9 * this.state.width), height: Math.round(0.12 * this.state.width) })
+
+            } else {
+                return ({ width: Math.round(0.6 * this.state.width), height: Math.round(0.09 * this.state.width) })
+            }
+        }
 
         const showsubheader = (myuser) => {
             const mynav = appbaseddriver.getNavigation.call(this)
 
             const styles = MyStylesheet();
-            let equipmentid = ``;
+            let equipmentid = appbaseddriver.getEquipmentID.call(this);
+            let equipment = false;
             let subheader = [];
             if (mynav) {
                 if (myuser) {
@@ -57,10 +68,10 @@ class Header {
                             )
                             break;
                         case 'viewequipment':
-                           
-                            equipmentid = appbaseddriver.getEquipmentID.call(this);
-                          
-                            const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
+
+                            
+                            equipment = appbaseddriver.getequipmentbyid.call(this,equipmentid)
+                            
                             if (equipment) {
 
                                 subheader.push(
@@ -83,7 +94,7 @@ class Header {
                                         ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
                                         ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin
                                     }}
-                                    key={`subheader-3`}>
+                                        key={`subheader-3`}>
                                         <Text
                                             onPress={() => {
                                                 this.props.reduxNavigation({ navigation: 'viewequipment', equipmentid })
@@ -96,6 +107,68 @@ class Header {
 
                             }
                             break;
+
+                        case 'receipts': 
+                        equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
+                        if (equipment) {
+
+                        subheader.push(
+                            <View style={{
+                                ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
+                                ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin
+                            }} key={`subheader-2`}>
+                                <Text
+                                    onPress={() => {
+                                        this.props.reduxNavigation({ navigation: 'equipment' })
+                                        this.setState({ render: 'render' })
+                                    }}
+                                    style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/equipment</Text>
+                            </View>
+                        )
+
+                        subheader.push(
+
+                            <View style={{
+                                ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
+                                ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin
+                            }}
+                                key={`subheader-3`}>
+                                <Text
+                                    onPress={() => {
+                                        this.props.reduxNavigation({ navigation: 'viewequipment', equipmentid })
+                                        this.setState({ render: 'render' })
+                                    }}
+                                    style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/{equipment.equipment}</Text>
+                            </View>
+
+                        )
+
+                        const costid = appbaseddriver.getEquipmentCostID.call(this)
+                        const cost = appbaseddriver.getequipmentcostbyid.call(this,equipmentid,costid);
+                        if(cost) {
+
+                            subheader.push(
+
+                                <View style={{
+                                    ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
+                                    ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin
+                                }}
+                                    key={`subheader-4`}>
+                                    <Text
+                                        onPress={() => {
+                                            this.props.reduxNavigation({ navigation: 'receipts', equipmentid, costid })
+                                            this.setState({ render: 'render' })
+                                        }}
+                                        style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/Receipts</Text>
+                                </View>
+    
+                            )
+
+                        }
+
+                    }
+                    break;
+
 
                         case 'profile':
                             subheader.push(
@@ -208,6 +281,8 @@ class Header {
                 return (
                     <View style={{ ...styles.generalContainer }}>
 
+
+
                         <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
                             <View style={{ ...styles.flex1, ...styles.alignCenter }}>
                                 {homelink(myuser)}
@@ -246,6 +321,8 @@ class Header {
                 return (
                     <View style={{ ...styles.generalContainer }}>
 
+                      
+
                         <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
                             <View style={{ ...styles.flex1, ...styles.alignCenter }}>
                                 {homelink(myuser)}
@@ -277,10 +354,17 @@ class Header {
 
 
         }
+
         return (
 
             <View style={{ ...styles.generalFlex }}>
                 <View style={{ ...styles.flex1 }}>
+
+                    <View style={{ ...styles.alignCenter, ...styles.generalContainer }}>
+                        <Image
+                            source={{ uri: 'https://civilengineer.io/appbaseddriver/icons/2x/appbaseddriver.png' }}
+                            style={logoWidth()} />
+                    </View>
 
 
 

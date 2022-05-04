@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Image, ScrollView } from 'react-native';
+import { View, Dimensions, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from './actions';
 import { MyStylesheet } from './styles';
@@ -10,7 +10,8 @@ import { getMonString } from './functions'
 import Equipment from './equipment';
 import ViewEquipment from './viewequipment';
 import Profile from './profile'
-import Access from './access'
+import Access from './access';
+import Receipts from './receipts';
 
 class MyApp extends Component {
     constructor(props) {
@@ -214,6 +215,7 @@ class MyApp extends Component {
         const viewequipment = new ViewEquipment();
         const profile = new Profile();
         const access = new Access();
+        const receipts = new Receipts();
         
 
         switch (navigation) {
@@ -226,7 +228,9 @@ class MyApp extends Component {
             case 'viewequipment':
                 return(viewequipment.showViewEquipment.call(this));
             case 'access':
-                return(access.showaccess.call(this));     
+                return(access.showaccess.call(this));  
+            case 'receipts':
+                return(receipts.showComponent.call(this));
             default:
                 break;
         }
@@ -239,17 +243,7 @@ class MyApp extends Component {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const orientation = appbaseddriver.getOrientation.call(this)
-        // const checkdimensions = () => {
-        //     console.log(`checkdemisions , width:${this.state.width}, height: ${this.state.height}`)
-        // }
-        const logoWidth = () => {
-            if (orientation === 'portrait') {
-                return ({ width: Math.round(0.9 * this.state.width), height: Math.round(0.12 * this.state.width) })
-
-            } else {
-                return ({ width: Math.round(0.6 * this.state.width), height: Math.round(0.09 * this.state.width) })
-            }
-        }
+      
         const getMargin = () => {
             if (orientation === 'portrait') {
                 return { marginTop: 40, marginLeft: 5 }
@@ -263,16 +257,12 @@ class MyApp extends Component {
 
         return (
             <View style={{ ...getMargin(), ...styles.generalContainer }}>
-                <View style={{ ...styles.alignCenter, ...styles.generalContainer }}>
-                    <Image
-                        source={{ uri: 'https://civilengineer.io/appbaseddriver/icons/2x/appbaseddriver.png' }}
-                        style={logoWidth()} />
-                </View>
+               
                 {header.showheader.call(this)}
                 <ScrollView>
                     {this.showmainbody()}
 
-                    <View style={{ height: 0.5 * Dimensions.get('window').height }}>
+                    <View style={{ height: 0.5 * this.state.height }}>
 
                     </View>
                 </ScrollView>

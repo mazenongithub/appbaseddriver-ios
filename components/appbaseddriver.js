@@ -1,5 +1,5 @@
 import { CheckUser } from './actions/api'
-import { getMonString, sorttimes, compareDates } from './functions'
+import { calculatetotalhours, getRepaymentCosts, getInterval, checkactivemonth, checkactivedate, validateLoanPayment, calculateTotalMonths, compareDates, sorttimes, getMonString} from './functions'
 import { MyStylesheet } from './styles';
 import { View, Text } from 'react-native'
 import { AppleLogin, LogoutUser, SaveDriver } from './actions/api'
@@ -10,7 +10,7 @@ class AppBasedDriver {
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI: 'http://3.83.131.135:8081'
+                serverAPI: 'http://3.87.200.239:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'
@@ -24,6 +24,254 @@ class AppBasedDriver {
 
         return variables.production; // otherwise, return this
     }
+
+    getmiles() {
+        const appbaseddriver = new AppBasedDriver();
+        const shifts = appbaseddriver.getshifts.call(this)
+        let miles = 0;
+        if (shifts) {
+            // eslint-disable-next-line
+            shifts.map(shift => {
+                if (checkactivemonth(shift.timein, this.state.activemonth, this.state.activeyear)) {
+                    miles += Number(shift.miles)
+
+                }
+            })
+
+        }
+        return miles;
+
+    }
+
+    getdrivercosts() {
+        const appbaseddriver = new AppBasedDriver();
+        let costs = 0;
+        const myequipment = appbaseddriver.getequipment.call(this)
+        if (myequipment) {
+            // eslint-disable-next-line
+            myequipment.map(equipment => {
+                costs += Number(appbaseddriver.getcostsbyequipmentid.call(this, equipment.equipmentid))
+            })
+        }
+        return costs;
+    }
+
+    gettransformedcostsbyequimentid(equipmentid) {
+        const appbaseddriver = new AppBasedDriver();
+        const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
+
+        let costarray = [];
+        if (equipment) {
+
+            if (equipment.hasOwnProperty("repayment")) {
+                const purchase = Number(equipment.repayment.purchase);
+                const purchasedate = equipment.repayment.purchasedate;
+                const salvage = Number(equipment.repayment.salvage);
+                const salvagedate = equipment.repayment.salvagedate;
+                const apr = Number(equipment.repayment.apr);
+                // validate
+                const validate = validateLoanPayment(purchase, purchasedate, salvage, salvagedate, apr)
+                let payments = [];
+                if (validate) {
+                    payments = getRepaymentCosts(purchase, purchasedate, salvage, salvagedate, apr);
+                    costarray = [...costarray, ...payments]
+
+                } else if (purchase && !apr) {
+
+                    payments = getInterval(salvagedate, purchasedate, 'monthly', ((purchase - salvage) / calculateTotalMonths(purchasedate, salvagedate)), 'repayment')
+                    costarray = [...costarray, ...payments]
+
+                }
+
+            }
+
+            if (equipment.hasOwnProperty("costs")) {
+
+                // eslint-disable-next-line
+                equipment.costs.map(cost => {
+
+
+                    if (cost.hasOwnProperty("reoccurring")) {
+
+
+
+                        if (equipment.hasOwnProperty("repayment")) {
+
+
+                            const reoccurringcosts = getInterval(equipment.repayment.salvagedate, cost.purchasedate, cost.reoccurring.frequency, cost.amount, cost.detail)
+
+                            costarray = [...costarray, ...reoccurringcosts]
+
+                        }
+
+
+                    } else {
+
+                        costarray.push(cost)
+
+                    }
+
+
+                })
+
+
+
+
+            }
+
+        }
+        costarray.sort((a, b) => {
+            return sorttimes(a.purchasedate, b.purchasedate)
+        })
+
+        return costarray;
+    }
+
+
+    getcostsbyequipmentid(equipmentid) {
+        const appbaseddriver = new AppBasedDriver();
+        let mycosts = 0;
+        const costs = appbaseddriver.gettransformedcostsbyequimentid.call(this, equipmentid)
+
+        let activecosts = [];
+        if (costs) {
+            // eslint-disable-next-line
+            costs.map(cost => {
+
+                if (checkactivedate(cost.purchasedate, this.state.activemonth, this.state.activeyear)) {
+                    activecosts.push(cost)
+                    mycosts += Number(cost.amount)
+                }
+
+
+            })
+        }
+
+        return mycosts;
+    }
+
+
+    getdeliveries() {
+        const appbaseddriver = new AppBasedDriver();
+        const myuser = appbaseddriver.getuser.call(this)
+        let deliveries = 0;
+        if (myuser) {
+
+            if (myuser.hasOwnProperty("driver")) {
+
+                if (myuser.driver.hasOwnProperty("shifts")) {
+                    // eslint-disable-next-line
+                    myuser.driver.shifts.map(shift => {
+
+                        if (checkactivemonth(shift.timein, this.state.activemonth, this.state.activeyear)) {
+                            deliveries += Number(shift.deliveries);
+                        }
+
+
+                    })
+                }
+            }
+
+        }
+        return deliveries;
+    }
+
+    gethoursworked() {
+        const appbaseddriver = new AppBasedDriver();
+        const shifts = appbaseddriver.getshifts.call(this)
+        let totalhours = 0;
+        if (shifts) {
+            // eslint-disable-next-line
+            shifts.map(shift => {
+
+
+                if (checkactivemonth(shift.timein, this.state.activemonth, this.state.activeyear)) {
+                    totalhours += calculatetotalhours(shift.timeout, shift.timein)
+
+                }
+            })
+
+        }
+        return totalhours;
+
+    }
+
+    getmilesbyequipmentid(equipmentid) {
+        const appbaseddriver = new AppBasedDriver();
+        const shifts = appbaseddriver.getshifts.call(this)
+        let miles = 0;
+        if (shifts) {
+            // eslint-disable-next-line
+            shifts.map(shift => {
+
+                if (shift.hasOwnProperty("equipment")) {
+
+                    if (shift.equipment.indexOf(equipmentid) > -1) {
+
+                        if (checkactivemonth(shift.timein, this.state.activemonth, this.state.activeyear)) {
+                            miles += Number(shift.miles)
+
+                        }
+
+                    }
+
+                }
+            })
+
+        }
+        return miles;
+
+    }
+
+
+    gethoursworkedbyequipmentid(equipmentid) {
+
+        const appbaseddriver = new AppBasedDriver();
+        const shifts = appbaseddriver.getshifts.call(this)
+        let totalhours = 0;
+        if (shifts) {
+            // eslint-disable-next-line
+            shifts.map(shift => {
+
+                if (shift.hasOwnProperty("equipment")) {
+
+                    if (shift.equipment.indexOf(equipmentid) > -1) {
+
+
+                        if (checkactivemonth(shift.timein, this.state.activemonth, this.state.activeyear)) {
+                            totalhours += calculatetotalhours(shift.timeout, shift.timein)
+
+                        }
+
+
+                    }
+
+                }
+            })
+
+        }
+        return totalhours;
+    }
+
+
+    getearnings() {
+        const appbaseddriver = new AppBasedDriver();
+        const shifts = appbaseddriver.getshifts.call(this)
+        let earnings = 0;
+        if (shifts) {
+            // eslint-disable-next-line
+            shifts.map(shift => {
+                if (checkactivemonth(shift.timein, this.state.activemonth, this.state.activeyear)) {
+                    earnings += Number(shift.earnings)
+
+                }
+            })
+
+        }
+        return earnings;
+
+    }
+
 
     getEquipmentID() {
         let equipmentid = "";
@@ -39,6 +287,27 @@ class AppBasedDriver {
 
         }
         return equipmentid;
+    }
+
+    getEquipmentCostID() {
+        let equipmentid = "";
+        let navigation = {};
+
+        if (this.props.navigation) {
+            navigation = this.props.navigation;
+       
+
+                if(navigation.hasOwnProperty("costid")) {
+                    console.log(`NAVIGATION COSTID: ${navigation.costid}`)
+                    costid = navigation.costid;
+                }
+
+                
+
+            
+
+        }
+        return costid;
     }
 
     radioIconWidth() {
@@ -439,6 +708,44 @@ class AppBasedDriver {
             this.setState({ message })
         }
 
+
+    }
+
+
+
+    getdeliveriesbyequipmentid(equipmentid) {
+
+        const appbaseddriver = new AppBasedDriver();
+        const myuser = appbaseddriver.getuser.call(this)
+        let deliveries = 0;
+        if (myuser) {
+
+            if (myuser.hasOwnProperty("driver")) {
+
+                if (myuser.driver.hasOwnProperty("shifts")) {
+
+                    // eslint-disable-next-line
+                    myuser.driver.shifts.map(shift => {
+
+                        if (shift.hasOwnProperty("equipment")) {
+
+                            if (shift.equipment.indexOf(equipmentid) > -1) {
+
+                                if (checkactivemonth(shift.timein, this.state.activemonth, this.state.activeyear)) {
+                                    deliveries += Number(shift.deliveries);
+                                }
+
+                            }
+
+                        }
+
+
+                    })
+                }
+            }
+
+        }
+        return deliveries;
 
     }
 

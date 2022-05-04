@@ -7,7 +7,7 @@ import EquipmentDate from './equipmentdate';
 import SalvageDate from './salvagedate'
 import PurchaseDate from './purchasedate'
 import { isNumeric, formatDateStringDisplay, checkactivedate } from './functions'
-// import Costs from './costs';
+import Costs from './costs';
 // import SmallDiagram from './smallcostdiagram';
 // import MediumDiagram from './mediumcostdiagram'
 // import Diagrams from './costdiagrams';
@@ -443,15 +443,15 @@ class ViewEquipment {
 
                 const cost = appbaseddriver.getequipmentcostbyid.call(this, equipmentid, costid)
                 if (cost) {
-                  
-                        const j = appbaseddriver.getequipmentcostkeybyid.call(this, equipmentid, costid)
 
-                        myuser.equipment[i].costs.splice(j, 1)
-                        viewequipment.equipmentdatedefault.call(this);
-                        this.props.reduxUser(myuser)
-                        this.setState({ activecostid: false })
+                    const j = appbaseddriver.getequipmentcostkeybyid.call(this, equipmentid, costid)
 
-                    
+                    myuser.equipment[i].costs.splice(j, 1)
+                    viewequipment.equipmentdatedefault.call(this);
+                    this.props.reduxUser(myuser)
+                    this.setState({ activecostid: false })
+
+
 
                 }
 
@@ -521,6 +521,7 @@ class ViewEquipment {
                     }
                 }
                 const singular = (cost) => {
+                    
 
                     return (
                         <View style={{ ...styles.generalFlex, ...styles.bottomMargin15, }} key={cost.costid}
@@ -536,7 +537,11 @@ class ViewEquipment {
                             </View>
                             <View style={{ ...styles.flex1 }}>
 
-                                <Text style={{ ...styles.generalButton, ...receipitUI() }}>/\</Text>
+                                <Text style={{ ...styles.generalButton, ...receipitUI() }}
+                                    onPress={() => {
+                                        this.props.reduxNavigation({ navigation: 'receipts', equipmentid, costid: cost.costid })
+                                        this.setState({ render: 'render' })
+                                    }}>/\</Text>
 
                             </View>
                         </View>)
@@ -695,7 +700,7 @@ class ViewEquipment {
         const equipmentdate = new EquipmentDate();
         const salvagedate = new SalvageDate();
         const purchasedate = new PurchaseDate();
-        // const costs = new Costs();
+        const costs = new Costs();
         // const smalldiagram = new SmallDiagram();
         // const mediumdiagram = new MediumDiagram();
         // const diagrams = new Diagrams()
@@ -718,7 +723,9 @@ class ViewEquipment {
 
         if (myuser) {
 
-            const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
+            const equipmentid = appbaseddriver.getEquipmentID.call(this)
+            const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid);
+            
             if (equipment) {
 
                 const showpurchase = () => {
@@ -726,7 +733,7 @@ class ViewEquipment {
                         return (
                             <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                 <View style={{ ...styles.flex1 }}>
-                                {purchasedate.showdate.call(this)}
+                                    {purchasedate.showdate.call(this)}
 
                                 </View>
                                 <View style={{ ...styles.flex1 }}>
@@ -750,7 +757,7 @@ class ViewEquipment {
 
                                     <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                         <View style={{ ...styles.flex1 }}>
-                                        {purchasedate.showdate.call(this)}
+                                            {purchasedate.showdate.call(this)}
 
                                         </View>
                                     </View>
@@ -778,7 +785,7 @@ class ViewEquipment {
                         return (
                             <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                 <View style={{ ...styles.flex1 }}>
-                                {salvagedate.showdate.call(this)}
+                                    {salvagedate.showdate.call(this)}
 
                                 </View>
                                 <View style={{ ...styles.flex1 }}>
@@ -802,7 +809,7 @@ class ViewEquipment {
 
                                     <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                         <View style={{ ...styles.flex1 }}>
-                                        {salvagedate.showdate.call(this)}
+                                            {salvagedate.showdate.call(this)}
                                         </View>
                                     </View>
 
@@ -1022,6 +1029,10 @@ class ViewEquipment {
 
 
                             {viewequipment.showequipmentids.call(this)}
+
+                            {appbaseddriver.showsavedriver.call(this)}
+
+                            {costs.showcosts.call(this, equipmentid)}
 
 
 

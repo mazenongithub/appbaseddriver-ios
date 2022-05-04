@@ -6,6 +6,7 @@ import TimeIn from './timein'
 import { makeTimeString, UTCTimeStringfromTime, inputUTCStringForLaborID, isNumeric, getMonthfromTimein, getDayfromTimein, getHoursfromTimein, getYearfromTimein, getMinutesfromTimein, getAMPMfromTimeIn, calculatetotalhours, sorttimes, checkactivemonth, trailingZeros, getMonString } from './functions'
 import DriverUI from './driverui';
 import MakeID from './makeid';
+import Income from './income'
 
 class Driver {
 
@@ -561,6 +562,7 @@ class Driver {
     
     showshifts() {
         const appbaseddriver = new AppBasedDriver();
+        const regularFont = appbaseddriver.getRegularFont.call(this)
         let shiftids = [];
         let shifts = appbaseddriver.getshifts.call(this);
         shifts.sort((a, b) => {
@@ -582,7 +584,7 @@ class Driver {
             return (
                 <View style={{ ...styles.generalFlex,...styles.bottomMargin15  }} key={shift.shiftid}>
                     <View style={{ ...styles.flex5 }} key={shift.shiftid}>
-                        <Text style={{ ...styles.regularFont, ...styles.generalFont, ...activebackground(shift.shiftid) }} onPress={() => { driver.makeshiftactive.call(this, shift.shiftid) }}>
+                        <Text style={{ ...regularFont, ...styles.generalFont, ...activebackground(shift.shiftid) }} onPress={() => { driver.makeshiftactive.call(this, shift.shiftid) }}>
                             TimeIn: {inputUTCStringForLaborID(shift.timein)} TimeOut: {inputUTCStringForLaborID(shift.timeout)} Total Hours: {+Number(calculatetotalhours(shift.timeout, shift.timein)).toFixed(2)} Earnings: ${shift.earnings} Deliveries: {shift.deliveries} Miles: {shift.miles}
                         </Text>
     
@@ -623,28 +625,30 @@ class Driver {
         const driver = new Driver();
         const driverui = new DriverUI();
         const appbaseddriver = new AppBasedDriver();
+        const income = new Income();
+        const regularFont = appbaseddriver.getRegularFont.call(this)
         return (<View style={{ ...styles.generalContainer }}>
             {driver.showtimes.call(this)}
 
 
             <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                 <View style={{ ...styles.flex1, ...styles.alignCenter, ...styles.addMargin }}>
-                    <Text style={{ ...styles.generalFont, ...styles.regularFont }}>Earnings</Text>
+                    <Text style={{ ...styles.generalFont, ...regularFont }}>Earnings</Text>
                     <TextInput
                         value={driver.getearnings.call(this).toString()}
                         onChangeText={text => { driver.handleearnings.call(this, text) }}
-                        type="text" style={{ ...styles.generalFont, ...styles.regularFont, ...styles.generalField }} />
+                        type="text" style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }} />
                 </View>
                 <View style={{ ...styles.flex1, ...styles.alignCenter, ...styles.addMargin }}>
-                    <Text style={{ ...styles.generalFont, ...styles.regularFont }}>Deliveries</Text>
-                    <TextInput type="text" style={{ ...styles.generalFont, ...styles.regularFont, ...styles.generalField }}
+                    <Text style={{ ...styles.generalFont, ...regularFont }}>Deliveries</Text>
+                    <TextInput type="text" style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }}
                         value={driver.getdeliveries.call(this).toString()}
                         onChangeText={text => { driver.handledeliveries.call(this, text) }}
                     />
                 </View>
                 <View style={{ ...styles.flex1, ...styles.alignCenter, ...styles.addMargin }}>
-                    <Text style={{ ...styles.generalFont, ...styles.regularFont }}>Miles</Text>
-                    <TextInput type="text" style={{ ...styles.generalFont, ...styles.regularFont, ...styles.generalField }}
+                    <Text style={{ ...styles.generalFont, ...regularFont }}>Miles</Text>
+                    <TextInput type="text" style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }}
                         value={driver.getmiles.call(this).toString()}
                         onChangeText={text => { driver.handlemiles.call(this, text) }}
                     />
@@ -654,6 +658,7 @@ class Driver {
             {driverui.showui.call(this)}
 
             {driver.showshifts.call(this)}
+            {income.showincome.call(this)}
 
             {appbaseddriver.showsavedriver.call(this)}
 

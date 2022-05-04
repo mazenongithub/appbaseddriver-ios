@@ -271,18 +271,19 @@ class TimeIn {
 
     showampm() {
         const styles = MyStylesheet();
-        
+        const appbaseddriver = new AppBasedDriver();
+        const headerFont = appbaseddriver.getHeaderFont.call(this)
         const timein = new TimeIn();
         const showam = () => {
             return (<View style={{ ...styles.generalContainer }}>
-                <Text style={{  ...styles.headerFont, ...styles.boldFont, ...styles.alignCenter, ...styles.generalPadding }} onPress={() => { timein.toggleampm.call(this, 'pm') }}>AM</Text>
+                <Text style={{  ...headerFont, ...styles.boldFont, ...styles.alignCenter, ...styles.generalPadding }} onPress={() => { timein.toggleampm.call(this, 'pm') }}>AM</Text>
             </View>)
 
         }
         const showpm = () => {
 
             return (<View style={{ ...styles.generalContainer }}>
-                <Text style={{  ...styles.generalPadding, ...styles.headerFont, ...styles.boldFont, ...styles.alignCenter }} onPress={() => { timein.toggleampm.call(this, 'am') }}>PM</Text>
+                <Text style={{  ...styles.generalPadding, ...headerFont, ...styles.boldFont, ...styles.alignCenter }} onPress={() => { timein.toggleampm.call(this, 'am') }}>PM</Text>
             </View>)
 
         }
@@ -306,26 +307,29 @@ class TimeIn {
         const styles = MyStylesheet();
         const timein = new TimeIn();
         const timeincalender = new TimeInCalender();
+        const appbaseddriver = new AppBasedDriver();
+        const regularFont = appbaseddriver.getRegularFont.call(this)
+        const headerFont = appbaseddriver.getHeaderFont.call(this)
         return(   <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
             <View style={{ ...styles.flex1, ...styles.calenderContainer }}>
     
                 <View style={{ ...styles.generalFlex }}>
                     <View style={{ ...styles.flex1 }}>
-                        <Text style={{ ...styles.generalFont, ...styles.regularFont }}>Time In (MM-DD-YYYY HH mm) </Text>
+                        <Text style={{ ...styles.generalFont, ...regularFont }}>Time In (MM-DD-YYYY HH mm) </Text>
                     </View>
                 </View>
     
                 <View style={{ ...styles.generalFlex }}>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
     
-                        <TextInput style={{ ...styles.generalFont, ...styles.headerFont, ...styles.generalField, ...styles.alignCenter }} 
+                        <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }} 
                             value={this.state.timeinmonth.toString()}
                             onChangeText={text => { timein.handlemonth.call(this, text) }}
                             />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
     
-                        <TextInput style={{ ...styles.generalFont, ...styles.headerFont, ...styles.generalField, ...styles.alignCenter }}
+                        <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinday.toString()}
                             onChangeText={text => { timein.handleday.call(this, text) }} 
                             
@@ -333,7 +337,7 @@ class TimeIn {
                     </View>
                     <View style={{ ...styles.flex2, ...styles.addMargin }}>
     
-                        <TextInput style={{ ...styles.generalFont, ...styles.headerFont, ...styles.generalField, ...styles.alignCenter }}
+                        <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinyear.toString()}
                             onChangeText={text => { timein.handleyear.call(this, text) }} 
                             
@@ -341,14 +345,14 @@ class TimeIn {
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
     
-                        <TextInput style={{ ...styles.generalFont, ...styles.headerFont, ...styles.generalField, ...styles.alignCenter }}
+                        <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinhours.toString()}
                             onChangeText={text => { timein.handlehours.call(this, text) }}
                             />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
     
-                        <TextInput style={{ ...styles.generalFont, ...styles.headerFont, ...styles.generalField, ...styles.alignCenter }}
+                        <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinminutes.toString()}
                             onChangeText={text => { timein.handleminutes.call(this, text)
                              }}
