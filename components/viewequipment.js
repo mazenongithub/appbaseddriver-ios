@@ -11,16 +11,12 @@ import Costs from './costs';
 // import SmallDiagram from './smallcostdiagram';
 // import MediumDiagram from './mediumcostdiagram'
 // import Diagrams from './costdiagrams';
-// import Recharge from './recharge'
+import Recharge from './recharge'
 
 
 
 
 class ViewEquipment {
-
-
-
-
 
     equipmentdatedefault() {
         const equipmentmonth = () => {
@@ -528,17 +524,17 @@ class ViewEquipment {
 
                         >
                             <View style={{ ...styles.flex2 }}>
-                                <Text style={{ ...regularFont, ...styles.generalFont, ...activebackground(cost) }} onPress={() => { viewequipment.makecostactive.call(this, cost.costid) }}>
+                                <Text style={{ ...regularFont, ...styles.generalFont, ...activebackground(cost) }} onPress={(e) => { viewequipment.makecostactive.call(this, cost.costid) }}>
                                     {reoccurring(cost)} PurchaseDate: {formatDateStringDisplay(cost.purchasedate)} Detail: {cost.detail} Amount: ${cost.amount}
                                 </Text>
                             </View>
                             <View style={{ ...styles.flex1 }}>
-                                <Text style={{ ...styles.noBorder, ...removeIcon, ...activebackground(cost) }} onPress={() => { viewequipment.removecost.call(this, cost.costid) }}>X</Text>
+                                <Text style={{ ...styles.noBorder, ...removeIcon, ...activebackground(cost) }} onPress={(e) => { viewequipment.removecost.call(this, cost.costid) }}>X</Text>
                             </View>
                             <View style={{ ...styles.flex1 }}>
 
                                 <Text style={{ ...styles.generalButton, ...receipitUI() }}
-                                    onPress={() => {
+                                    onPress={(e) => {
                                         this.props.reduxNavigation({ navigation: 'receipts', equipmentid, costid: cost.costid })
                                         this.setState({ render: 'render' })
                                     }}>/\</Text>
@@ -704,7 +700,7 @@ class ViewEquipment {
         // const smalldiagram = new SmallDiagram();
         // const mediumdiagram = new MediumDiagram();
         // const diagrams = new Diagrams()
-        // const recharge = new Recharge();
+        const recharge = new Recharge();
         const menufont = appbaseddriver.getHeaderFont.call(this)
 
         // const showdiagram = () => {
@@ -725,7 +721,7 @@ class ViewEquipment {
 
             const equipmentid = appbaseddriver.getEquipmentID.call(this)
             const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid);
-            
+
             if (equipment) {
 
                 const showpurchase = () => {
@@ -947,7 +943,7 @@ class ViewEquipment {
                             <View style={{ ...styles.generalContainer }}>
 
                                 <View style={{ ...styles.generalContainer, ...styles.addMargin }}>
-                                    <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={() => viewequipment.handlereoccurring.call(this)}> {getreoccuring(equipment)}</Text>
+                                    <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={(e) => viewequipment.handlereoccurring.call(this)}> {getreoccuring(equipment)}</Text>
                                     <Text style={{ ...regularFont, ...styles.generalFont }}>
                                         Reoccurring Cost
                                     </Text>
@@ -960,17 +956,19 @@ class ViewEquipment {
 
 
                                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
-                                        <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={() => viewequipment.handlerecharge.call(this)}> {getrecharge(equipment)}</Text>
+                                        <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={(e) => viewequipment.handlerecharge.call(this)}> {getrecharge(equipment)}</Text>
                                         <Text style={{ ...regularFont, ...styles.generalFont }}>
                                             Recharge Costs
                                         </Text>
+
+                                        {recharge.showRecharge.call(this)}
 
                                     </View>
 
                                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
 
 
-                                        <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={() => viewequipment.handlereimbursable.call(this)}> {getreimburseable(equipment)} </Text>
+                                        <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={(e) => viewequipment.handlereimbursable.call(this)}> {getreimburseable(equipment)} </Text>
                                         <Text style={{ ...regularFont, ...styles.generalFont }}>
                                             Reimburseable
                                         </Text>

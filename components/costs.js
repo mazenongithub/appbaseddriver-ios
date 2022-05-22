@@ -53,11 +53,11 @@ class Costs {
             const gettext = (type) => {
                 switch (type) {
                     case 'hourly':
-                        return (<TextSvg className="incomechart-3" x="94" y={Math.round(200 - height)}>${Number(dollarsperhours).toFixed(2)}/hr</TextSvg>)
+                        return (<TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' x="94" y={Math.round(200 - height)}>${Number(dollarsperhours).toFixed(2)}/hr</TextSvg>)
                     case 'delivery':
-                        return (<TextSvg className="incomechart-3" x="94" y={Math.round(200 - height)}>${Number(dollarsperdelivery).toFixed(2)}/delivery</TextSvg>)
+                        return (<TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' x="94" y={Math.round(200 - height)}>${Number(dollarsperdelivery).toFixed(2)}/delivery</TextSvg>)
                     case 'miles':
-                        return (<TextSvg className="incomechart-3" x="94" y={Math.round(200 - height)}>${Number(dollarspermile).toFixed(2)}/mile</TextSvg>)
+                        return (<TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' x="94" y={Math.round(200 - height)}>${Number(dollarspermile).toFixed(2)}/mile</TextSvg>)
                     default:
                         break;
                 }
@@ -72,7 +72,7 @@ class Costs {
 
 
 
-                        <Rect className="driverchart-7" x="40" y="0" width="61.48" height={getheight(type, costsperhours, costsperdelivery, costspermile)} />
+                        <Rect fill='#f1a41f' stroke='#231f20'  x="40" y="0" width="61.48" height={getheight(type, costsperhours, costsperdelivery, costspermile)} />
 
                     </G>
 
@@ -86,29 +86,29 @@ class Costs {
             switch (type) {
                 case 'hourly':
                     return (<G>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 174.68)">10</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 133.69)">20</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 94.85)">30</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 54.32)">40</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 13.78)">50</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 174.68)">10</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 133.69)">20</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 94.85)">30</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 54.32)">40</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 13.78)">50</TextSvg>
                     </G>)
                 case 'delivery':
                     return (<G>
 
-                        <TextSvg className="incomechart-3" transform="translate(36.89 174.68)">4</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(36.89 133.69)">8</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 94.85)">12</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 54.32)">16</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 13.78)">20</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(36.89 174.68)">4</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(36.89 133.69)">8</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 94.85)">12</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 54.32)">16</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 13.78)">20</TextSvg>
 
                     </G>)
                 case 'miles':
                     return (<G>
-                        <TextSvg className="incomechart-3" transform="translate(25.89 174.68)">0.5</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 133.69)">1</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(25.89 94.85)">1.5</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(31.89 54.32)">2</TextSvg>
-                        <TextSvg className="incomechart-3" transform="translate(25.89 13.78)">2.5</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(25.89 174.68)">0.5</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 133.69)">1</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(25.89 94.85)">1.5</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 54.32)">2</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(25.89 13.78)">2.5</TextSvg>
                     </G>)
 
                 default:
@@ -120,7 +120,7 @@ class Costs {
 
         return (
 
-            <Svg  viewBox="0 0 203.15 210.85" width="408" height="422">
+            <Svg  viewBox="0 0 203.15 210.85" width="204" height="211">
                 <G id="Layer_2" data-name="Layer 2"><G id="Layer_2-2" data-name="Layer 2">
 
 
@@ -130,18 +130,18 @@ class Costs {
                     {labels(type)}
 
 
-                    <Line className="incomechart-4" x1="58.47" y1="8.35" x2="51.73" y2="8.35" />
-                    <Line className="incomechart-4" x1="58.47" y1="48.35" x2="51.73" y2="48.35" />
-                    <Line className="incomechart-4" x1="58.47" y1="88.35" x2="51.73" y2="88.35" />
-                    <Line className="incomechart-4" x1="58.47" y1="128.35" x2="51.73" y2="128.35" />
-                    <Line className="incomechart-4" x1="58.47" y1="168.35" x2="51.73" y2="168.35" />
+                    <Line stroke='#231f20' strokeWidth='1' x1="58.47" y1="8.35" x2="51.73" y2="8.35" />
+                    <Line stroke='#231f20' strokeWidth='1' x1="58.47" y1="48.35" x2="51.73" y2="48.35" />
+                    <Line stroke='#231f20' strokeWidth='1' x1="58.47" y1="88.35" x2="51.73" y2="88.35" />
+                    <Line stroke='#231f20' strokeWidth='1' x1="58.47" y1="128.35" x2="51.73" y2="128.35" />
+                    <Line stroke='#231f20' strokeWidth='1' x1="58.47" y1="168.35" x2="51.73" y2="168.35" />
 
 
-                    <TextSvg className="incomechart-5" transform="translate(85 85.14)">Costs</TextSvg>
+                    <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' transform="translate(85 85.14)">Costs</TextSvg>
                     {getbarchart(getheight(type, costsperhours, costsperdelivery, costspermile), type, costsperhours, costsperdelivery, costspermile)}
-
-                    <Path className="incomechart-1" d="M55.19,8.35q.26,100,.5,200" />
-                    <Line className="incomechart-2" x1="54.43" y1="208.35" x2="202.55" y2="208.35" />
+                      
+                    <Path fill='none' strokeWidth='2' stroke='#231f20' d="M55.19,8.35q.26,100,.5,200" />
+                    <Line fill='none' strokeWidth='5' stroke='#231f20' x1="54.43" y1="208.35" x2="202.55" y2="208.35" />
 
                 </G></G></Svg>)
 

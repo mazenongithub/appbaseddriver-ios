@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text} from 'react-native'
+import { View, Text, TouchableOpacity, Image} from 'react-native'
 import { MyStylesheet } from './styles';
-import { makeTimeString, monthstring, getFirstIsOn, check_29_feb_leapyear, check_30, check_31, UTCTimeStringfromTime, getDayString, trailingZeros} from './functions'
+import { makeTimeString, monthstring, getFirstIsOn, check_29_feb_leapyear, check_30, check_31, UTCTimeStringfromTime, getDayString, trailingZeros } from './functions'
 import TimeIn from './timein';
 import AppBasedDriver from './appbaseddriver';
 
@@ -19,21 +19,37 @@ class TimeInCalender {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const headerFont = appbaseddriver.getHeaderFont.call(this)
- 
+       
+
         if (this.state.calendertimein) {
             return (
-                <Text style={{ ...styles.generalText, ...headerFont }} onPress={() => { this.setState({ calendertimein: false }) }}> X </Text>
+
+                <TouchableOpacity onPress={() => { this.setState({ calendertimein: false }) }}>
+                    <Image source={require('./icons/redx.png')}
+                        style={styles.removeIcon}
+                        resizeMethod='scale'
+                    />
+                </TouchableOpacity>
+
+
             )
         } else {
             return (
-                <Text style={{ ...styles.generalText, ...headerFont}} onPress={() => { this.setState({ calendertimein: true }) }}> O </Text>
+
+                <TouchableOpacity onPress={() => { this.setState({ calendertimein: true }) }}>
+                <Image source={require('./icons/upicon.png')}
+                    style={styles.upIcon}
+                    resizeMethod='scale'
+                />
+            </TouchableOpacity>
+              
             )
         }
 
     }
     showlabel() {
-       
-        
+
+
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const headerFont = appbaseddriver.getHeaderFont.call(this)

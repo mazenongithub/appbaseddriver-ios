@@ -1,12 +1,14 @@
 import React from 'react'
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
-import TimeIn from './timein'
+import TimeIn from './timein';
+import TimeOut from './timeout'
 import { makeTimeString, UTCTimeStringfromTime, inputUTCStringForLaborID, isNumeric, getMonthfromTimein, getDayfromTimein, getHoursfromTimein, getYearfromTimein, getMinutesfromTimein, getAMPMfromTimeIn, calculatetotalhours, sorttimes, checkactivemonth, trailingZeros, getMonString } from './functions'
 import DriverUI from './driverui';
 import MakeID from './makeid';
 import Income from './income'
+import EquipmentUI from './equipmentui';
 
 class Driver {
 
@@ -25,7 +27,7 @@ class Driver {
 
         this.setState({ activemonth })
     }
-    
+
 
     getearnings() {
         const appbaseddriver = new AppBasedDriver();
@@ -35,7 +37,7 @@ class Driver {
             earnings = shift.earnings;
 
         }
-       
+
         return earnings;
     }
 
@@ -79,21 +81,50 @@ class Driver {
         }
     }
 
-    removeshift(shiftid) {
+    confirmremoveshift(shiftid) {
         const appbaseddriver = new AppBasedDriver();
         const myuser = appbaseddriver.getuser.call(this)
-        const shift = appbaseddriver.getshiftbyid.call(this, shiftid)
-        if (shift) {
+        if (myuser) {
+            const shift = appbaseddriver.getshiftbyid.call(this, shiftid)
+            if (shift) {
 
-            if (window.confirm(`Are you sure you want to delete shift ${inputUTCStringForLaborID(shift.timein)} to ${inputUTCStringForLaborID(shift.timeout)} ?`)) {
+                const i = appbaseddriver.getshiftkeybyid.call(this, shiftid)
+                myuser.driver.shifts.splice(i, 1)
+                this.props.reduxUser(myuser)
+                this.setState({ activeshiftid: false })
 
-                if (myuser) {
 
-                    const i = appbaseddriver.getshiftkeybyid.call(this, shiftid)
-                    myuser.driver.shifts.splice(i, 1)
-                    this.props.reduxUser(myuser)
-                    this.setState({ activeshiftid: false })
-                }
+
+            }
+
+
+
+        }
+
+
+    }
+
+    removeshift(shiftid) {
+
+
+        const driver = new Driver();
+
+        const appbaseddriver = new AppBasedDriver();
+        const myuser = appbaseddriver.getuser.call(this)
+        if (myuser) {
+            const shift = appbaseddriver.getshiftbyid.call(this, shiftid)
+            if (shift) {
+
+                Alert.alert(
+                    'Remove Shift',
+                    `Are you sure you want to delete shift ${inputUTCStringForLaborID(shift.timein)} to ${inputUTCStringForLaborID(shift.timeout)} ?`,
+                    [
+                        { text: 'Cancel', onPress: () => console.log('Cancel '), style: 'cancel' },
+                        { text: 'OK', onPress: () => { driver.confirmremoveshift.call(this, shiftid) } },
+                    ],
+                    { cancelable: false }
+                )
+
             }
 
         }
@@ -159,7 +190,7 @@ class Driver {
     }
 
     handleearnings(earnings) {
-    
+
 
         if (isNumeric(earnings)) {
 
@@ -537,29 +568,68 @@ class Driver {
 
 
     showtimes() {
+        const appbaseddriver = new AppBasedDriver()
         const timein = new TimeIn();
+        const timeout = new TimeOut();
         const styles = MyStylesheet();
-        return (
-            <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
-                <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+        const orientation = appbaseddriver.getOrientation.call(this);
+        if (orientation === 'portrait') {
+            return (
+                <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
+                    <View style={{ ...styles.flex1, ...styles.alignCenter }}>
 
-                    <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
-                        <View style={{ ...styles.flex1, ...styles.alignCenter }}>
-                            {timein.showtimein.call(this)}
+                        <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {timein.showtimein.call(this)}
+                            </View>
+
                         </View>
 
+                        <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {timeout.showtimeout.call(this)}
+                            </View>
+
+                        </View>
+
+
+
+
+
+
                     </View>
+                </View>)
+
+        } else {
+            return (
+                <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
+                    <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+
+                        <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {timein.showtimein.call(this)}
+                            </View>
+
+
+
+                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
+                                {timeout.showtimeout.call(this)}
+                            </View>
+
+                        </View>
 
 
 
 
 
 
+                    </View>
                 </View>
-            </View>)
+            )
+        }
     }
 
-    
+
     showshifts() {
         const appbaseddriver = new AppBasedDriver();
         const regularFont = appbaseddriver.getRegularFont.call(this)
@@ -569,7 +639,7 @@ class Driver {
             return sorttimes(a.timein, b.timein)
         })
         const styles = MyStylesheet();
-     
+
         const driver = new Driver();
         const removeIcon = appbaseddriver.getremoveicon.call(this)
         const activebackground = (shiftid) => {
@@ -580,39 +650,47 @@ class Driver {
             }
         }
         const showshift = (shift) => {
-    
+
             return (
-                <View style={{ ...styles.generalFlex,...styles.bottomMargin15  }} key={shift.shiftid}>
+                <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }} key={shift.shiftid}>
                     <View style={{ ...styles.flex5 }} key={shift.shiftid}>
                         <Text style={{ ...regularFont, ...styles.generalFont, ...activebackground(shift.shiftid) }} onPress={() => { driver.makeshiftactive.call(this, shift.shiftid) }}>
                             TimeIn: {inputUTCStringForLaborID(shift.timein)} TimeOut: {inputUTCStringForLaborID(shift.timeout)} Total Hours: {+Number(calculatetotalhours(shift.timeout, shift.timein)).toFixed(2)} Earnings: ${shift.earnings} Deliveries: {shift.deliveries} Miles: {shift.miles}
                         </Text>
-    
+
                     </View>
                     <View style={{ ...styles.flex1 }}>
-                        <Text style={{ ...styles.noBorder, ...removeIcon, ...activebackground(shift.shiftid) }} onPress={() => { driver.removeshift.call(this, shift.shiftid) }}>X</Text>
+
+                        <TouchableOpacity onPress={() => { driver.removeshift.call(this, shift.shiftid) }}>
+                            <Image source={require('./icons/redx.png')}
+                                style={styles.removeIcon}
+                                resizeMethod='scale'
+                            />
+                        </TouchableOpacity>
+
+
                     </View>
-    
+
                 </View>
             )
-    
+
         }
-    
+
         if (shifts) {
             // eslint-disable-next-line
             shifts.map(shift => {
-    
-    
-    
-    
-    
+
+
+
+
+
                 if (checkactivemonth(shift.timein, this.state.activemonth, this.state.activeyear)) {
                     shiftids.push(showshift(shift))
                 }
-    
-    
-    
-    
+
+
+
+
             })
         }
         return shiftids;
@@ -624,6 +702,7 @@ class Driver {
         const styles = MyStylesheet();
         const driver = new Driver();
         const driverui = new DriverUI();
+        const equipmentui = new EquipmentUI();
         const appbaseddriver = new AppBasedDriver();
         const income = new Income();
         const regularFont = appbaseddriver.getRegularFont.call(this)
@@ -655,12 +734,16 @@ class Driver {
                 </View>
             </View>
 
+            {equipmentui.showEquipmentUI.call(this)}
+
             {driverui.showui.call(this)}
 
             {driver.showshifts.call(this)}
+            {appbaseddriver.showsavedriver.call(this)}
+            
             {income.showincome.call(this)}
 
-            {appbaseddriver.showsavedriver.call(this)}
+           
 
 
         </View>)

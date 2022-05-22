@@ -83,7 +83,7 @@ class PurchaseDate {
             const appbaseddriver = new AppBasedDriver();
             const myuser = appbaseddriver.getuser.call(this)
             if (myuser) {
-
+                
                 const equipmentid = appbaseddriver.getEquipmentID.call(this,equipmentid)
                 const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
                 
@@ -101,9 +101,7 @@ class PurchaseDate {
                                 let year = this.state.purchaseyear;
                                 let month = this.state.purchasemonth;
                                 const timein = `${year}/${month}/${day}`
-
                                 if (compareDates(timein, equipment.repayment.salvagedate)) {
-                                    
                                     myuser.equipment[i].repayment.purchasedate = timein;
                                     this.props.reduxUser(myuser);
                                     this.setState({ render: 'render' })
@@ -240,7 +238,7 @@ class PurchaseDate {
                         const year = dates[0]
                         const month = dates[1]
                         const day = dates[2]
-                        // eslint-disable-next-line
+                        
                         this.setState({ purchaseyear: year, purchasemonth: month, purchaseday: day })
 
                     }

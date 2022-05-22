@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Alert } from 'react-native'
+import { View, Text, TextInput, Alert, TouchableOpacity, Image} from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
 import MakeID from './makeid';
@@ -101,7 +101,7 @@ class Equipment {
             `Are you sure you want to remove ${myequipment.equipment}?`,
             [
                 { text: 'Cancel', onPress: () => console.log('Cancel Equipment '), style: 'cancel' },
-                { text: 'OK', onPress: () => { equipment.confirmremoveequipment.call(this,myequipment) } },
+                { text: 'OK', onPress: () => { equipment.confirmremoveequipment.call(this, myequipment) } },
             ],
             { cancelable: false }
         )
@@ -110,16 +110,16 @@ class Equipment {
 
 
     confirmremoveequipment(equipment) {
-            const appbaseddriver = new AppBasedDriver();
-            const myuser = appbaseddriver.getuser.call(this)
-            if (myuser) {
-                const i = appbaseddriver.getequipmentkeybyid.call(this, equipment.equipmentid)
-                myuser.equipment.splice(i, 1)
-                this.props.reduxUser(myuser)
-                this.setState({ activeequipmentid: false })
+        const appbaseddriver = new AppBasedDriver();
+        const myuser = appbaseddriver.getuser.call(this)
+        if (myuser) {
+            const i = appbaseddriver.getequipmentkeybyid.call(this, equipment.equipmentid)
+            myuser.equipment.splice(i, 1)
+            this.props.reduxUser(myuser)
+            this.setState({ activeequipmentid: false })
 
-            }
-  
+        }
+
     }
 
 
@@ -151,33 +151,47 @@ class Equipment {
         }
         if (myuser) {
             return (
-                <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }} key={myequipment.equipmentid}
-
-                >
+                <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }} key={myequipment.equipmentid}>
                     <View style={{ ...styles.flex1 }}>
-                        <View style={{ ...styles.generalContainer, ...styles.bottomMargin15 }}>
-                            <Text
-                                onPress={() => { equipment.makeequipmentactive.call(this, myequipment.equipmentid) }}
-                                style={{ ...regularFont, ...styles.generalFont, ...activebackground() }}>{myequipment.equipment}</Text>
-                        </View>
 
-                        <View style={{ ...styles.generalContainer, ...styles.bottomMargin15 }}>
+                        <TouchableOpacity onPress={() => {
+                            this.props.reduxNavigation({ navigation: 'viewequipment', equipmentid: myequipment.equipmentid })
+                            this.setState({ render: 'render' })
+                        }}>
+                            <Image source={require('./icons/bigicon.png')}
+                                style={styles.removeIcon}
+                                resizeMethod='scale'
+                            />
+                        </TouchableOpacity>
 
-                            <Text
-                                style={{ ...regularFont, ...styles.generalFont, ...styles.generalLink }}
-                                onPress={() => {
-                                            this.props.reduxNavigation({ navigation: 'viewequipment', equipmentid:myequipment.equipmentid })
-                                            this.setState({ render: 'render' })
-                                        }}
-                                >
-                                Go to {myequipment.equipment}</Text>
-
-                            <Text style={{ ...styles.generalButton, ...removeIcon, ...styles.marginLeft30 }}
-                                onPress={() => { equipment.removeequipment.call(this, myequipment) }}>X</Text>
-
-                        </View>
                     </View>
+
+                    <View style={{ ...styles.flex3 }}>
+
+                        <Text
+                            onPress={() => { equipment.makeequipmentactive.call(this, myequipment.equipmentid) }}
+                            style={{ ...regularFont, ...styles.generalFont, ...activebackground() }}>{myequipment.equipment}</Text>
+
+
+                    </View>
+
+                    <View style={{ ...styles.flex1 }}>
+
+                        <TouchableOpacity onPress={() => { equipment.removeequipment.call(this, myequipment)}}>
+                            <Image source={require('./icons/redx.png')}
+                                style={styles.removeIcon}
+                                resizeMethod='scale'
+                            />
+                        </TouchableOpacity>
+
+
+                    </View>
+
+
+
                 </View>
+
+
             )
 
         }

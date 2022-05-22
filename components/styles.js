@@ -41,6 +41,15 @@ export function MyStylesheet() {
         bottomMargin10: {
             marginBottom: 10
         },
+        removeIcon:{
+            width: 25, height: 25 
+        },
+        arrowIcon:{
+            width: 25, height: 31 
+        },
+        upIcon:{
+            width:38, height:26
+        },
         bottomMargin15:{
             marginBottom:15
         },

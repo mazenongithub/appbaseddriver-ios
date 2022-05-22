@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
 
@@ -209,7 +209,14 @@ class DriverUI {
             <View style={{ ...styles.generalFlex, ...styles.bottomMargin10, ...styles.topMargin10 }}>
                 <View style={{ ...styles.flex1, ...styles.alignCenter }}>
 
-                    <Text style={{ ...styles.generalButton, ...driverui.uiButton.call(this) }} onPress={() => { driverui.handleUILeft.call(this) }}>{`<`}</Text>
+                <TouchableOpacity onPress={() => { driverui.handleUILeft.call(this)  }}>
+                    <Image source={require('./icons/leftarrow.png')}
+                        style={styles.arrowIcon}
+                        resizeMethod='scale'
+                    />
+                </TouchableOpacity>
+
+                   
 
                 </View>
 
@@ -218,7 +225,12 @@ class DriverUI {
                 </View>
 
                 <View style={{ ...styles.flex1, ...styles.alignCenter }}>
-                    <Text style={{ ...styles.generalButton, ...driverui.uiButton.call(this) }} onPress={() => { driverui.handleUIRight.call(this) }}>{`>`}</Text>
+                <TouchableOpacity onPress={() => { driverui.handleUIRight.call(this)  }}>
+                    <Image source={require('./icons/rightarrow.png')}
+                        style={styles.arrowIcon}
+                        resizeMethod='scale'
+                    />
+                </TouchableOpacity>
 
                 </View>
 
@@ -339,7 +351,12 @@ class DriverUI {
             <View style={{ ...styles.generalFlex, ...styles.bottomMargin10, ...styles.topMargin10 }}>
                 <View style={{ ...styles.flex1, ...styles.alignCenter }}>
 
-                    <Text style={{ ...styles.generalButton, ...driverui.uiButton.call(this) }} onPress={() => { driverui.handleUILeft.call(this) }}>{`<`}</Text>
+                <TouchableOpacity onPress={() => { driverui.handleUILeft.call(this)  }}>
+                    <Image source={require('./icons/leftarrow.png')}
+                        style={styles.arrowIcon}
+                        resizeMethod='scale'
+                    />
+                </TouchableOpacity>
 
                 </View>
 
@@ -348,7 +365,12 @@ class DriverUI {
                 </View>
 
                 <View style={{ ...styles.flex1, ...styles.alignCenter }}>
-                    <Text style={{ ...styles.generalButton, ...driverui.uiButton.call(this) }} onPress={() => { driverui.handleUIRight.call(this) }}>{`>`}</Text>
+                <TouchableOpacity onPress={() => { driverui.handleUIRight.call(this)  }}>
+                    <Image source={require('./icons/rightarrow.png')}
+                        style={styles.arrowIcon}
+                        resizeMethod='scale'
+                    />
+                </TouchableOpacity>
 
                 </View>
 
