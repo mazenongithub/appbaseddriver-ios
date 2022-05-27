@@ -226,7 +226,7 @@ class EquipmentDate {
 
                         <View style={{ ...styles.generalFlex }}>
                             <View style={{ ...styles.flex1 }}>
-                                <Text style={{ ...styles.generalFont, ...regularFont }}>Date of Cost (MM-DD-YYYY) </Text>
+                                <Text style={{ ...styles.generalFont, ...headerFont }}>Date of Cost (MM-DD-YYYY) </Text>
                             </View>
                         </View>
 

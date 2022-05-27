@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text} from 'react-native'
+import { View, Text, TouchableOpacity, Image} from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
 // import { removeIconSmall, dropDateIcon } from './svg';
-import {  monthstring, getFirstIsOnDate, check_29_feb_leapyeardate, check_30date, check_31date, getDayString, trailingZeros } from './functions'
+import { monthstring, getFirstIsOnDate, check_29_feb_leapyeardate, check_30date, check_31date, getDayString, trailingZeros } from './functions'
 
 import PurchaseDate from './purchasedate';
 
@@ -21,21 +21,35 @@ class PurchaseCalender {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const removeIcon = appbaseddriver.getremoveicon.call(this);
-        
+
         const dropIcon = appbaseddriver.getdropicon.call(this)
         if (this.state.purchasecalender) {
             return (
-                <Text style={{ ...styles.generalButton, ...removeIcon }} onPress={(e) => { this.setState({ purchasecalender: false }) }}>X</Text>
+
+                <TouchableOpacity onPress={() => { this.setState({ purchasecalender: false }) }}>
+                    <Image source={require('./icons/redx.png')}
+                        style={styles.removeIcon}
+                        resizeMethod='scale'
+                    />
+                </TouchableOpacity>
+
+
             )
         } else {
             return (
-                <Text style={{ ...styles.generalButton, ...dropIcon }} onPress={(e) => { this.setState({ purchasecalender: true }) }}>O </Text>
+                <TouchableOpacity onPress={() => { this.setState({ purchasecalender: true })  }}>
+                <Image source={require('./icons/upicon.png')}
+                    style={styles.upIcon}
+                    resizeMethod='scale'
+                />
+            </TouchableOpacity>
+               
             )
         }
 
     }
     showlabel() {
-      
+
         const appbaseddriver = new AppBasedDriver();
         const headerFont = appbaseddriver.getHeaderFont.call(this);
         const styles = MyStylesheet();
@@ -44,7 +58,7 @@ class PurchaseCalender {
             let year = this.state.purchaseyear;
             let month = trailingZeros(this.state.purchasemonth);
             const datestring = `${year}/${month}/${day}`
-         
+
             const newDate = new Date(datestring);
             month = monthstring(newDate.getMonth());
             const date = newDate.getDate();
@@ -76,11 +90,11 @@ class PurchaseCalender {
         let month = trailingZeros(this.state.purchasemonth);
         const datestring = `${year}/${month}/${day}`
         const newDate = new Date(datestring);
-        const firstofmonth =  getFirstIsOnDate(newDate);
+        const firstofmonth = getFirstIsOnDate(newDate);
         const check29 = check_29_feb_leapyeardate(newDate);
         const check30 = check_30date(newDate);
         const check31 = check_31date(newDate);
-   
+
         const cell_1 = () => {
             if (firstofmonth === "Sun") {
                 return (1)

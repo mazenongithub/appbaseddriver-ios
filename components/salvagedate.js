@@ -222,7 +222,6 @@ class SalvageDate {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const headerFont = appbaseddriver.getHeaderFont.call(this)
-        const regularFont = appbaseddriver.getRegularFont.call(this)
         const equipment = new SalvageDate();
         const calender = new SalvageCalender();
         const equipmentid = appbaseddriver.getEquipmentID.call(this)
@@ -258,7 +257,7 @@ class SalvageDate {
 
                         <View style={{ ...styles.generalFlex }}>
                             <View style={{ ...styles.flex1 }}>
-                                <Text style={{ ...styles.generalFont, ...regularFont }}>Salvage Date (MM-DD-YYYY) </Text>
+                                <Text style={{ ...styles.generalFont, ...headerFont }}>Salvage Date (MM-DD-YYYY) </Text>
                             </View>
                         </View>
 

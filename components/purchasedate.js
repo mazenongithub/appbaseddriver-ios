@@ -221,7 +221,7 @@ class PurchaseDate {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const headerFont = appbaseddriver.getHeaderFont.call(this)
-        const regularFont = appbaseddriver.getRegularFont.call(this)
+
         const equipment = new PurchaseDate();
         const calender = new PurchaseCalender();
         const equipmentid = appbaseddriver.getEquipmentID.call(this)
@@ -258,7 +258,7 @@ class PurchaseDate {
 
                         <View style={{ ...styles.generalFlex }}>
                             <View style={{ ...styles.flex1 }}>
-                                <Text style={{ ...styles.generalFont, ...regularFont }}>Purchase Date (MM-DD-YYYY) </Text>
+                                <Text style={{ ...styles.generalFont, ...headerFont }}>Purchase Date (MM-DD-YYYY) </Text>
                             </View>
                         </View>
 

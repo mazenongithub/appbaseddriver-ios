@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text} from 'react-native'
+import { View, Text, TouchableOpacity, Image} from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
 // import { removeIconSmall, dropDateIcon } from './svg';
@@ -24,11 +24,23 @@ class SalvageCalender {
         const dropIcon = appbaseddriver.getdropicon.call(this)
         if (this.state.salvagecalender) {
             return (
-                <Text style={{ ...styles.generalButton, ...removeIcon }} onPress={() => { this.setState({ salvagecalender: false }) }}>X </Text>
+
+                <TouchableOpacity onPress={() => { this.setState({ salvagecalender: false }) }}>
+                <Image source={require('./icons/redx.png')}
+                    style={styles.removeIcon}
+                    resizeMethod='scale'
+                />
+            </TouchableOpacity>
+              
             )
         } else {
             return (
-                <Text style={{ ...styles.generalButton, ...dropIcon }} onPress={() => { this.setState({ salvagecalender: true }) }}>O </Text>
+                <TouchableOpacity onPress={() => { this.setState({ salvagecalender: true })  }}>
+                <Image source={require('./icons/upicon.png')}
+                    style={styles.upIcon}
+                    resizeMethod='scale'
+                />
+            </TouchableOpacity>
             )
         }
 

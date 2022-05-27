@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Alert } from 'react-native'
+import { View, Text, TextInput, Alert, TouchableOpacity, Image } from 'react-native'
 import { MyStylesheet } from './styles';
 import MakeID from './makeid';
 import AppBasedDriver from './appbaseddriver';
@@ -129,7 +129,7 @@ class ViewEquipment {
 
 
                 <View style={{ ...styles.generalContainer, ...styles.bottomMargin15 }}>
-                    <Text style={{ ...regularFont, ...styles.generalFont }}>Frequency</Text>
+                    <Text style={{ ...headerFont, ...styles.generalFont }}>Frequency</Text>
 
                 </View>
 
@@ -495,7 +495,7 @@ class ViewEquipment {
         const equipmentid = appbaseddriver.getEquipmentID.call(this)
         const costs = appbaseddriver.getequipmentscosts.call(this, equipmentid)
         const styles = MyStylesheet();
-        const regularFont = appbaseddriver.getRegularFont.call(this)
+        const headerFont = appbaseddriver.getHeaderFont.call(this)
         let ids = [];
         const removeIcon = appbaseddriver.getremoveicon.call(this)
         const driver = appbaseddriver.getuser.call(this)
@@ -516,31 +516,49 @@ class ViewEquipment {
                         return `Reoccurring ${cost.reoccurring.frequency}`
                     }
                 }
+
+                const showreceipt = (cost) => {
+                    if (this.state.activecostid === cost.costid) {
+
+                        return (<View style={{ ...styles.flex1}} >
+                            <TouchableOpacity onPress={(e) => {
+                                this.props.reduxNavigation({ navigation: 'receipts', equipmentid, costid: cost.costid })
+                                this.setState({ render: 'render' })
+                            }}>
+                                <Image source={require('./icons/uploadreceipt.png')}
+                                    style={styles.receiptIcon}
+                                    resizeMethod='scale'
+                                />
+                            </TouchableOpacity>
+                        </View>)
+                    }
+                }
                 const singular = (cost) => {
-                    
+
 
                     return (
-                        <View style={{ ...styles.generalFlex, ...styles.bottomMargin15, }} key={cost.costid}
+               
+                            <View style={{ ...styles.generalFlex, ...styles.bottomMargin15, }} key={cost.costid}>
+                            {showreceipt(cost)}
+                                <View style={{ ...styles.flex3 }}>
+                                    <Text style={{ ...headerFont, ...styles.generalFont, ...activebackground(cost) }} onPress={(e) => { viewequipment.makecostactive.call(this, cost.costid) }}>
+                                        {reoccurring(cost)} PurchaseDate: {formatDateStringDisplay(cost.purchasedate)} Detail: {cost.detail} Amount: ${cost.amount}
+                                    </Text>
+                                </View>
+                                <View style={{ ...styles.flex1 }}>
 
-                        >
-                            <View style={{ ...styles.flex2 }}>
-                                <Text style={{ ...regularFont, ...styles.generalFont, ...activebackground(cost) }} onPress={(e) => { viewequipment.makecostactive.call(this, cost.costid) }}>
-                                    {reoccurring(cost)} PurchaseDate: {formatDateStringDisplay(cost.purchasedate)} Detail: {cost.detail} Amount: ${cost.amount}
-                                </Text>
-                            </View>
-                            <View style={{ ...styles.flex1 }}>
-                                <Text style={{ ...styles.noBorder, ...removeIcon, ...activebackground(cost) }} onPress={(e) => { viewequipment.removecost.call(this, cost.costid) }}>X</Text>
-                            </View>
-                            <View style={{ ...styles.flex1 }}>
+                                    <TouchableOpacity onPress={(e) => { viewequipment.removecost.call(this, cost.costid) }}>
+                                        <Image source={require('./icons/redx.png')}
+                                            style={styles.removeIcon}
+                                            resizeMethod='scale'
+                                        />
+                                    </TouchableOpacity>
 
-                                <Text style={{ ...styles.generalButton, ...receipitUI() }}
-                                    onPress={(e) => {
-                                        this.props.reduxNavigation({ navigation: 'receipts', equipmentid, costid: cost.costid })
-                                        this.setState({ render: 'render' })
-                                    }}>/\</Text>
+                                </View>
 
                             </View>
-                        </View>)
+
+                        )
                 }
 
 
@@ -735,8 +753,8 @@ class ViewEquipment {
                                 <View style={{ ...styles.flex1 }}>
 
 
-                                    <Text style={{ ...regularFont, ...styles.generalFont }}>Purchase Amount </Text>
-                                    <TextInput style={{ ...regularFont, ...styles.generalFont, ...styles.generalField }}
+                                    <Text style={{ ...headerFont, ...styles.generalFont }}>Purchase Amount </Text>
+                                    <TextInput style={{ ...headerFont, ...styles.generalFont, ...styles.generalField }}
                                         value={viewequipment.getpurchase.call(this).toString()}
                                         onChangeText={text => { viewequipment.handlepurchase.call(this, text) }}
                                     />
@@ -760,8 +778,8 @@ class ViewEquipment {
 
                                     <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                         <View style={{ ...styles.flex1 }}>
-                                            <Text style={{ ...regularFont, ...styles.generalFont }}>Purchase Amount </Text>
-                                            <TextInput style={{ ...regularFont, ...styles.generalFont, ...styles.generalField }}
+                                            <Text style={{ ...headerFont, ...styles.generalFont }}>Purchase Amount </Text>
+                                            <TextInput style={{ ...headerFont, ...styles.generalFont, ...styles.generalField }}
                                                 value={viewequipment.getpurchase.call(this).toString()}
                                                 onChangeText={text => { viewequipment.handlepurchase.call(this, text) }}
                                             />
@@ -787,8 +805,8 @@ class ViewEquipment {
                                 <View style={{ ...styles.flex1 }}>
 
 
-                                    <Text style={{ ...regularFont, ...styles.generalFont }}>Salvage Amount </Text>
-                                    <TextInput style={{ ...regularFont, ...styles.generalFont, ...styles.generalField }}
+                                    <Text style={{ ...headerFont, ...styles.generalFont }}>Salvage Amount </Text>
+                                    <TextInput style={{ ...headerFont, ...styles.generalFont, ...styles.generalField }}
                                         value={viewequipment.getsalvage.call(this).toString()}
                                         onChangeText={text => { viewequipment.handlesalvage.call(this, text) }}
                                     />
@@ -811,8 +829,8 @@ class ViewEquipment {
 
                                     <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                         <View style={{ ...styles.flex1 }}>
-                                            <Text style={{ ...regularFont, ...styles.generalFont }}>Salvage Amount </Text>
-                                            <TextInput style={{ ...regularFont, ...styles.generalFont, ...styles.generalField }}
+                                            <Text style={{ ...headerFont, ...styles.generalFont }}>Salvage Amount </Text>
+                                            <TextInput style={{ ...headerFont, ...styles.generalFont, ...styles.generalField }}
                                                 value={viewequipment.getsalvage.call(this).toString()}
                                                 onChangeText={text => { viewequipment.handlesalvage.call(this, text) }}
                                             />
@@ -850,8 +868,8 @@ class ViewEquipment {
                                     <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                                         <View style={{ ...styles.flex1 }}>
 
-                                            <Text style={{ ...regularFont, ...styles.generalFont }}>Interest Rate - APR</Text>
-                                            <TextInput style={{ ...regularFont, ...styles.generalFont, ...styles.generalField }}
+                                            <Text style={{ ...headerFont, ...styles.generalFont }}>Interest Rate - APR</Text>
+                                            <TextInput style={{ ...headerFont, ...styles.generalFont, ...styles.generalField }}
                                                 value={viewequipment.getapr.call(this).toString()}
                                                 onChangeText={text => { viewequipment.handleapr.call(this, text) }} />
 
@@ -944,7 +962,7 @@ class ViewEquipment {
 
                                 <View style={{ ...styles.generalContainer, ...styles.addMargin }}>
                                     <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={(e) => viewequipment.handlereoccurring.call(this)}> {getreoccuring(equipment)}</Text>
-                                    <Text style={{ ...regularFont, ...styles.generalFont }}>
+                                    <Text style={{ ...headerFont, ...styles.generalFont }}>
                                         Reoccurring Cost
                                     </Text>
 
@@ -957,7 +975,7 @@ class ViewEquipment {
 
                                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
                                         <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={(e) => viewequipment.handlerecharge.call(this)}> {getrecharge(equipment)}</Text>
-                                        <Text style={{ ...regularFont, ...styles.generalFont }}>
+                                        <Text style={{ ...headerFont, ...styles.generalFont }}>
                                             Recharge Costs
                                         </Text>
 
@@ -969,7 +987,7 @@ class ViewEquipment {
 
 
                                         <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={(e) => viewequipment.handlereimbursable.call(this)}> {getreimburseable(equipment)} </Text>
-                                        <Text style={{ ...regularFont, ...styles.generalFont }}>
+                                        <Text style={{ ...headerFont, ...styles.generalFont }}>
                                             Reimburseable
                                         </Text>
                                     </View>
@@ -1002,21 +1020,17 @@ class ViewEquipment {
 
                             {equipmentdate.showequipment.call(this)}
 
-                            {appbaseddriver.showsavedriver.call(this)}
-
-
-
                             <View style={{ ...styles.generalContainer, ...styles.bottomMargin15 }}>
-                                <Text style={{ ...regularFont, ...styles.generalFont }}>Detail</Text>
-                                <TextInput style={{ ...regularFont, ...styles.generalFont, ...styles.generalField }}
+                                <Text style={{ ...headerFont, ...styles.generalFont }}>Detail</Text>
+                                <TextInput style={{ ...headerFont, ...styles.generalFont, ...styles.generalField }}
                                     value={viewequipment.getdetail.call(this).toString()}
                                     onChangeText={text => { viewequipment.handledetail.call(this, text) }}
                                 />
                             </View>
 
                             <View style={{ ...styles.generalContainer, ...styles.bottomMargin15 }}>
-                                <Text style={{ ...regularFont, ...styles.generalFont }}>Amount</Text>
-                                <TextInput style={{ ...regularFont, ...styles.generalFont, ...styles.generalField }}
+                                <Text style={{ ...headerFont, ...styles.generalFont }}>Amount</Text>
+                                <TextInput style={{ ...headerFont, ...styles.generalFont, ...styles.generalField }}
                                     value={viewequipment.getamount.call(this).toString()}
                                     onChangeText={text => { viewequipment.handleamount.call(this, text) }}
                                 />
@@ -1042,7 +1056,7 @@ class ViewEquipment {
             } else {
                 return (<View style={{ ...styles.generalFlex }}>
                     <View style={{ ...styles.flex1 }}>
-                        <Text style={{ ...styles.generalFont, ...regularFont }}> Equipment Not Found</Text>
+                        <Text style={{ ...styles.generalFont, ...headerFont }}> Equipment Not Found</Text>
                     </View>
                 </View>)
 
@@ -1050,7 +1064,7 @@ class ViewEquipment {
         } else {
             return (<View style={{ ...styles.generalFlex }}>
                 <View style={{ ...styles.flex1 }}>
-                    <Text style={{ ...styles.generalFont, ...regularFont }}>Please Login to View Equipment</Text>
+                    <Text style={{ ...styles.generalFont, ...headerFont }}>Please Login to View Equipment</Text>
                 </View>
             </View>)
         }

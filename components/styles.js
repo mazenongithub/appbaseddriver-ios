@@ -44,6 +44,10 @@ export function MyStylesheet() {
         removeIcon:{
             width: 25, height: 25 
         },
+        receiptIcon:{
+            width:72,
+            height:34
+        },
         arrowIcon:{
             width: 25, height: 31 
         },
