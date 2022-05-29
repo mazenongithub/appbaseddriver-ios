@@ -495,7 +495,9 @@ class ViewEquipment {
         const equipmentid = appbaseddriver.getEquipmentID.call(this)
         const costs = appbaseddriver.getequipmentscosts.call(this, equipmentid)
         const styles = MyStylesheet();
-        const headerFont = appbaseddriver.getHeaderFont.call(this)
+        const headerFont = appbaseddriver.getHeaderFont.call(this);
+        const TextWidth = appbaseddriver.radioIconWidth.call(this)
+        const recharge = new Recharge();
         let ids = [];
         const removeIcon = appbaseddriver.getremoveicon.call(this)
         const driver = appbaseddriver.getuser.call(this)
@@ -511,6 +513,134 @@ class ViewEquipment {
                     }
                 }
 
+                const getreimburseable = (equipment) => {
+
+                    if (this.state.activecostid) {
+                        const cost = appbaseddriver.getequipmentcostbyid.call(this, equipment.equipmentid, this.state.activecostid)
+                        if (cost) {
+                            if (cost.hasOwnProperty("reimbursable")) {
+                                return (<TouchableOpacity onPress={() => { viewequipment.handlereimbursable.call(this) }}>
+                                    <Image source={require('./icons/greencheck.png')}
+                                        style={styles.greenCheck}
+                                        resizeMethod='scale'
+                                    />
+                                </TouchableOpacity>)
+
+                            } else {
+                                return (<TouchableOpacity onPress={() => { viewequipment.handlereimbursable.call(this) }}>
+                                    <Image source={require('./icons/emptybox.png')}
+                                        style={styles.emptyBox}
+                                        resizeMethod='scale'
+                                    />
+                                </TouchableOpacity>)
+                            }
+                        } else {
+                            return (<TouchableOpacity onPress={() => { viewequipment.handlereimbursable.call(this) }}>
+                                <Image source={require('./icons/emptybox.png')}
+                                    style={styles.emptyBox}
+                                    resizeMethod='scale'
+                                />
+                            </TouchableOpacity>)
+                        }
+                    } else {
+                        return (<TouchableOpacity onPress={() => { viewequipment.handlereimbursable.call(this) }}>
+                            <Image source={require('./icons/emptybox.png')}
+                                style={styles.emptyBox}
+                                resizeMethod='scale'
+                            />
+                        </TouchableOpacity>)
+                    }
+
+                }
+                
+
+                const getrecharge = (equipment) => {
+
+                    if (this.state.activecostid) {
+                        const cost = appbaseddriver.getequipmentcostbyid.call(this, equipment.equipmentid, this.state.activecostid)
+                        if (cost) {
+                            if (cost.hasOwnProperty("recharge")) {
+                                return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
+                                <Image source={require('./icons/greencheck.png')}
+                                    style={styles.greenCheck}
+                                    resizeMethod='scale'
+                                />
+                            </TouchableOpacity>)
+
+                            } else {
+                                return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
+                                <Image source={require('./icons/emptybox.png')}
+                                    style={styles.emptyBox}
+                                    resizeMethod='scale'
+                                />
+                            </TouchableOpacity>)
+                            }
+                        } else {
+                            return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
+                            <Image source={require('./icons/emptybox.png')}
+                                style={styles.emptyBox}
+                                resizeMethod='scale'
+                            />
+                        </TouchableOpacity>)
+                        }
+                    } else {
+                        return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
+                        <Image source={require('./icons/emptybox.png')}
+                            style={styles.emptyBox}
+                            resizeMethod='scale'
+                        />
+                    </TouchableOpacity>)
+                    }
+
+                }
+
+
+                const Reoccurring = (equipment,cost) => {
+
+                    if (this.state.activecostid === cost.costid) {
+                        return (
+                       
+
+
+
+                                <View style={{ ...styles.generalFlex }}>
+
+
+
+                                    <View style={{ ...styles.flex1, ...styles.addMargin }}>
+                                        
+                                        {getrecharge(equipment)}
+
+                                        <Text style={{ ...headerFont, ...styles.generalFont }}>
+                                            Recharge Costs
+                                        </Text>
+
+                                        {recharge.showRecharge.call(this)}
+
+                                    </View>
+
+                                    <View style={{ ...styles.flex1, ...styles.addMargin }}>
+                          
+                                        
+                                        {getreimburseable(equipment)} 
+                                        
+                                        <Text style={{ ...headerFont, ...styles.generalFont }}>
+                                            Reimburseable
+                                        </Text>
+                                    </View>
+
+
+
+                                </View>
+
+
+
+                         
+                        )
+                    }
+                }
+
+
                 const reoccurring = (cost) => {
                     if (cost.hasOwnProperty("reoccurring")) {
                         return `Reoccurring ${cost.reoccurring.frequency}`
@@ -520,7 +650,7 @@ class ViewEquipment {
                 const showreceipt = (cost) => {
                     if (this.state.activecostid === cost.costid) {
 
-                        return (<View style={{ ...styles.flex1}} >
+                        return (<View style={{ ...styles.flex1 }} >
                             <TouchableOpacity onPress={(e) => {
                                 this.props.reduxNavigation({ navigation: 'receipts', equipmentid, costid: cost.costid })
                                 this.setState({ render: 'render' })
@@ -537,9 +667,9 @@ class ViewEquipment {
 
 
                     return (
-               
+                        <View style={{ ...styles.generalContainer }}>
                             <View style={{ ...styles.generalFlex, ...styles.bottomMargin15, }} key={cost.costid}>
-                            {showreceipt(cost)}
+                                {showreceipt(cost)}
                                 <View style={{ ...styles.flex3 }}>
                                     <Text style={{ ...headerFont, ...styles.generalFont, ...activebackground(cost) }} onPress={(e) => { viewequipment.makecostactive.call(this, cost.costid) }}>
                                         {reoccurring(cost)} PurchaseDate: {formatDateStringDisplay(cost.purchasedate)} Detail: {cost.detail} Amount: ${cost.amount}
@@ -556,9 +686,16 @@ class ViewEquipment {
 
                                 </View>
 
+
+
+
                             </View>
 
-                        )
+                            {Reoccurring(equipment,cost)}
+
+                        </View>
+
+                    )
                 }
 
 
@@ -891,45 +1028,9 @@ class ViewEquipment {
 
                 }
 
-                const getreimburseable = (equipment) => {
 
-                    if (this.state.activecostid) {
-                        const cost = appbaseddriver.getequipmentcostbyid.call(this, equipment.equipmentid, this.state.activecostid)
-                        if (cost) {
-                            if (cost.hasOwnProperty("reimbursable")) {
-                                return (`X`)
 
-                            } else {
-                                return (`O`)
-                            }
-                        } else {
-                            return (`O`)
-                        }
-                    } else {
-                        return (`O`)
-                    }
 
-                }
-
-                const getrecharge = (equipment) => {
-
-                    if (this.state.activecostid) {
-                        const cost = appbaseddriver.getequipmentcostbyid.call(this, equipment.equipmentid, this.state.activecostid)
-                        if (cost) {
-                            if (cost.hasOwnProperty("recharge")) {
-                                return (`X`)
-
-                            } else {
-                                return (`O`)
-                            }
-                        } else {
-                            return (`O`)
-                        }
-                    } else {
-                        return (`O`)
-                    }
-
-                }
 
                 const getreoccuring = (equipment) => {
 
@@ -954,54 +1055,6 @@ class ViewEquipment {
 
 
 
-                const Reoccurring = (equipment) => {
-
-                    if (this.state.activecostid) {
-                        return (
-                            <View style={{ ...styles.generalContainer }}>
-
-                                <View style={{ ...styles.generalContainer, ...styles.addMargin }}>
-                                    <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={(e) => viewequipment.handlereoccurring.call(this)}> {getreoccuring(equipment)}</Text>
-                                    <Text style={{ ...headerFont, ...styles.generalFont }}>
-                                        Reoccurring Cost
-                                    </Text>
-
-
-                                </View>
-
-                                <View style={{ ...styles.generalFlex }}>
-
-
-
-                                    <View style={{ ...styles.flex1, ...styles.addMargin }}>
-                                        <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={(e) => viewequipment.handlerecharge.call(this)}> {getrecharge(equipment)}</Text>
-                                        <Text style={{ ...headerFont, ...styles.generalFont }}>
-                                            Recharge Costs
-                                        </Text>
-
-                                        {recharge.showRecharge.call(this)}
-
-                                    </View>
-
-                                    <View style={{ ...styles.flex1, ...styles.addMargin }}>
-
-
-                                        <Text style={{ ...styles.generalButton, ...TextWidth }} onPress={(e) => viewequipment.handlereimbursable.call(this)}> {getreimburseable(equipment)} </Text>
-                                        <Text style={{ ...headerFont, ...styles.generalFont }}>
-                                            Reimburseable
-                                        </Text>
-                                    </View>
-
-
-
-                                </View>
-
-
-
-                            </View>
-                        )
-                    }
-                }
 
 
                 return (
@@ -1036,7 +1089,7 @@ class ViewEquipment {
                                 />
                             </View>
 
-                            {Reoccurring(equipment)}
+
 
 
 

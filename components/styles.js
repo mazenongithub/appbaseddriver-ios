@@ -44,6 +44,12 @@ export function MyStylesheet() {
         removeIcon:{
             width: 25, height: 25 
         },
+        emptyBox:{
+            width:53, height:44
+        },
+        greenCheck:{
+            width:75, height:56
+        },
         receiptIcon:{
             width:72,
             height:34
