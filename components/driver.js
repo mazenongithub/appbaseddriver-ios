@@ -433,8 +433,9 @@ class Driver {
                             const i = appbaseddriver.getshiftkeybyid.call(this, this.state.activeshiftid)
                             myuser.driver.shifts[i].earnings = earnings;
                             this.props.reduxUser(myuser)
+                            this.setState({render:`render`})
 
-                            driver.updateUI.call(this);
+                     
 
                         }
 

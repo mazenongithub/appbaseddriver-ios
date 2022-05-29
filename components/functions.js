@@ -665,6 +665,25 @@ export function check_30(timein) {
     }
 }
 
+export function dollarScale  (dollarsperhour) {
+  
+    let scale = Math.ceil((Number(dollarsperhour)/50))
+    return scale;
+   
+  }
+  
+  export function deliveryScale  (dollarsperdelivery) {
+    let scale = Math.ceil((Number(dollarsperdelivery)/20))
+    return scale;
+  }
+  
+  export function mileScale (dollarspermile)  {
+     let scale = Math.ceil((Number(dollarspermile)/2.5))
+    return scale;
+    
+    
+  }
+
 
 export function check_29_feb_leapyear(timein) {
     const dateobj = new Date(timein)
