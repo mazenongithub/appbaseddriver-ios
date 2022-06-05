@@ -1,5 +1,8 @@
 export function MyStylesheet() {
     return ({
+        centerText:{
+            alignContent:'center'
+        },
         alignCenter: {
             alignItems: 'center',
             alignContent:'center'
@@ -50,6 +53,9 @@ export function MyStylesheet() {
         greenCheck:{
             width:75, height:56
         },
+        greenCheckSmall:{
+            width:36, height:28
+        },
         receiptIcon:{
             width:72,
             height:34
@@ -65,6 +71,16 @@ export function MyStylesheet() {
         },
         regularFont:{
             fontSize:20
+        },
+        commonField:{
+            height: 40,
+            margin:2
+
+        },
+        addBorder:{
+            borderColor: 'gray',
+            borderWidth: 1
+
         },
         generalField: {
             height: 40,

@@ -1,13 +1,11 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, Image } from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
-import {validateDriverID,validateEmail} from './functions'
-//import {CheckDriverID, CheckEmailAddress} from './actions/api'
+import { validateDriverID, validateEmail } from './functions'
+import {CheckDriverID, CheckEmailAddress} from './actions/api'
 
-
-
-class Profile  {  
+class Profile {
 
     showdriverimage() {
         const appbaseddriver = new AppBasedDriver();
@@ -19,14 +17,14 @@ class Profile  {
                         width: 392,
                         height: 327
                     })
-    
+
             } else if (this.state.width > 600) {
                 return (
                     {
                         width: 285,
                         height: 249
                     })
-    
+
             } else {
                 return (
                     {
@@ -34,7 +32,7 @@ class Profile  {
                         height: 145
                     })
             }
-            
+
         }
 
         if (myuser.profileurl) {
@@ -51,10 +49,12 @@ class Profile  {
         const appbaseddriver = new AppBasedDriver();
         const myuser = appbaseddriver.getuser.call(this);
         const errmsg = validateEmail(myuser.emailaddress);
-       
+
         if (!errmsg) {
+            try{
+            
             const response = await CheckEmailAddress(myuser.emailaddress)
-            console.log(response)
+            console.log(`checkemail ${response}`)
             if (response.hasOwnProperty("invalid")) {
                 myuser.invalidemail = `${response.invalid}`
                 this.props.reduxUser(myuser)
@@ -64,6 +64,10 @@ class Profile  {
                 this.props.reduxUser(myuser)
                 this.setState({ render: 'render' })
             }
+
+        } catch(err) {
+            alert(err)
+        }
 
 
 
@@ -89,22 +93,22 @@ class Profile  {
         const appbaseddriver = new AppBasedDriver();
         let myuser = appbaseddriver.getuser.call(this);
         const errmsg = validateEmail(emailaddress)
-        
+
         if (myuser) {
-            
+
             myuser.emailaddress = emailaddress;
-            if(errmsg) {
+            if (errmsg) {
                 myuser.invalidemail = emailaddress;
                 this.props.reduxUser(myuser);
-                this.setState({message:errmsg})
+                this.setState({ message: errmsg })
             } else {
-                if(myuser.hasOwnProperty("invalidemail")) {
+                if (myuser.hasOwnProperty("invalidemail")) {
                     delete myuser.invalidemail;
                     this.props.reduxUser(myuser)
-                    this.setState({message:''})
+                    this.setState({ message: '' })
                 }
             }
-          
+
             this.setState({ render: 'render' })
         }
 
@@ -114,7 +118,7 @@ class Profile  {
         const myuser = appbaseddriver.getuser.call(this)
         let phonenumber = "";
         if (myuser) {
-            phonenumber =  myuser.phonenumber;
+            phonenumber = myuser.phonenumber;
         }
         return phonenumber;
 
@@ -154,7 +158,7 @@ class Profile  {
         const myuser = appbaseddriver.getuser.call(this)
         let firstname = "";
         if (myuser) {
-            firstname =  myuser.firstname;
+            firstname = myuser.firstname;
         }
         return firstname;
 
@@ -202,14 +206,17 @@ class Profile  {
 
     }
 
-    async checkdriverid(driverid) {
+    async checkdriverid() {
         const appbaseddriver = new AppBasedDriver();
         const myuser = appbaseddriver.getuser.call(this);
 
         if (myuser) {
+            const driverid = myuser.driverid
             let validate = validateDriverID(driverid)
             if (driverid && !validate) {
+
                 try {
+
                     let response = await CheckDriverID(driverid);
                     console.log(response)
                     if (response.hasOwnProperty("invalid")) {
@@ -237,47 +244,47 @@ class Profile  {
         const styles = MyStylesheet();
         const headerFont = appbaseddriver.getHeaderFont.call(this)
         const profile = new Profile()
-       
+
         const profileDimensions = () => {
             if (this.state.width > 1200) {
                 return (
                     {
                         width: 392
                     })
-    
+
             } else if (this.state.width > 600) {
                 return (
                     {
                         width: 285
                     })
-    
+
             } else {
                 return (
                     {
                         width: 167
                     })
             }
-        } 
+        }
         const folderSize = () => {
             if (this.state.width > 1200) {
                 return (
                     {
                         width: 142
                     })
-    
+
             } else if (this.state.width > 600) {
                 return (
                     {
                         width: 93
                     })
-    
+
             } else {
                 return (
                     {
                         width: 88
                     })
             }
-            
+
         }
         const regularFont = appbaseddriver.getRegularFont.call(this)
 
@@ -286,16 +293,42 @@ class Profile  {
         const showButton = () => {
 
             if (!myuser.hasOwnProperty("invalid") && myuser.driverid) {
-                return (<Text style={{ ...styles.generalButton, ...goIcon }}>O</Text>)
+                return (
+                    <View style={{ ...styles.generalContainer }}>
+                        <Image source={require('./icons/greencheck.png')}
+                            style={{ ...styles.greenCheckSmall }}
+                            resizeMethod='scale'
+                        />
+                    </View>)
+
             } else {
-                return;
+                return (
+                    <View style={{ ...styles.generalContainer }}>
+                        <Image source={require('./icons/redx.png')}
+                            style={styles.removeIcon}
+                            resizeMethod='scale'
+                        />
+                    </View>
+                )
             }
         }
 
 
         const emailicon = () => {
             if (!myuser.hasOwnProperty("invalidemail") && myuser.emailaddress) {
-            return (<Text style={{ ...styles.generalButton, ...goIcon }}>O</Text>)
+                return ( <View style={{ ...styles.generalContainer }}>
+                    <Image source={require('./icons/greencheck.png')}
+                        style={{ ...styles.greenCheckSmall }}
+                        resizeMethod='scale'
+                    />
+                </View>)
+            } else {
+                return(<View style={{ ...styles.generalContainer }}>
+                    <Image source={require('./icons/redx.png')}
+                        style={styles.removeIcon}
+                        resizeMethod='scale'
+                    />
+                </View>)
             }
         }
 
@@ -304,57 +337,63 @@ class Profile  {
                 <View style={{ ...styles.generalFlex }}>
                     <View style={{ ...styles.flex1 }}>
 
-                 
+
 
                         <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
-                            <View style={{ ...styles.flex1, ...styles.alignCenter }}>
-                            <TextInput  value={profile.getdriverid.call(this)}
-                                onChangeText={text => { profile.handledriverid.call(this,text) }}
-                                style={{ ...styles.generalFont, ...headerFont, ...styles.fontBold }}
-                               
-                            />
-                            {showButton()}
+                            <View style={{ ...styles.flex4, ...styles.alignCenter }}>
+                                <TextInput value={profile.getdriverid.call(this)}
+                                    onChangeText={text => { profile.handledriverid.call(this, text) }}
+                                    style={{ ...styles.generalFont, ...headerFont, ...styles.boldFont, ...styles.centerText, ...styles.addBorder, ...styles.commonField }}
+                                    onBlur={event => { profile.checkdriverid.call(this)}}
+                                />
+                            </View>
+                            <View style={{ ...styles.flex1 }}>
+                                {showButton()}
+
                             </View>
                         </View>
 
                         <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                             <View style={{ ...styles.flex1 }}>
-                                <Text style={{ ...regularFont, ...styles.generalFont, ...styles.generalContainer,...styles.addMargin }}>First Name</Text>
-                                <TextInput style={{ ...styles.generalFont, ...regularFont,...styles.generalField }}
+                                <Text style={{ ...regularFont, ...styles.generalFont, ...styles.addMargin }}>First Name</Text>
+                                <TextInput style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }}
                                     value={profile.getfirstname.call(this)}
-                                    onChangeText={text => { profile.handlefirstname.call(this,text) }} />
+                                    onChangeText={text => { profile.handlefirstname.call(this, text) }} />
                             </View>
                             <View style={{ ...styles.flex1 }}>
-                                <Text style={{ ...regularFont, ...styles.generalFont, ...styles.generalContainer,...styles.addMargin }}>Last Name</Text>
-                                <TextInput style={{ ...styles.generalFont, ...regularFont,...styles.generalField }}
+                                <Text style={{ ...regularFont, ...styles.generalFont, ...styles.addMargin }}>Last Name</Text>
+                                <TextInput style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }}
                                     value={profile.getlastname.call(this)}
-                                    onChangeText={text => { profile.handlelastname.call(this,text) }} />
+                                    onChangeText={text => { profile.handlelastname.call(this, text) }} />
                             </View>
                         </View>
 
                         <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                             <View style={{ ...styles.flex1 }}>
-                                <Text style={{ ...regularFont, ...styles.generalFont, ...styles.generalContainer, ...styles.addMargin  }}>EmailAddress</Text>
-                                <TextInput style={{ ...styles.generalFont, ...regularFont,...styles.generalField }}
+                                <Text style={{ ...regularFont, ...styles.generalFont, ...styles.addMargin }}>EmailAddress</Text>
+                                <TextInput style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }}
                                     value={profile.getemailaddress.call(this)}
-                                    onChangeText={text => { profile.handleemailaddress.call(this,text) }}
-                                 />
-                                    {emailicon()}
+                                    onChangeText={text => { profile.handleemailaddress.call(this, text) }}
+                                    onBlur={()=>{profile.checkemailaddress.call(this)}}
+                                />
+                                {emailicon()}
                             </View>
                             <View style={{ ...styles.flex1 }}>
-                                <Text style={{ ...regularFont, ...styles.generalFont, ...styles.generalContainer, ...styles.addMargin }}>Phone Number</Text>
-                                <TextInput style={{ ...styles.generalFont, ...regularFont,...styles.generalField }}
+                                <Text style={{ ...regularFont, ...styles.generalFont, ...styles.addMargin }}>Phone Number</Text>
+                                <TextInput style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }}
                                     value={profile.getphonenumber.call(this)}
-                                    onChangeText={text => { profile.handlephonenumber.call(this,text) }}
+                                    onChangeText={text => { profile.handlephonenumber.call(this, text) }}
                                 />
                             </View>
                         </View>
 
-                        
+                        {appbaseddriver.showsavedriver.call(this)}
 
-                       
 
-               
+
+
+
+
 
                     </View>
                 </View>
@@ -364,8 +403,8 @@ class Profile  {
 
             )
         } else {
-            return (<View style={{...styles.generalContainer, ...styles.alignCenter}}>
-                <Text style={{...styles.generalFont,...regularFont}}> Please Login to View Profile </Text></View>)
+            return (<View style={{ ...styles.generalContainer, ...styles.alignCenter }}>
+                <Text style={{ ...styles.generalFont, ...regularFont }}> Please Login to View Profile </Text></View>)
         }
 
     }

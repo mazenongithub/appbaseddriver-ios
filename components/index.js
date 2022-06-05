@@ -12,6 +12,7 @@ import ViewEquipment from './viewequipment';
 import Profile from './profile'
 import Access from './access';
 import Receipts from './receipts';
+import Landing from './landing'
 
 class MyApp extends Component {
     constructor(props) {
@@ -216,9 +217,13 @@ class MyApp extends Component {
         const profile = new Profile();
         const access = new Access();
         const receipts = new Receipts();
+        const landing = new Landing();
         
 
         switch (navigation) {
+
+            case 'landing':
+                return(landing.showLanding.call(this))
             case 'profile':
                 return (profile.showprofile.call(this));
             case 'driver':

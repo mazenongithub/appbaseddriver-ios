@@ -10,6 +10,7 @@ import Svg, {
     Line,
     Path
 } from 'react-native-svg';
+import {dollarScale, deliveryScale, mileScale} from './functions';
 
 class Costs {
 
@@ -24,18 +25,21 @@ class Costs {
         const costsperdelivery = costs > 0 && deliveries > 0 ? costs / deliveries : 0;
         const costspermile = miles > 0 && costs > 0 ? costs / miles : 0;
 
+        const costscale = dollarScale(costsperhours)*1.5;
+        const deliveryscale = deliveryScale(costsperdelivery)*1.5;
+        const milescale = mileScale(costspermile)*1.5
 
         const getheight = (type, dollarsperhours, dollarsperdelivery, dollarspermile) => {
             let height = 0
             switch (type) {
                 case 'hourly':
-                    height = dollarsperhours > 0 ? Math.round(4 * dollarsperhours) : 0
+                    height = dollarsperhours > 0 ? Math.round(4 * dollarsperhours)/costscale : 0
                     break;
                 case 'delivery':
-                    height = dollarsperdelivery > 0 ? Math.round(10 * dollarsperdelivery) : 0
+                    height = dollarsperdelivery > 0 ? Math.round(10 * dollarsperdelivery)/deliveryscale : 0
                     break;
                 case 'miles':
-                    height = dollarspermile > 0 ? Math.round(80 * dollarspermile) : 0
+                    height = dollarspermile > 0 ? Math.round(80 * dollarspermile)/milescale : 0
                     break;
                 default:
                     break;
@@ -53,11 +57,11 @@ class Costs {
             const gettext = (type) => {
                 switch (type) {
                     case 'hourly':
-                        return (<TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' x="94" y={Math.round(200 - height)}>${Number(dollarsperhours).toFixed(2)}/hr</TextSvg>)
+                        return (<TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' x="84" y={Math.round(200 - height)}>${Number(dollarsperhours).toFixed(2)}/hr</TextSvg>)
                     case 'delivery':
-                        return (<TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' x="94" y={Math.round(200 - height)}>${Number(dollarsperdelivery).toFixed(2)}/delivery</TextSvg>)
+                        return (<TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' x="64" y={Math.round(200 - height)}>${Number(dollarsperdelivery).toFixed(2)}/delivery</TextSvg>)
                     case 'miles':
-                        return (<TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' x="94" y={Math.round(200 - height)}>${Number(dollarspermile).toFixed(2)}/mile</TextSvg>)
+                        return (<TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' x="84" y={Math.round(200 - height)}>${Number(dollarspermile).toFixed(2)}/mile</TextSvg>)
                     default:
                         break;
                 }
@@ -86,29 +90,29 @@ class Costs {
             switch (type) {
                 case 'hourly':
                     return (<G>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 174.68)">10</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 133.69)">20</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 94.85)">30</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 54.32)">40</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 13.78)">50</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 174.68)">{10*costscale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 133.69)">{20*costscale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 94.85)">{30*costscale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 54.32)">{40*costscale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 13.78)">{50*costscale}</TextSvg>
                     </G>)
                 case 'delivery':
                     return (<G>
 
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(36.89 174.68)">4</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(36.89 133.69)">8</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 94.85)">12</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 54.32)">16</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 13.78)">20</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 174.68)">{4*deliveryscale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 133.69)">{8*deliveryscale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 94.85)">{12*deliveryscale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 54.32)">{16*deliveryscale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 13.78)">{20*deliveryscale}</TextSvg>
 
                     </G>)
                 case 'miles':
                     return (<G>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(25.89 174.68)">0.5</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 133.69)">1</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(25.89 94.85)">1.5</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(31.89 54.32)">2</TextSvg>
-                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(25.89 13.78)">2.5</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 174.68)">{0.5*milescale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 133.69)">{1*milescale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 94.85)">{1.5*milescale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 54.32)">{2*milescale}</TextSvg>
+                        <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' fontWeight='700' transform="translate(21.89 13.78)">{2.5*milescale}</TextSvg>
                     </G>)
 
                 default:
@@ -120,7 +124,7 @@ class Costs {
 
         return (
 
-            <Svg  viewBox="0 0 203.15 210.85" width="204" height="211">
+            <Svg  viewBox="0 0 203.15 230.85" width="204" height="211">
                 <G id="Layer_2" data-name="Layer 2"><G id="Layer_2-2" data-name="Layer 2">
 
 
@@ -137,7 +141,7 @@ class Costs {
                     <Line stroke='#231f20' strokeWidth='1' x1="58.47" y1="168.35" x2="51.73" y2="168.35" />
 
 
-                    <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' transform="translate(85 85.14)">Costs</TextSvg>
+                    <TextSvg fill='#231f20' fontSize='16' strokeWidth='2' transform="translate(105 230)">Costs</TextSvg>
                     {getbarchart(getheight(type, costsperhours, costsperdelivery, costspermile), type, costsperhours, costsperdelivery, costspermile)}
                       
                     <Path fill='none' strokeWidth='2' stroke='#231f20' d="M55.19,8.35q.26,100,.5,200" />

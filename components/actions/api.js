@@ -14,10 +14,12 @@ export async function CheckEmailAddress(emailaddress) {
         .then(resp => {
 
             if (!resp.ok) {
-
+           
+              
                 if (resp.status >= 400 && resp.status < 500) {
+                  
                     return resp.json().then(data => {
-
+                      
                         throw data.message;
                     })
                 }
@@ -181,6 +183,7 @@ export async function LogoutUser(driverid) {
 }
 
 export async function CheckDriverID(driverid) {
+
     const appbaseddriver = new AppBasedDriver();
     const serverAPI = appbaseddriver.enviornmentalVariables().serverAPI
 
@@ -190,6 +193,7 @@ export async function CheckDriverID(driverid) {
         .then(resp => {
 
             if (!resp.ok) {
+                console.log(`response status ${resp.status}`)
             
                 if (resp.status >= 400 && resp.status < 500) {
                     return resp.json().then(data => {
