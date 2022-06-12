@@ -2,8 +2,24 @@ import React from 'react';
 import { View, Text} from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 class ClientID {
+
+    showappleicon(type) {
+        const styles = MyStylesheet();
+        const appbaseddriver = new AppBasedDriver();
+      
+            return (<AppleAuthentication.AppleAuthenticationButton
+                buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+                cornerRadius={5}
+                style={{...styles.appleIcon}}
+                onPress={() => { appbaseddriver.appleSignIn.call(this)  }}
+
+            />)
+       
+    }
 
 
     showclientid() {
@@ -11,6 +27,7 @@ class ClientID {
         const appbaseddriver = new AppBasedDriver();
         const loginButton = appbaseddriver.getgoogleicon.call(this)
         const regularFont = appbaseddriver.getRegularFont.call(this)
+        const clientid = new ClientID();
 
 
         if (!this.state.spinner && (!this.state.apple && !this.state.google)) {
@@ -22,9 +39,7 @@ class ClientID {
 
                         <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                             <View style={{ ...styles.flex1, ...styles.alignCenter }}>
-                                <Text style={{ ...styles.generalButton, ...loginButton, ...styles.headerFont, ...styles.boldFont }} onPress={() => { appbaseddriver.appleSignIn.call(this) }}>
-                                    APPLE
-                                </Text>
+                                {clientid.showappleicon.call(this)}
                             </View>
                      
                         </View>

@@ -10,7 +10,7 @@ class AppBasedDriver {
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI: 'http://18.212.22.27:8081'
+                serverAPI: 'http://44.202.55.237:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'

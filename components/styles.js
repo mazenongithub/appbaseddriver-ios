@@ -53,8 +53,14 @@ export function MyStylesheet() {
         greenCheck:{
             width:75, height:56
         },
+        marginTop35:{
+            marginTop:35
+        },
         greenCheckSmall:{
             width:36, height:28
+        },
+        appleIcon:{
+            width: 190, height: 48 
         },
         receiptIcon:{
             width:72,
@@ -88,6 +94,13 @@ export function MyStylesheet() {
             borderWidth: 1,
             margin: 2,
             width:'99%'
+        },
+        width90: {
+            width: '90%'
+        },
+        iconimage: {
+            width: 115,
+            height: 75
         },
         headerFont:{
             fontSize:24

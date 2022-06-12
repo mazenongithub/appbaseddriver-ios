@@ -18,7 +18,7 @@ class MyApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            width: Dimensions.get('window').width, height: Dimensions.get('window').height, orientation: '', message: '', driverid: '', checkdriverid: false, apple: '', google: '', emailaddresscheck: '', activeequipmentid: false, activeshiftid: false, calendertimein: true, calendertimeout: true,
+            width: Dimensions.get('window').width, height: Dimensions.get('window').height, orientation: '', message: '', driverid: '', checkdriverid: false, apple: '', google: '', emailaddresscheck: '', activeequipmentid: false, activeshiftid: false, calendertimein: true, calendertimeout: true, activeimage:'equipment',
             timeinmonth: '', timeinday: '', timeinyear: '', timeinhours: '', timeinminutes: '', timeinampm: '', timeoutmonth: '', timeoutday: '', timeoutminutes: '', timeouthours: '', timeoutyear: '', timeoutampm: '', activeyear: new Date().getFullYear(), activemonth: this.setActiveMonth(), activeslideid: "driver", spinner: false, hideshifts: [], hidecosts: [], uistart: '', uiend: '', adjustment: false, highlightbutton_1: false,
             activecostid: false, equipmentday: '', equipmentmonth: '', equipmentyear: '', equipmentcalender: false, salvageday: '', salvagemonth: '', salvageyear: '', salvagecalender: false, purchasecalender: false, showrepayment: true, purchaseday: '', purchasemonth: '', purchaseyear: '', activeyear: new Date().getFullYear(), activemonth: false, spinner: false, hidecosts: [], uistart: '', uiend: '' 
         }

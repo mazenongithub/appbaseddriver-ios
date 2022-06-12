@@ -254,6 +254,17 @@ class Header {
                             style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/driver</Text>
                     </View>)
 
+            } else {
+
+                return (
+                    <View style={{ ...styles.menuBackColor, ...styles.radius5, ...styles.padding5, ...styles.addMargin, ...styles.alignCenter }}>
+                        <Text onPress={() => {
+                            this.props.reduxNavigation({ navigation: 'landing' })
+                            this.setState({ render: 'render' })
+                        }}
+                            style={{ ...styles.boldFont, ...headerFont, ...styles.menuColor }}>/Home</Text>
+                    </View>)
+
             }
         }
 
