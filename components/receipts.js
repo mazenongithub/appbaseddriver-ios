@@ -1,22 +1,125 @@
-import React from 'react';
-import { View, Text, Image } from 'react-native'
+import React, {Component} from 'react';
+import { View, Dimensions, Text, Image, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux';
+import * as actions from './actions';
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
 import * as ImagePicker from 'expo-image-picker';
 import { formatDateStringDisplay, makeID } from './functions'
 import { UploadReceipt, RemoveReceipt } from './actions/api'
 
-class Receipts {
+
+class Receipts extends Component {
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            width: Dimensions.get('window').width, height: Dimensions.get('window').height, orientation: '', message: '', imageset:[
+                {imageid:`default`,
+                height:480,
+                width:320
+                }]
+        }
+        this.updatedimesions = this.updatedimesions.bind(this)
+
+    }
+
+    componentDidMount() {
+ 
+        this.setState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height, orientation: Dimensions.get('screen') })
+        Dimensions.addEventListener('change', this.updatedimesions)
+        this.updatePictureSet()
+
+
+    }
+
+    componentWillUnmount() {
+        Dimensions.removeEventListener('change', this.updatedimesions)
+    }
+
+    updatedimesions() {
+        this.setState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
+    }
+
+    async updatePictureSet() {
+        const appbaseddriver = new AppBasedDriver();
+        const receipts = new Receipts();
+        
+        const imageset = [];
+       
+
+        const image = (imageid, url, width, height) => {
+            return({imageid,url,width,height})
+        }
+
+        const getreceipts = receipts.getReceipts.call(this)
+        if(getreceipts) {
+        
+            getreceipts.map(receipt=> {
+                const receipturl = receipt.url
+                this.getImageSize(receipturl)
+                .then(imagesize=> {
+                  
+                  
+                    const newImage = image(receipt.imageid,receipturl,imagesize.width,imagesize.height)
+                 
+                    imageset.push(newImage)
+                    
+                    
+                    
+                }
+
+                )
+
+                .then(()=> {
+                  
+                    this.setState({imageset})
+                })
+          
+               
+
+            })
+        }
+
+
+    }
+
+    async getImageSize(url) {
+
+        return new Promise((resolve,reject) => {
+
+            let width = 0; let height = 0;
+  
+            Image.getSize(url, (getwidth, getheight) => {
+               width = getwidth;
+               height = getheight;
+               resolve ({width,height})
+           
+              }, (error) => {
+                  reject(error)
+                console.error(`Couldn't get the image size: ${error.message}`);
+              })
+    
+             
+
+
+
+        })
+
+       
+    
+        }
 
 
     getcost() {
         const appbaseddriver = new AppBasedDriver();
         const equipmentid = appbaseddriver.getEquipmentID.call(this)
-        const equipment = appbaseddriver.getequipmentbyid.call(this,equipmentid);
+        const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid);
         let cost = false;
         if (equipment) {
             const costid = appbaseddriver.getEquipmentCostID.call(this)
-            console.log(`COSTID: ${costid}`)
+            
             cost = appbaseddriver.getequipmentcostbyid.call(this, equipmentid, costid)
         }
         return cost;
@@ -32,23 +135,23 @@ class Receipts {
         return getreceipts;
 
     }
- 
 
-  
+
+
     handleRemoveReceipt(imageid) {
         const appbaseddriver = new AppBasedDriver();
         const receipts = new Receipts()
         const myuser = appbaseddriver.getuser.call(this)
         const equipmentid = appbaseddriver.getEquipmentID.call(this)
         if (myuser) {
-            const equipment = appbaseddriver.getequipmentbyid.call(this,equipmentid);
+            const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid);
             if (equipment) {
-          
+
                 const cost = receipts.getcost.call(this);
                 if (cost) {
                     const costid = cost.costid;
                     if (imageid) {
-                        receipts.removeReceipt.call(this,equipmentid, costid, imageid, myuser)
+                        receipts.removeReceipt.call(this, equipmentid, costid, imageid, myuser)
                     }
                 }
             }
@@ -58,10 +161,10 @@ class Receipts {
     async removeReceipt(equipmentid, costid, imageid, myuser) {
 
         try {
-            this.setState({spinner:true})
+            this.setState({ spinner: true })
 
             let response = await RemoveReceipt({ equipmentid, costid, imageid, myuser })
-            this.setState({spinner:false})
+            this.setState({ spinner: false })
             if (response.hasOwnProperty("driverid")) {
                 this.props.reduxUser(response)
                 let message = `Driver Updated ${new Date().toLocaleTimeString()}`
@@ -69,7 +172,7 @@ class Receipts {
             }
 
         } catch (err) {
-            
+
             this.setState({ spinner: false })
             alert(err)
 
@@ -79,61 +182,61 @@ class Receipts {
 
     async uploadmyuser(equipmentid, costid, imageid, myuser) {
 
-       
-
-                try {
-                    let myImage = await ImagePicker.launchImageLibraryAsync({
-                        allowsEditing: true,
-                        aspect: [1, 1],
-                    });
-
-                    if (myImage.hasOwnProperty("uri")) {
-                        let uriParts = myImage.uri.split('.');
-                        let fileType = uriParts[uriParts.length - 1];
-
-                        const profilephoto = () => {
-                            return ({
-                                uri: myImage.uri,
-                                name: `photo.${fileType}`,
-                                type: `image/${fileType}`,
-                            })
-
-                        }
-
-                        const values = { equipmentid, costid, imageid }
-                        let formData = new FormData();
-                        formData.append("profilephoto", profilephoto());
-                        formData.append("myuser", JSON.stringify(myuser))
-                        formData.append("values", JSON.stringify(values))
-                        try {
-                            this.setState({spinner:true})
-                            let response = await UploadReceipt(formData)
-                            this.setState({spinner:false})
-                            if (response.hasOwnProperty("driverid")) {
-                                this.props.reduxUser(response)
-                                let message = `Driver Updated ${new Date().toLocaleTimeString()}`
-                                this.setState({ message })
-                            }
-            
-                        } catch (err) {
-                            this.setState({ spinner: false })
-                            alert(err)
-            
-            
-                        } // try upload image
-
-                    } // end my image url
 
 
-                } catch (err) {
-                    console.log("User Canceled photo selection")
+        try {
+            let myImage = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [1, 1],
+            });
+
+            if (myImage.hasOwnProperty("uri")) {
+                let uriParts = myImage.uri.split('.');
+                let fileType = uriParts[uriParts.length - 1];
+
+                const profilephoto = () => {
+                    return ({
+                        uri: myImage.uri,
+                        name: `photo.${fileType}`,
+                        type: `image/${fileType}`,
+                    })
+
                 }
 
-          
-        
+                const values = { equipmentid, costid, imageid }
+                let formData = new FormData();
+                formData.append("profilephoto", profilephoto());
+                formData.append("myuser", JSON.stringify(myuser))
+                formData.append("values", JSON.stringify(values))
+                try {
+                    this.setState({ spinner: true })
+                    let response = await UploadReceipt(formData)
+                    this.setState({ spinner: false })
+                    if (response.hasOwnProperty("driverid")) {
+                        this.props.reduxUser(response)
+                        let message = `Driver Updated ${new Date().toLocaleTimeString()}`
+                        this.setState({ message })
+                    }
+
+                } catch (err) {
+                    this.setState({ spinner: false })
+                    alert(err)
+
+
+                } // try upload image
+
+            } // end my image url
+
+
+        } catch (err) {
+            console.log("User Canceled photo selection")
+        }
+
+
+
     }
 
- 
+
     uploadReceipt() {
         const appbaseddriver = new AppBasedDriver();
         let myuser = appbaseddriver.getuser.call(this)
@@ -147,7 +250,7 @@ class Receipts {
 
         if (myuser) {
             const equipmentid = appbaseddriver.getEquipmentID.call(this)
-            const equipment = appbaseddriver.getequipmentbyid.call(this,equipmentid);
+            const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid);
             if (equipment) {
                 const i = appbaseddriver.getequipmentkeybyid.call(this, equipmentid)
                 const cost = receipts.getcost.call(this)
@@ -162,7 +265,7 @@ class Receipts {
                     } else {
                         myuser.equipment[i].costs[j].images = [newReceipt]
                     }
-                    receipts.uploadmyuser.call(this,equipmentid, cost.costid, imageid, myuser)
+                    receipts.uploadmyuser.call(this, equipmentid, cost.costid, imageid, myuser)
 
 
                 }
@@ -180,7 +283,7 @@ class Receipts {
         const receipts = new Receipts();
         const getUploadFile = () => {
             if (this.state.width > 1200) {
-                return ({ width: 120})
+                return ({ width: 120 })
 
             } else if (this.state.width > 600) {
                 return ({ width: 90 })
@@ -191,17 +294,26 @@ class Receipts {
         }
 
 
-       
-
-            if(!this.state.spinner) {
 
 
-            return (<Text style={{ ...styles.generalButton, ...getUploadFile() }} onPress={() => { receipts.uploadReceipt.call(this) }}>Upload</Text>)
-            } else {
-                return(<Text>...</Text>)
-            }
+        if (!this.state.spinner) {
 
-        
+
+            return (
+                <TouchableOpacity
+                onPress={() => { receipts.uploadReceipt.call(this) }}
+                >
+                       <Image source={require('./icons/uploadicon.png')}
+                                        style={styles.uploadIcon}
+                                        resizeMethod='scale'
+                                    />
+                </TouchableOpacity>
+            )
+        } else {
+            return (<Text>...</Text>)
+        }
+
+
     }
 
     showuploadFile() {
@@ -211,7 +323,7 @@ class Receipts {
 
 
         return (<View style={{ ...styles.generalContainer, ...styles.bottomMargin10, ...styles.alignCenter }}>
-            
+
 
             {receipts.showupload.call(this)}
 
@@ -219,44 +331,76 @@ class Receipts {
         </View>)
     }
 
-    showreceipt(image) {
+
+    getImageHeight(imageid) {
+        const imageset = this.state.imageset;
+        let getwidth = 0;
+        let getheight = 0;
+        let height = 0;
+        imageset.map(image=> {
+            if(image.imageid === imageid) {
+                getwidth = image.width;
+                getheight = image.height;
+                const aspect = getheight/getwidth;
+                height = Math.round(300*aspect)
+
+            }
+        })
+        return height;
+
+    }
+ 
+
+   showreceipt(image) {
+       
         const styles = MyStylesheet()
         const appbaseddriver = new AppBasedDriver();
         const getIcon = appbaseddriver.getremoveicon.call(this);
         const receipts = new Receipts();
+        const imageheight = this.getImageHeight(image.imageid)
+
+ 
         const maxWidth = () => {
-            if(this.state.width>1200) {
-                return({ maxWidth:1000})
-            } else if (this.width>600) {
-                return({ maxWidth:480})
-            } else {
-                return({ maxWidth:320})
-            }
+   
+                return ({ width:300,height:imageheight })
             
+
         }
         return (
-            <View style={{ ...styles.generalFlex, ...styles.bottomMargin10,...styles.topMargin10}}>
+            <View style={{ ...styles.generalFlex, ...styles.bottomMargin10, ...styles.topMargin10 }}
+            key={image.imageid}>
                 <View style={{ ...styles.flex5 }}>
-                    <View style={{ ...styles.alignCenter,  }}>
-                        <Image style={{...maxWidth()}} key={image.id} source={{uri:image.url}}/>
+                    <View style={{ ...styles.alignCenter, }}>
+                        <Image 
+                        style={{ ...maxWidth() }} 
+                        resizeMethod='scale'
+                        key={image.id} source={{ uri: image.url }} />
                     </View>
                 </View>
                 <View style={{ ...styles.flex1 }}>
-                    <Text style={{ ...styles.generalButton, ...getIcon }}
-                        onPress={() => { receipts.handleRemoveReceipt.call(this,image.imageid) }}>X</Text>
+
+                  
+                    <TouchableOpacity
+                        onPress={() => { receipts.handleRemoveReceipt.call(this, image.imageid) }}>
+                         <Image source={require('./icons/redx.png')}
+                            style={styles.removeIcon}
+                            resizeMethod='scale'
+                        />
+
+                        </TouchableOpacity>
                 </View>
             </View>)
 
     }
 
-    showreceipts() {
+   showreceipts() {
         const receipts = new Receipts();
         const myreceipts = receipts.getReceipts.call(this)
         let getreceipts = [];
         if (myreceipts) {
-// eslint-disable-next-line
+            // eslint-disable-next-line
             myreceipts.map(receipt => {
-                getreceipts.push(receipts.showreceipt.call(this,receipt))
+                getreceipts.push(receipts.showreceipt.call(this, receipt))
 
             })
         }
@@ -265,17 +409,17 @@ class Receipts {
 
 
 
-    showComponent() {
+    render() {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver()
         const myuser = appbaseddriver.getuser.call(this)
         const regularFont = appbaseddriver.getRegularFont.call(this)
         const receipts = new Receipts();
-        console.log(`Show Component : Receipts`)
+    
 
         if (myuser) {
             const equipmentid = appbaseddriver.getEquipmentID.call(this)
-            const equipment = appbaseddriver.getequipmentbyid.call(this,equipmentid)
+            const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
             if (equipment) {
 
                 const cost = receipts.getcost.call(this);
@@ -290,7 +434,7 @@ class Receipts {
 
                     return (<View style={{ ...styles.generalContainer }}>
 
-                    
+
 
                         <View style={{ ...styles.generalContainer, ...styles.bottomMargin10 }}>
                             <Text style={{ ...regularFont, ...styles.generalFont }}>
@@ -336,11 +480,14 @@ class Receipts {
     }
 }
 
+
 function mapStateToProps(state) {
     return {
         myusermodel: state.myusermodel,
         navigation: state.navigation
+
     }
+
 }
 
-export default Receipts;
+export default connect(mapStateToProps, actions)(Receipts)

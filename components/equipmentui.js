@@ -1,7 +1,7 @@
 import React from 'react'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 
 class EquipmentUI {
 
@@ -10,16 +10,24 @@ class EquipmentUI {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const equipmentui = new EquipmentUI();
-  
+
         const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
         const regularFont = appbaseddriver.getRegularFont.call(this)
         if (equipment) {
-            return (<View style={{ ...styles.generalContainer, ...styles.addMargin }}>
-                <Text style={{ ...styles.generalText, ...regularFont }} onPress={() => equipmentui.handleEquipment.call(this, equipmentid)}> {equipmentui.getEquipmentIcon.call(this, equipmentid)}</Text>
-                <Text style={{ ...regularFont, ...styles.generalFont }}>
-                    {equipment.equipment}
-                </Text>
-            </View>)
+            return (
+
+                <View style={{ ...styles.generalContainer, ...styles.bottomMargin15 }}>
+                    {equipmentui.getEquipmentIcon.call(this, equipmentid)}
+                    <View style={{ ...styles.generalContainer }}>
+                        <Text style={{ ...regularFont }}>
+                            {equipment.equipment}
+                        </Text>
+                    </View>
+
+                </View>
+
+
+            )
 
         }
     }
@@ -48,12 +56,28 @@ class EquipmentUI {
 
     getEquipmentIcon(equipmentid) {
         const equipmentui = new EquipmentUI();
+        const styles = MyStylesheet();
         const checklist = equipmentui.checkEquipmentList.call(this, equipmentid)
+        const appbaseddriver = new AppBasedDriver();
+
         if (checklist) {
-            return (`X`)
+            return (<TouchableOpacity onPress={() => { equipmentui.handleEquipment.call(this, equipmentid) }}>
+                <Image source={require('./icons/greencheck.png')}
+                    style={styles.greenCheckSmall}
+                    resizeMethod='scale'
+                />
+            </TouchableOpacity>)
         } else {
-            return (`O`)
+            return (<TouchableOpacity onPress={() => { equipmentui.handleEquipment.call(this, equipmentid) }}>
+                <Image source={require('./icons/emptybox.png')}
+                    style={styles.emptyBox}
+                    resizeMethod='scale'
+                />
+            </TouchableOpacity>)
         }
+
+
+
 
 
     }
@@ -94,13 +118,55 @@ class EquipmentUI {
         const appbaseddriver = new AppBasedDriver();
         const equipmentui = new EquipmentUI();
         const equipment = appbaseddriver.createEquipmentList.call(this);
+        const styles = MyStylesheet();
         let getequipment = [];
         if (equipment) {
-             // eslint-disable-next-line
-            equipment.map(equipmentid => {
+            // eslint-disable-next-line
+            equipment.map((equipmentid, i) => {
 
-               
-                getequipment.push(equipmentui.showEquipment.call(this, equipmentid))
+                if (i % 2 === 0 || i == 0) {
+
+                    if (i < equipment.length - 1) {
+
+
+                        
+
+                        getequipment.push(
+                            <View
+                                key={equipmentid}
+                                style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
+                                <View style={{ ...styles.flex1 }}>
+                                    {equipmentui.showEquipment.call(this, equipmentid)}
+                                </View>
+                                <View style={{ ...styles.flex1 }}>
+                                    {equipmentui.showEquipment.call(this, equipment[i + 1])}
+
+                                </View>
+
+                            </View>
+
+
+
+                        )
+
+                    } else {
+
+                        getequipment.push(<View
+                        key={equipmentid}
+                        style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
+                        <View style={{ ...styles.flex1 }}>
+                            {equipmentui.showEquipment.call(this, equipmentid)}
+                        </View>
+                        <View style={{ ...styles.flex1 }}>
+                            
+
+                        </View>
+
+                    </View>)
+
+                    }
+
+                }
             })
 
         }
@@ -112,24 +178,24 @@ class EquipmentUI {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const equipmentui = new EquipmentUI();
-        const regularFont = appbaseddriver.getRegularFont.call(this)
-        if(this.state.activeshiftid) {
-            
-        return (<View style={{ ...styles.generalContainer }}>
+        const headerFont = appbaseddriver.getHeaderFont.call(this)
+        if (this.state.activeshiftid) {
 
-            <View style={{ ...styles.generalContainer }}>
-                <Text style={{ ...styles.generalFont, ...regularFont, ...styles.boldFont }}>
-                    Equipment
-                </Text>
+            return (<View style={{ ...styles.generalContainer }}>
 
-            </View>
+                <View style={{ ...styles.generalContainer }}>
+                    <Text style={{ ...styles.generalFont, ...headerFont, ...styles.boldFont }}>
+                        Equipment
+                    </Text>
 
-            {equipmentui.getEquipment.call(this)}
+                </View>
+
+                {equipmentui.getEquipment.call(this)}
 
 
-        </View>)
+            </View>)
 
-        } 
+        }
     }
 
 

@@ -90,6 +90,40 @@ export async function UploadReceipt(values) {
         })
 }
 
+export async function RegisterNewDriver(values) {
+    const appbaseddriver = new AppBasedDriver();
+    const serverAPI = appbaseddriver.enviornmentalVariables().serverAPI
+    const driverid = values.driverid;
+    
+
+    const APIURL = `${serverAPI}/appbaseddriver/${driverid}/registernewdriver`
+    console.log(APIURL)
+  
+    return fetch(APIURL, {
+        method: 'post',
+        credentials: 'include',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+
+        body: JSON.stringify(values)
+    })
+        .then(resp => {
+
+            if (!resp.ok) {
+                if (resp.status >= 400 && resp.status < 500) {
+                    return resp.json().then(data => {
+
+                        throw data.message;
+                    })
+                }
+
+            }
+
+            return resp.json();
+        })
+}
+
 export async function AppleLogin(values) {
     const appbaseddriver = new AppBasedDriver();
     const serverAPI = appbaseddriver.enviornmentalVariables().serverAPI
@@ -182,12 +216,44 @@ export async function LogoutUser(driverid) {
     })
 }
 
+
+export async function CheckNewDriverID(driverid) {
+    console.log(`check driverid ${driverid}`)
+
+    const appbaseddriver = new AppBasedDriver();
+    const serverAPI = appbaseddriver.enviornmentalVariables().serverAPI
+
+    var APIURL = `${serverAPI}/appbaseddriver/${driverid}/checknewdriverid`
+    console.log(APIURL)
+
+    return fetch(APIURL, { credentials: 'include' })
+        .then(resp => {
+
+            if (!resp.ok) {
+                console.log(`response status ${resp.status}`)
+            
+                if (resp.status >= 400 && resp.status < 500) {
+                    return resp.json().then(data => {
+
+                        throw data.message;
+                    })
+                }
+                
+            }
+
+            return resp.json();
+        })
+}
+
+
 export async function CheckDriverID(driverid) {
+    console.log(`check driverid ${driverid}`)
 
     const appbaseddriver = new AppBasedDriver();
     const serverAPI = appbaseddriver.enviornmentalVariables().serverAPI
 
     var APIURL = `${serverAPI}/appbaseddriver/${driverid}/checkdriverid`
+    console.log(APIURL)
 
     return fetch(APIURL, { credentials: 'include' })
         .then(resp => {

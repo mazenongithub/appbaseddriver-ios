@@ -15,12 +15,13 @@ import Receipts from './receipts';
 import Landing from './landing'
 
 class MyApp extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
             width: Dimensions.get('window').width, height: Dimensions.get('window').height, orientation: '', message: '', driverid: '', checkdriverid: false, apple: '', google: '', emailaddresscheck: '', activeequipmentid: false, activeshiftid: false, calendertimein: true, calendertimeout: true, activeimage:'equipment',
             timeinmonth: '', timeinday: '', timeinyear: '', timeinhours: '', timeinminutes: '', timeinampm: '', timeoutmonth: '', timeoutday: '', timeoutminutes: '', timeouthours: '', timeoutyear: '', timeoutampm: '', activeyear: new Date().getFullYear(), activemonth: this.setActiveMonth(), activeslideid: "driver", spinner: false, hideshifts: [], hidecosts: [], uistart: '', uiend: '', adjustment: false, highlightbutton_1: false,
-            activecostid: false, equipmentday: '', equipmentmonth: '', equipmentyear: '', equipmentcalender: false, salvageday: '', salvagemonth: '', salvageyear: '', salvagecalender: false, purchasecalender: false, showrepayment: true, purchaseday: '', purchasemonth: '', purchaseyear: '', activeyear: new Date().getFullYear(), activemonth: false, spinner: false, hidecosts: [], uistart: '', uiend: '' 
+            activecostid: false, equipmentday: '', equipmentmonth: '', equipmentyear: '', equipmentcalender: false, salvageday: '', salvagemonth: '', salvageyear: '', salvagecalender: false, purchasecalender: false, showrepayment: true, purchaseday: '', purchasemonth: '', purchaseyear: '', activeyear: new Date().getFullYear(), activemonth: false, spinner: false, hidecosts: [], uistart: '', uiend: '', totalearnings:0
         }
         this.updatedimesions = this.updatedimesions.bind(this)
 
@@ -216,7 +217,7 @@ class MyApp extends Component {
         const viewequipment = new ViewEquipment();
         const profile = new Profile();
         const access = new Access();
-        const receipts = new Receipts();
+   
         const landing = new Landing();
         
 
@@ -235,7 +236,7 @@ class MyApp extends Component {
             case 'access':
                 return(access.showaccess.call(this));  
             case 'receipts':
-                return(receipts.showComponent.call(this));
+                return(<Receipts/>);
             default:
                 break;
         }
@@ -263,8 +264,9 @@ class MyApp extends Component {
         return (
             <View style={{ ...getMargin(), ...styles.generalContainer }}>
                
-                {header.showheader.call(this)}
+                
                 <ScrollView>
+                    {header.showheader.call(this)}
                     {this.showmainbody()}
 
                     <View style={{ height: 0.5 * this.state.height }}>

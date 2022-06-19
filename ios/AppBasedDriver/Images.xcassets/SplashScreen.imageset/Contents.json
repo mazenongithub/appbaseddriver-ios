@@ -1,21 +1,58 @@
 {
-  "images": [
+  "images" : [
     {
-      "idiom": "universal",
-      "filename": "splashscreen.png",
-      "scale": "1x"
+      "filename" : "splashscreen.png",
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "idiom": "universal",
-      "scale": "2x"
+      "filename" : "splashscreen-1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "idiom": "universal",
-      "scale": "3x"
+      "filename" : "splashscreen-2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "splashscreen-3.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "splashscreen-4.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "splashscreen-5.png",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "splashscreen-6.png",
+      "idiom" : "ipad",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "splashscreen-7.png",
+      "idiom" : "ipad",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "splashscreen-8.png",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "splashscreen-9.png",
+      "idiom" : "mac",
+      "scale" : "2x"
     }
   ],
-  "info": {
-    "version": 1,
-    "author": "expo"
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
   }
 }

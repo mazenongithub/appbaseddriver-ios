@@ -10,7 +10,7 @@ class AppBasedDriver {
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI: 'http://44.202.55.237:8081'
+                serverAPI: 'http://44.207.8.115:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'
@@ -786,7 +786,22 @@ class AppBasedDriver {
     }
 
     async logoutuser() {
-        console.log("logout user")
+        const appbaseddriver = new AppBasedDriver();
+        const myuser = appbaseddriver.getuser.call(this);
+        if (myuser) {
+            try {
+
+                let response = await LogoutUser(myuser.driverid);
+                console.log(response)
+                this.props.reduxUser(response)
+                this.setState({ client: false, access: false, driverid: "" })
+
+            } catch (err) {
+                alert(err)
+            }
+
+        }
+
 
     }
 
@@ -824,6 +839,7 @@ class AppBasedDriver {
 
                 appbaseddriver.clientlogin.call(this)
             }
+
 
 
 

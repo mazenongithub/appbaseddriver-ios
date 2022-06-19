@@ -1,42 +1,50 @@
 import AppBasedDriver from './appbaseddriver'
-import { View, Text, TextInput} from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
 import { MyStylesheet } from './styles'
 import ClientID from './clientid';
-import { CheckDriverID } from './actions/api'
+import { RegisterNewDriver } from './actions/api'
 import Profile from './profile'
 import { validateDriverID } from './functions'
 
 class Access {
 
-    
+    async registerNewDriver() {
+        const appbaseddriver = new AppBasedDriver()
+        const { firstname, lastname, emailaddress, profileurl, phonenumber, apple, google, driverid } = this.state;
+        const values = { firstname, lastname, emailaddress, profileurl, phonenumber, apple, google, driverid }
+        if(this.state.checkdriverid) {
 
-    async checkdriverid() {
-        const driverid = this.state.driverid;
-        console.log(driverid)
         try {
-            this.setState({ spinner: true })
-            const response = await CheckDriverID(driverid)
-            console.log(response)
+            
+            const mydriver = await RegisterNewDriver(values)
+            if(!mydriver.hasOwnProperty("invalid")) {
+             appbaseddriver.resetState.call(this)
+             this.props.reduxUser(mydriver)
 
-            if (response.hasOwnProperty("invalid")) {
-                this.setState({ checkdriverid: false, message: response.invalid, spinner: false})
             } else {
-                this.setState({ checkdriverid: true, message:`${driverid} is valid, press ok to register`, spinner: false })
+                this.setState({checkdriverid:false, message:mydriver.invalid})
             }
 
-        } catch (err) {
-            alert(err)
-            this.setState({ spinner: false })
         }
+        catch(err) {
+            alert(err)
+            this.setState({err})
+
+        }
+
+    }
+    
     }
 
+
+  
     handledriverid(driverid) {
         driverid = driverid.toLowerCase();
 
         this.setState({ driverid })
         let message = validateDriverID(driverid)
         if (message) {
-            this.setState({ checkdriverid:false, message })
+            this.setState({ checkdriverid: false, message })
         } else {
             this.setState({ checkdriverid: true, message })
         }
@@ -53,7 +61,7 @@ class Access {
         const myuser = appbaseddriver.getuser.call(this)
         const profile = new Profile();
 
-     
+
         const okIconWidth = () => {
             if (this.state.width > 1200) {
                 return ({ width: 90 })
@@ -66,65 +74,115 @@ class Access {
             }
         }
 
+        const registerNow = () => {
+            if ((this.state.apple || this.state.google) && this.state.driverid && this.state.checkdriverid) {
+
+                return (
+
+                    <View style={{ ...styles.generalContainer, ...styles.alignCenter }}>
+
+
+
+                        <TouchableOpacity onPress={() => { access.registerNewDriver .call(this) }}>
+                            <Image
+                                source={require('./icons/registernow.png')}
+                                style={styles.registerNow}
+                                resizeMethod='scale'
+                            />
+                        </TouchableOpacity>
+
+                    </View>)
+
+            }
+        }
+
 
 
         const register = () => {
-            if ((this.state.apple || this.state.google) && this.state.driverid && this.state.checkdriverid && (!this.state.spinner)) {
+            if (this.state.apple && this.state.driverid && this.state.checkdriverid && this.state.access ==='register') {
                 return (
 
-                <Text style={{ ...styles.generalButton, ...okIconWidth()}} onPress={() => { appbaseddriver.clientlogin.call(this) }}>
-                    {okIcon()}
-                </Text>)
+                    <View style={{ ...styles.generalContainer, ...styles.alignCenter }}>
+                    <TouchableOpacity>
 
+                        <Image source={require('./icons/greencheck.png')}
+                            style={styles.greenCheckSmall}
+                            resizeMethod='scale'
+                        />
 
-            } else if (this.state.spinner) {
-                return(<Text>...</Text>)
-            }
-        }
+                    </TouchableOpacity>
 
-        const showdriverid = () => {
-
-
-            if (!myuser && (this.state.access === 'register')) {
-
-                return (<View style={{ ...styles.generalContainer, ...styles.bottomMargin10 }}>
-                    <Text style={{ ...styles.generalFont, ...regularFont }}>Please Create A Driver ID</Text>
-                    <TextInput style={{ ...styles.generalField, ...styles.generalFont, ...regularFont }}
-                        onChangeText={text => { access.handledriverid.call(this, text) }}
-                        value={this.state.driverid.toString()}
-                         />
-                </View>
-                )
-            }
-
-        }
-
-
-        if (myuser) {
-
-            return (profile.showprofile.call(this))
-
-        } else {
-            return (
-                <View style={{ ...styles.generalContainer }}>
-
-
-                    {clientid.showclientid.call(this)}
-
-                    {showdriverid()}
-                    {register()}
-
-                    <View style={{ ...styles.generalContainer, ...styles.alignCenter, ...styles.bottomMargin15 }}>
-                        <Text style={{ ...styles.generalFont, ...regularFont }}>
-                                {this.state.message}
-                        </Text>
                     </View>
+     )
+
+
+    }  else if (!this.state.checkdriverid) {
+
+       return( <View style={{ ...styles.generalContainer, ...styles.alignCenter }}>
+
+                        <Image source={require('./icons/redx.png')}
+                            style={styles.removeIcon}
+                            resizeMethod='scale'
+                        />
+
+                    </View>)
+
+    }
+}
+
+const showdriverid = () => {
+
+
+    if (this.state.apple && this.state.access === 'register') {
+
+        return (<View style={{ ...styles.generalFlex, ...styles.bottomMargin10 }}>
+            <View style={{ ...styles.flex4 }}>
+                <Text style={{ ...styles.generalFont, ...regularFont }}>Please Create A Driver ID</Text>
+                <TextInput style={{ ...styles.generalField, ...styles.generalFont, ...regularFont }}
+                    onChangeText={text => { access.handledriverid.call(this, text) }}
+                    value={this.state.driverid.toString()}
+                    
+
+                />
+
+            </View>
+            <View style={{ ...styles.flex1 }}>
+                {register()}
+            </View>
+        </View>
+        )
+    }
+
+}
+
+
+if (myuser) {
+
+    return (profile.showprofile.call(this))
+
+} else {
+    return (
+        <View style={{ ...styles.generalContainer }}>
+
+
+            {clientid.showclientid.call(this)}
+
+            {showdriverid()}
+
+            {registerNow()}
+
+
+            <View style={{ ...styles.generalContainer, ...styles.alignCenter, ...styles.bottomMargin15 }}>
+                <Text style={{ ...styles.generalFont, ...regularFont }}>
+                    {this.state.message}
+                </Text>
+            </View>
 
 
 
-                </View>)
+        </View>)
 
-        }
+}
     }
 
 }

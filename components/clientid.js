@@ -26,11 +26,11 @@ class ClientID {
         const styles = MyStylesheet();
         const appbaseddriver = new AppBasedDriver();
         const loginButton = appbaseddriver.getgoogleicon.call(this)
-        const regularFont = appbaseddriver.getRegularFont.call(this)
+        const headerFont = appbaseddriver.getHeaderFont.call(this)
         const clientid = new ClientID();
 
 
-        if (!this.state.spinner && (!this.state.apple && !this.state.google)) {
+        if (!this.state.apple) {
             return (
                 <View style={{ ...styles.generalFlex }}>
                     <View style={{ ...styles.flex1 }}>
@@ -51,15 +51,14 @@ class ClientID {
         } else if (this.state.google || this.state.apple) {
             let client = "";
             if (this.state.google) {
-                client = 'google'
+                client = 'Google'
             } else if (this.state.apple) {
-                client = ' apple'
+                client = 'Apple'
             }
 
             return (<View style={{ ...styles.generalContainer, ...styles.alignCenter, ...styles.bottomMargin15 }}>
-                <Text style={{ ...styles.generalFont, ...regularFont }}>
-                    Your Client is {client}
-
+                <Text style={{ ...styles.generalFont, ...headerFont, ...styles.boldFont }}>
+                  {client} User Found
                 </Text>
 
             </View>)

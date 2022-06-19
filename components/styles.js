@@ -3,6 +3,10 @@ export function MyStylesheet() {
         centerText:{
             alignContent:'center'
         },
+        uploadIcon:{
+            width:66,
+            height:80
+        },
         alignCenter: {
             alignItems: 'center',
             alignContent:'center'
@@ -65,6 +69,10 @@ export function MyStylesheet() {
         receiptIcon:{
             width:72,
             height:34
+        },
+        registerNow:{
+            width:200,
+            height:53
         },
         arrowIcon:{
             width: 25, height: 31 

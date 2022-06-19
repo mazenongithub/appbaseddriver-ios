@@ -667,8 +667,8 @@ class ViewEquipment {
 
 
                     return (
-                        <View style={{ ...styles.generalContainer }}>
-                            <View style={{ ...styles.generalFlex, ...styles.bottomMargin15, }} key={cost.costid}>
+                        <View style={{ ...styles.generalContainer }} key={cost.costid}>
+                            <View style={{ ...styles.generalFlex, ...styles.bottomMargin15, }} >
                                 {showreceipt(cost)}
                                 <View style={{ ...styles.flex3 }}>
                                     <Text style={{ ...headerFont, ...styles.generalFont, ...activebackground(cost) }} onPress={(e) => { viewequipment.makecostactive.call(this, cost.costid) }}>

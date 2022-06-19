@@ -9,6 +9,7 @@ import DriverUI from './driverui';
 import MakeID from './makeid';
 import Income from './income'
 import EquipmentUI from './equipmentui';
+import Adjustment from './adjustment'
 
 class Driver {
 
@@ -706,6 +707,7 @@ class Driver {
         const equipmentui = new EquipmentUI();
         const appbaseddriver = new AppBasedDriver();
         const income = new Income();
+        const adjustment = new Adjustment();
         const regularFont = appbaseddriver.getRegularFont.call(this)
         return (<View style={{ ...styles.generalContainer }}>
             {driver.showtimes.call(this)}
@@ -734,6 +736,8 @@ class Driver {
                     />
                 </View>
             </View>
+
+            {adjustment.showAdjustment.call(this)}
 
             {equipmentui.showEquipmentUI.call(this)}
 
