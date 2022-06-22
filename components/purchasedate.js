@@ -268,7 +268,7 @@ class PurchaseDate {
                                 <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }} 
                                     value={this.state.purchasemonth.toString()}
                                     onChangeText={text => { equipment.handlemonth.call(this, text) }}
-                                   
+                                    selectTextOnFocus={true}
                                     />
                             </View>
                             <View style={{ ...styles.flex1, ...styles.addMargin }}>
@@ -276,6 +276,7 @@ class PurchaseDate {
                                 <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                                     value={this.state.purchaseday.toString()}
                                     onChangeText={text => { equipment.handleday.call(this, text) }}
+                                    selectTextOnFocus={true}
                                      />
                             </View>
                             <View style={{ ...styles.flex1, ...styles.addMargin }}>
@@ -283,6 +284,7 @@ class PurchaseDate {
                                 <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                                     value={this.state.purchaseyear.toString()}
                                     onChangeText={text => { equipment.handleyear.call(this, text) }}
+                                    selectTextOnFocus={true}
                                      />
                             </View>
 

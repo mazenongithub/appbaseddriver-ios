@@ -5,6 +5,7 @@ import ClientID from './clientid';
 import { RegisterNewDriver } from './actions/api'
 import Profile from './profile'
 import { validateDriverID } from './functions'
+import Spinner from './spinner';
 
 class Access {
 
@@ -15,8 +16,9 @@ class Access {
         if(this.state.checkdriverid) {
 
         try {
-            
+            this.setState({spinner:true})
             const mydriver = await RegisterNewDriver(values)
+            this.setState({spinner:false})
             if(!mydriver.hasOwnProperty("invalid")) {
              appbaseddriver.resetState.call(this)
              this.props.reduxUser(mydriver)
@@ -28,7 +30,7 @@ class Access {
         }
         catch(err) {
             alert(err)
-            this.setState({err})
+            this.setState({spinner:false})
 
         }
 
@@ -156,6 +158,15 @@ const showdriverid = () => {
 }
 
 
+const showspinner = () => {
+    if(this.state.spinner) {
+        return(<View style={{...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter}}>
+            <Spinner/>
+            </View>)
+    }
+}
+
+
 if (myuser) {
 
     return (profile.showprofile.call(this))
@@ -170,6 +181,8 @@ if (myuser) {
             {showdriverid()}
 
             {registerNow()}
+
+            {showspinner()}
 
 
             <View style={{ ...styles.generalContainer, ...styles.alignCenter, ...styles.bottomMargin15 }}>

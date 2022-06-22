@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput} from 'react-native'
+import { View, Text, TextInput } from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
 import { validateMonth, validateDate, validateYear, isNumeric, trailingZeros, compareDates } from './functions';
@@ -13,7 +13,7 @@ class SalvageDate {
 
 
             const appbaseddriver = new AppBasedDriver();
-           
+
 
 
             const myuser = appbaseddriver.getuser.call(this)
@@ -81,7 +81,7 @@ class SalvageDate {
             const appbaseddriver = new AppBasedDriver();
             const myuser = appbaseddriver.getuser.call(this)
             if (myuser) {
-                 const equipmentid = appbaseddriver.getEquipmentID.call(this)
+                const equipmentid = appbaseddriver.getEquipmentID.call(this)
 
                 const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
                 if (equipment) {
@@ -114,15 +114,15 @@ class SalvageDate {
 
                         } else if (day.length === 1) {
 
-                            if(Number(day)) {
+                            if (Number(day)) {
 
-                            let salvagemonth = trailingZeros(this.state.salvagemonth)
-                            let salvageday = trailingZeros(day);
-                            let salvageyear = this.state.salvageyear;
-                            let timein = `${salvageyear}/${salvagemonth}/${salvageday}`
-                            myuser.equipment[i].repayment.salvagedate = timein;
-                            this.props.reduxUser(myuser);
-                            this.setState({ render: 'render', salvagemonth })
+                                let salvagemonth = trailingZeros(this.state.salvagemonth)
+                                let salvageday = trailingZeros(day);
+                                let salvageyear = this.state.salvageyear;
+                                let timein = `${salvageyear}/${salvagemonth}/${salvageday}`
+                                myuser.equipment[i].repayment.salvagedate = timein;
+                                this.props.reduxUser(myuser);
+                                this.setState({ render: 'render', salvagemonth })
                             }
                         }
 
@@ -189,15 +189,15 @@ class SalvageDate {
 
                         } else if (month.length === 1) {
 
-                            if(Number(month)) {
+                            if (Number(month)) {
 
-                            let salvagemonth = trailingZeros(month)
-                            let salvageday = trailingZeros(this.state.salvageday);
-                            let salvageyear = this.state.salvageyear;
-                            let timein = `${salvageyear}/${salvagemonth}/${salvageday}`
-                            myuser.equipment[i].repayment.salvagedate = timein;
-                            this.props.reduxUser(myuser);
-                            this.setState({ render: 'render', salvageday })
+                                let salvagemonth = trailingZeros(month)
+                                let salvageday = trailingZeros(this.state.salvageday);
+                                let salvageyear = this.state.salvageyear;
+                                let timein = `${salvageyear}/${salvagemonth}/${salvageday}`
+                                myuser.equipment[i].repayment.salvagedate = timein;
+                                this.props.reduxUser(myuser);
+                                this.setState({ render: 'render', salvageday })
 
                             }
                         }
@@ -264,23 +264,23 @@ class SalvageDate {
                         <View style={{ ...styles.generalFlex }}>
                             <View style={{ ...styles.flex1, ...styles.addMargin }}>
 
-                                <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }} 
-                                value={this.state.salvagemonth.toString()}
-                                    
-                                    onChangeText={text => { equipment.handlemonth.call(this, text) }} />
+                                <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
+                                    value={this.state.salvagemonth.toString()}
+                                    onChangeText={text => { equipment.handlemonth.call(this, text) }}
+                                    selectTextOnFocus={true} />
                             </View>
                             <View style={{ ...styles.flex1, ...styles.addMargin }}>
 
                                 <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                                     value={this.state.salvageday.toString()}
-                                    
+                                    selectTextOnFocus={true}
                                     onChangeText={text => { equipment.handleday.call(this, text) }} />
                             </View>
                             <View style={{ ...styles.flex1, ...styles.addMargin }}>
 
                                 <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                                     value={this.state.salvageyear.toString()}
-                                    
+                                    selectTextOnFocus={true}
                                     onChangeText={text => { equipment.handleyear.call(this, text) }} />
                             </View>
 

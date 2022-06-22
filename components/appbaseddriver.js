@@ -4,13 +4,14 @@ import { MyStylesheet } from './styles';
 import { View, Text } from 'react-native'
 import { AppleLogin, LogoutUser, SaveDriver } from './actions/api'
 import * as AppleAuthentication from 'expo-apple-authentication';
+import Spinner from './spinner'
 
 class AppBasedDriver {
 
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI: 'http://44.207.8.115:8081'
+                serverAPI: 'http://44.204.150.35:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'
@@ -782,7 +783,14 @@ class AppBasedDriver {
                     </View>
                 </View>
             )
-        } 
+        }  else {
+     
+                    return(<View style={{...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter}}>
+                        <Spinner/>
+                        </View>)
+                
+            }
+        
     }
 
     async logoutuser() {

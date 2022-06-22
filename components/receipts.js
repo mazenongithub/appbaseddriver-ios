@@ -214,6 +214,7 @@ class Receipts extends Component {
                     this.setState({ spinner: false })
                     if (response.hasOwnProperty("driverid")) {
                         this.props.reduxUser(response)
+                        this.updatePictureSet();
                         let message = `Driver Updated ${new Date().toLocaleTimeString()}`
                         this.setState({ message })
                     }
@@ -336,13 +337,13 @@ class Receipts extends Component {
         const imageset = this.state.imageset;
         let getwidth = 0;
         let getheight = 0;
-        let height = 0;
+        let height = 480;
         imageset.map(image=> {
             if(image.imageid === imageid) {
                 getwidth = image.width;
                 getheight = image.height;
                 const aspect = getheight/getwidth;
-                height = Math.round(300*aspect)
+                height = Math.round(320*aspect)
 
             }
         })
@@ -362,7 +363,7 @@ class Receipts extends Component {
  
         const maxWidth = () => {
    
-                return ({ width:300,height:imageheight })
+                return ({ width:320,height:imageheight })
             
 
         }

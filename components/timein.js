@@ -324,6 +324,7 @@ class TimeIn {
     
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }} 
                             value={this.state.timeinmonth.toString()}
+                            selectTextOnFocus={true}
                             onChangeText={text => { timein.handlemonth.call(this, text) }}
                             />
                     </View>
@@ -332,6 +333,7 @@ class TimeIn {
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinday.toString()}
                             onChangeText={text => { timein.handleday.call(this, text) }} 
+                            selectTextOnFocus={true}
                             
                             />
                     </View>
@@ -340,6 +342,7 @@ class TimeIn {
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinyear.toString()}
                             onChangeText={text => { timein.handleyear.call(this, text) }} 
+                            selectTextOnFocus={true}
                             
                             />
                     </View>
@@ -348,6 +351,7 @@ class TimeIn {
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinhours.toString()}
                             onChangeText={text => { timein.handlehours.call(this, text) }}
+                            selectTextOnFocus={true}
                             />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
@@ -355,9 +359,9 @@ class TimeIn {
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinminutes.toString()}
                             onChangeText={text => { timein.handleminutes.call(this, text)
+                            
                              }}
-                           
-                             
+                             selectTextOnFocus={true}     
                         />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>

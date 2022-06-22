@@ -325,6 +325,7 @@ class TimeOut {
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }} 
                             value={this.state.timeoutmonth.toString()}
                             onChangeText={text => { timeout.handlemonth.call(this, text) }}
+                            selectTextOnFocus={true}
                             />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
@@ -332,6 +333,7 @@ class TimeOut {
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeoutday.toString()}
                             onChangeText={text => { timeout.handleday.call(this, text) }} 
+                            selectTextOnFocus={true}
                             
                             />
                     </View>
@@ -340,6 +342,7 @@ class TimeOut {
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeoutyear.toString()}
                             onChangeText={text => { timeout.handleyear.call(this, text) }} 
+                            selectTextOnFocus={true}
                             
                             />
                     </View>
@@ -348,6 +351,7 @@ class TimeOut {
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeouthours.toString()}
                             onChangeText={text => { timeout.handlehours.call(this, text) }}
+                            selectTextOnFocus={true}
                             />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
@@ -356,8 +360,8 @@ class TimeOut {
                             value={this.state.timeoutminutes.toString()}
                             onChangeText={text => { timeout.handleminutes.call(this, text)
                              }}
-                           
-                             
+                             selectTextOnFocus={true}
+                                 
                         />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>

@@ -10,6 +10,7 @@ import MakeID from './makeid';
 import Income from './income'
 import EquipmentUI from './equipmentui';
 import Adjustment from './adjustment'
+import Spinner from './spinner';
 
 class Driver {
 
@@ -709,9 +710,9 @@ class Driver {
         const income = new Income();
         const adjustment = new Adjustment();
         const regularFont = appbaseddriver.getRegularFont.call(this)
+
         return (<View style={{ ...styles.generalContainer }}>
             {driver.showtimes.call(this)}
-
 
             <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                 <View style={{ ...styles.flex1, ...styles.alignCenter, ...styles.addMargin }}>
@@ -745,6 +746,8 @@ class Driver {
 
             {driver.showshifts.call(this)}
             {appbaseddriver.showsavedriver.call(this)}
+
+
             
             {income.showincome.call(this)}
 
