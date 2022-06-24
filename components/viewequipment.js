@@ -552,7 +552,7 @@ class ViewEquipment {
                     }
 
                 }
-                
+
 
                 const getrecharge = (equipment) => {
 
@@ -561,69 +561,69 @@ class ViewEquipment {
                         if (cost) {
                             if (cost.hasOwnProperty("recharge")) {
                                 return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
-                                <Image source={require('./icons/greencheck.png')}
-                                    style={styles.greenCheck}
-                                    resizeMethod='scale'
-                                />
-                            </TouchableOpacity>)
+                                    <Image source={require('./icons/greencheck.png')}
+                                        style={styles.greenCheck}
+                                        resizeMethod='scale'
+                                    />
+                                </TouchableOpacity>)
 
                             } else {
                                 return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
+                                    <Image source={require('./icons/emptybox.png')}
+                                        style={styles.emptyBox}
+                                        resizeMethod='scale'
+                                    />
+                                </TouchableOpacity>)
+                            }
+                        } else {
+                            return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
                                 <Image source={require('./icons/emptybox.png')}
                                     style={styles.emptyBox}
                                     resizeMethod='scale'
                                 />
                             </TouchableOpacity>)
-                            }
-                        } else {
-                            return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
+                        }
+                    } else {
+                        return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
                             <Image source={require('./icons/emptybox.png')}
                                 style={styles.emptyBox}
                                 resizeMethod='scale'
                             />
                         </TouchableOpacity>)
-                        }
-                    } else {
-                        return (<TouchableOpacity onPress={() => { viewequipment.handlerecharge.call(this) }}>
-                        <Image source={require('./icons/emptybox.png')}
-                            style={styles.emptyBox}
-                            resizeMethod='scale'
-                        />
-                    </TouchableOpacity>)
                     }
 
                 }
 
 
-                const Reoccurring = (equipment,cost) => {
+                const Reoccurring = (equipment, cost) => {
 
                     if (this.state.activecostid === cost.costid) {
                         return (
-                       
 
 
+                            <View style={{ ...styles.generalContainer }}>
 
                                 <View style={{ ...styles.generalFlex }}>
 
 
 
                                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
-                                        
+
                                         {getrecharge(equipment)}
 
                                         <Text style={{ ...headerFont, ...styles.generalFont }}>
                                             Recharge Costs
                                         </Text>
 
-                                        {recharge.showRecharge.call(this)}
+
 
                                     </View>
 
                                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
-                          
-                                        
-                                        {getreimburseable(equipment)} 
-                                        
+
+
+                                        {getreimburseable(equipment)}
+
                                         <Text style={{ ...headerFont, ...styles.generalFont }}>
                                             Reimburseable
                                         </Text>
@@ -633,9 +633,13 @@ class ViewEquipment {
 
                                 </View>
 
+                                {recharge.showRecharge.call(this)}
+
+                            </View>
 
 
-                         
+
+
                         )
                     }
                 }
@@ -691,7 +695,7 @@ class ViewEquipment {
 
                             </View>
 
-                            {Reoccurring(equipment,cost)}
+                            {Reoccurring(equipment, cost)}
 
                         </View>
 

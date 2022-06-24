@@ -1,5 +1,5 @@
 import { CheckUser } from './actions/api'
-import { calculatetotalhours, getRepaymentCosts, getInterval, checkactivemonth, checkactivedate, validateLoanPayment, calculateTotalMonths, compareDates, sorttimes, getMonString} from './functions'
+import { calculatetotalhours, getRepaymentCosts, getInterval, checkactivemonth, checkactivedate, validateLoanPayment, calculateTotalMonths, compareDates, sorttimes, getMonString } from './functions'
 import { MyStylesheet } from './styles';
 import { View, Text } from 'react-native'
 import { AppleLogin, LogoutUser, SaveDriver } from './actions/api'
@@ -11,7 +11,7 @@ class AppBasedDriver {
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI: 'http://44.204.150.35:8081'
+                serverAPI: 'http://44.207.7.119:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'
@@ -24,6 +24,164 @@ class AppBasedDriver {
         }
 
         return variables.production; // otherwise, return this
+    }
+
+    setUI() {
+        const uiend = new Date().getFullYear();
+        let uistart = 0;
+
+        if (this.state.width > 1200) {
+            uistart = uiend - 3;
+        } else if (this.state.width > 600) {
+            uistart = uiend - 2;
+        } else {
+            uistart = uiend - 1;
+
+        }
+        this.setState({ uistart, uiend })
+
+
+    }
+
+
+    setActiveMonth() {
+        const timeinmonth = () => {
+            let month = new Date().getMonth() + 1;
+
+            return month;
+        }
+
+        const activemonth = [getMonString(Number(timeinmonth()))]
+
+        this.setState({ activemonth })
+
+
+    }
+
+    timeoutdefault() {
+        const timeoutmonth = () => {
+            let month = new Date().getMonth() + 1;
+            if (month < 10) {
+                month = `0${month}`
+            }
+            return month;
+        }
+        const timeoutday = () => {
+            let day = new Date().getDate();
+            if (day < 10) {
+                day = `0${day}`
+            }
+            return day;
+        }
+        const timeoutyear = () => {
+            let year = new Date().getFullYear();
+
+            return year;
+        }
+        const timeouthours = () => {
+            let hours = new Date().getHours();
+            if (hours > 12) {
+                hours = hours - 12;
+            } else if (hours < 10 && hours > 0) {
+                hours = `0${hours}`
+            } else if (Number(hours) === 0) {
+                hours = 12;
+            }
+            return hours;
+
+        }
+        const timeoutminutes = () => {
+            let minutes = new Date().getMinutes();
+            if (minutes < 10) {
+                minutes = `0${minutes}`
+            }
+            return minutes;
+        }
+        const timeoutampm = () => {
+            const hours = new Date().getHours();
+            if (hours < 12) {
+                return 'am'
+            } else {
+                return 'pm'
+            }
+        }
+        this.setState({ timeoutmonth: timeoutmonth(), timeoutday: timeoutday(), timeoutyear: timeoutyear(), timeouthours: timeouthours(), timeoutminutes: timeoutminutes(), timeoutampm: timeoutampm() })
+    }
+
+
+    timeindefault() {
+        const timeinmonth = () => {
+            let month = new Date().getMonth() + 1;
+            if (month < 10) {
+                month = `0${month}`
+            }
+            return month;
+        }
+        const timeinday = () => {
+            let day = new Date().getDate();
+            if (day < 10) {
+                day = `0${day}`
+            }
+            return day;
+        }
+        const timeinyear = () => {
+            let year = new Date().getFullYear();
+
+            return year;
+        }
+        const timeinhours = () => {
+            let hours = new Date().getHours();
+            if (hours > 12) {
+                hours = hours - 12;
+            } else if (hours < 10 && hours > 0) {
+                hours = `0${hours}`
+            } else if (Number(hours) === 0) {
+                hours = 12;
+            }
+            return hours;
+        }
+        const timeinminutes = () => {
+            let minutes = new Date().getMinutes();
+            if (minutes < 10) {
+                minutes = `0${minutes}`
+            }
+            return minutes;
+        }
+        const timeinampm = () => {
+            const hours = new Date().getHours();
+            if (hours < 12) {
+                return 'am'
+            } else {
+                return 'pm'
+            }
+        }
+
+
+        this.setState({ timeinmonth: timeinmonth(), timeinday: timeinday(), timeinyear: timeinyear(), timeinhours: timeinhours(), timeinminutes: timeinminutes(), timeinampm: timeinampm() })
+    }
+
+
+    equipmentdatedefault() {
+        const equipmentmonth = () => {
+            let month = new Date().getMonth() + 1;
+            if (month < 10) {
+                month = `0${month}`
+            }
+            return month;
+        }
+        const equipmentday = () => {
+            let day = new Date().getDate();
+            if (day < 10) {
+                day = `0${day}`
+            }
+            return day;
+        }
+        const equipmentyear = () => {
+            let year = new Date().getFullYear();
+
+            return year;
+        }
+        this.setState({ equipmentyear: equipmentyear(), equipmentmonth: equipmentmonth(), equipmentday: equipmentday() })
     }
 
     getmiles() {
@@ -296,16 +454,16 @@ class AppBasedDriver {
 
         if (this.props.navigation) {
             navigation = this.props.navigation;
-       
 
-                if(navigation.hasOwnProperty("costid")) {
-                    console.log(`NAVIGATION COSTID: ${navigation.costid}`)
-                    costid = navigation.costid;
-                }
 
-                
+            if (navigation.hasOwnProperty("costid")) {
+                console.log(`NAVIGATION COSTID: ${navigation.costid}`)
+                costid = navigation.costid;
+            }
 
-            
+
+
+
 
         }
         return costid;
@@ -764,9 +922,9 @@ class AppBasedDriver {
                 <View style={{ ...styles.generalFlex, ...styles.padding5, ...styles.bottomMargin10 }}>
                     <View style={{ ...styles.flex1, ...styles.alignCenter }}>
 
-                    <View style={{ ...styles.generalContainer, ...styles.alignCenter, ...styles.bottomMargin15 }}>
-                        <Text style={{ ...styles.generalFont, ...regularFont }}>{this.state.message} </Text>
-                    </View>
+                        <View style={{ ...styles.generalContainer, ...styles.alignCenter, ...styles.bottomMargin15 }}>
+                            <Text style={{ ...styles.generalFont, ...regularFont }}>{this.state.message} </Text>
+                        </View>
 
                         <View style={{
                             ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter,
@@ -779,18 +937,18 @@ class AppBasedDriver {
                                 style={{ ...styles.boldFont, ...styles.font24, ...styles.menuColor }}>Save Driver</Text>
                         </View>
 
-                                
+
                     </View>
                 </View>
             )
-        }  else {
-     
-                    return(<View style={{...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter}}>
-                        <Spinner/>
-                        </View>)
-                
-            }
-        
+        } else {
+
+            return (<View style={{ ...styles.generalContainer, ...styles.bottomMargin15, ...styles.alignCenter }}>
+                <Spinner />
+            </View>)
+
+        }
+
     }
 
     async logoutuser() {
@@ -802,7 +960,13 @@ class AppBasedDriver {
                 let response = await LogoutUser(myuser.driverid);
                 console.log(response)
                 this.props.reduxUser(response)
-                this.setState({ client: false, access: false, driverid: "" })
+                appbaseddriver.setActiveMonth.call(this)
+                appbaseddriver.timeindefault.call(this)
+                appbaseddriver.timeoutdefault.call(this)
+                appbaseddriver.setUI.call(this)
+                appbaseddriver.equipmentdatedefault.call(this)
+                this.props.reduxNavigation({ navigation: 'landing' })
+                this.setState({ apple:"", driverid: "", message: '' })
 
             } catch (err) {
                 alert(err)
@@ -842,8 +1006,8 @@ class AppBasedDriver {
                 let clientid = credential.user;
                 let firstname = credential.fullName.givenName;
                 let lastname = credential.fullName.familyName;
-                
-                this.setState({ emailaddress, apple:clientid, firstname, lastname})
+
+                this.setState({ emailaddress, apple: clientid, firstname, lastname })
 
                 appbaseddriver.clientlogin.call(this)
             }

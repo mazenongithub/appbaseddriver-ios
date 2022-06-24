@@ -308,14 +308,14 @@ class TimeIn {
         const timein = new TimeIn();
         const timeincalender = new TimeInCalender();
         const appbaseddriver = new AppBasedDriver();
-        const regularFont = appbaseddriver.getRegularFont.call(this)
+       
         const headerFont = appbaseddriver.getHeaderFont.call(this)
         return(   <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
             <View style={{ ...styles.flex1, ...styles.calenderContainer }}>
     
                 <View style={{ ...styles.generalFlex }}>
                     <View style={{ ...styles.flex1 }}>
-                        <Text style={{ ...styles.generalFont, ...regularFont }}>Time In (MM-DD-YYYY HH mm) </Text>
+                        <Text style={{ ...styles.generalFont, ...headerFont }}>Time In (MM-DD-YYYY HH mm) </Text>
                     </View>
                 </View>
     

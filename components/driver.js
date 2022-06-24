@@ -638,9 +638,7 @@ class Driver {
         const regularFont = appbaseddriver.getRegularFont.call(this)
         let shiftids = [];
         let shifts = appbaseddriver.getshifts.call(this);
-        shifts.sort((a, b) => {
-            return sorttimes(a.timein, b.timein)
-        })
+       
         const styles = MyStylesheet();
 
         const driver = new Driver();
@@ -680,6 +678,11 @@ class Driver {
         }
 
         if (shifts) {
+
+            shifts.sort((a, b) => {
+                return sorttimes(a.timein, b.timein)
+            })
+            
             // eslint-disable-next-line
             shifts.map(shift => {
 
@@ -710,28 +713,29 @@ class Driver {
         const income = new Income();
         const adjustment = new Adjustment();
         const regularFont = appbaseddriver.getRegularFont.call(this)
+        const headerFont = appbaseddriver.getHeaderFont.call(this)
 
         return (<View style={{ ...styles.generalContainer }}>
             {driver.showtimes.call(this)}
 
             <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
                 <View style={{ ...styles.flex1, ...styles.alignCenter, ...styles.addMargin }}>
-                    <Text style={{ ...styles.generalFont, ...regularFont }}>Earnings</Text>
+                    <Text style={{ ...styles.generalFont, ...headerFont }}>Earnings</Text>
                     <TextInput
                         value={driver.getearnings.call(this).toString()}
                         onChangeText={text => { driver.handleearnings.call(this, text) }}
-                        type="text" style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }} />
+                        type="text" style={{ ...styles.generalFont, ...headerFont, ...styles.generalField }} />
                 </View>
                 <View style={{ ...styles.flex1, ...styles.alignCenter, ...styles.addMargin }}>
-                    <Text style={{ ...styles.generalFont, ...regularFont }}>Deliveries</Text>
-                    <TextInput type="text" style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }}
+                    <Text style={{ ...styles.generalFont, ...headerFont }}>Deliveries</Text>
+                    <TextInput type="text" style={{ ...styles.generalFont, ...headerFont, ...styles.generalField }}
                         value={driver.getdeliveries.call(this).toString()}
                         onChangeText={text => { driver.handledeliveries.call(this, text) }}
                     />
                 </View>
                 <View style={{ ...styles.flex1, ...styles.alignCenter, ...styles.addMargin }}>
-                    <Text style={{ ...styles.generalFont, ...regularFont }}>Miles</Text>
-                    <TextInput type="text" style={{ ...styles.generalFont, ...regularFont, ...styles.generalField }}
+                    <Text style={{ ...styles.generalFont, ...headerFont }}>Miles</Text>
+                    <TextInput type="text" style={{ ...styles.generalFont, ...headerFont, ...styles.generalField }}
                         value={driver.getmiles.call(this).toString()}
                         onChangeText={text => { driver.handlemiles.call(this, text) }}
                     />

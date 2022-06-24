@@ -7,6 +7,7 @@ import AppBasedDriver from './appbaseddriver';
 import * as ImagePicker from 'expo-image-picker';
 import { formatDateStringDisplay, makeID } from './functions'
 import { UploadReceipt, RemoveReceipt } from './actions/api'
+import Spinner from './spinner'
 
 
 class Receipts extends Component {
@@ -19,7 +20,8 @@ class Receipts extends Component {
                 {imageid:`default`,
                 height:480,
                 width:320
-                }]
+                }],
+                spinner:false
         }
         this.updatedimesions = this.updatedimesions.bind(this)
 
@@ -432,6 +434,12 @@ class Receipts extends Component {
                         }
                     }
 
+                    const showspinner = () => {
+                        if(this.state.spinner) {
+                            return(<Spinner/>)
+                        }
+                    }
+
 
                     return (<View style={{ ...styles.generalContainer }}>
 
@@ -446,8 +454,10 @@ class Receipts extends Component {
                         {receipts.showuploadFile.call(this)}
 
                         <View style={{ ...styles.generalContainer, ...styles.alignCenter }}>
+                            {showspinner()}
                             <Text style={{ ...styles.generalFont, ...regularFont }}>{this.state.message}</Text>
                         </View>
+
 
                         {receipts.showreceipts.call(this)}
 

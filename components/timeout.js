@@ -315,7 +315,7 @@ class TimeOut {
     
                 <View style={{ ...styles.generalFlex }}>
                     <View style={{ ...styles.flex1 }}>
-                        <Text style={{ ...styles.generalFont, ...regularFont }}>Time Out(MM-DD-YYYY HH mm) </Text>
+                        <Text style={{ ...styles.generalFont, ...headerFont }}>Time Out(MM-DD-YYYY HH mm) </Text>
                     </View>
                 </View>
     
