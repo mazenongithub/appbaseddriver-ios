@@ -10,7 +10,7 @@ import MakeID from './makeid';
 import Income from './income'
 import EquipmentUI from './equipmentui';
 import Adjustment from './adjustment'
-import Spinner from './spinner';
+import SmallDiagram from './smalldiagram';
 
 class Driver {
 
@@ -713,7 +713,9 @@ class Driver {
         const income = new Income();
         const adjustment = new Adjustment();
         const regularFont = appbaseddriver.getRegularFont.call(this)
-        const headerFont = appbaseddriver.getHeaderFont.call(this)
+        const headerFont = appbaseddriver.getHeaderFont.call(this);
+        const diagram = new SmallDiagram()
+
 
         return (<View style={{ ...styles.generalContainer }}>
             {driver.showtimes.call(this)}
@@ -754,6 +756,8 @@ class Driver {
 
             
             {income.showincome.call(this)}
+
+            {diagram.showdiagrams.call(this)}
 
            
 

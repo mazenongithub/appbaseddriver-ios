@@ -11,7 +11,7 @@ class AppBasedDriver {
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI: 'http://44.207.7.119:8081'
+                serverAPI: 'http://35.173.124.103:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'
@@ -184,6 +184,26 @@ class AppBasedDriver {
         this.setState({ equipmentyear: equipmentyear(), equipmentmonth: equipmentmonth(), equipmentday: equipmentday() })
     }
 
+    getactiveshifts() {
+
+        const appbaseddriver = new AppBasedDriver();
+        const shifts = appbaseddriver.getshifts.call(this)
+        let myshifts = []
+        if (shifts) {
+            // eslint-disable-next-line
+            shifts.map(shift => {
+                if (checkactivemonth(shift.timein, this.state.activemonth, this.state.activeyear)) {
+                    myshifts.push(shift)
+
+                }
+            })
+
+        }
+        return myshifts
+
+
+    }
+
     getmiles() {
         const appbaseddriver = new AppBasedDriver();
         const shifts = appbaseddriver.getshifts.call(this)
@@ -213,6 +233,20 @@ class AppBasedDriver {
             })
         }
         return costs;
+    }
+
+    gettransformeddrivercosts() {
+        const appbaseddriver = new AppBasedDriver();
+        let costs = []
+        const myequipment = appbaseddriver.getequipment.call(this)
+        if (myequipment) {
+            // eslint-disable-next-line
+            myequipment.map(equipment => {
+                costs = [...costs, ...appbaseddriver.gettransformedcostsbyequimentid.call(this, equipment.equipmentid)]
+            })
+        }
+        return costs;
+
     }
 
     gettransformedcostsbyequimentid(equipmentid) {
