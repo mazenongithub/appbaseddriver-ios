@@ -8,9 +8,8 @@ import SalvageDate from './salvagedate'
 import PurchaseDate from './purchasedate'
 import { isNumeric, formatDateStringDisplay, checkactivedate } from './functions'
 import Costs from './costs';
-// import SmallDiagram from './smallcostdiagram';
-// import MediumDiagram from './mediumcostdiagram'
-// import Diagrams from './costdiagrams';
+import SmallDiagram from './smallcostdiagram';
+
 import Recharge from './recharge'
 
 
@@ -851,12 +850,12 @@ class ViewEquipment {
         const headerFont = appbaseddriver.getHeaderFont.call(this)
         const TextWidth = appbaseddriver.radioIconWidth.call(this)
         const viewequipment = new ViewEquipment();
-
+    
         const equipmentdate = new EquipmentDate();
         const salvagedate = new SalvageDate();
         const purchasedate = new PurchaseDate();
         const costs = new Costs();
-        // const smalldiagram = new SmallDiagram();
+        const diagram = new SmallDiagram();
         // const mediumdiagram = new MediumDiagram();
         // const diagrams = new Diagrams()
         const recharge = new Recharge();
@@ -1102,6 +1101,8 @@ class ViewEquipment {
                             {appbaseddriver.showsavedriver.call(this)}
 
                             {costs.showcosts.call(this, equipmentid)}
+
+                            {diagram.showdiagrams.call(this)}
 
 
 
