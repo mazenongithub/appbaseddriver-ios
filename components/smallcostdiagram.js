@@ -156,7 +156,7 @@ class SmallDiagram {
 
             // fill:#015d40;stroke:#231f20;stroke-miterlimit:10;stroke-width:0.5px;
 
-            return (<G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+            return (<G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                 <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 99.13 9.4 90.13 0.41 90.13 4.91 99.13" />
                 <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="90.13" x2="4.9" y2="64.12" />
 
@@ -187,7 +187,7 @@ class SmallDiagram {
 
 
             return (
-                <G transform={`translate(${day * 13.79},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+                <G transform={`translate(${day * 13.79},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                     <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 266.45 9.4 257.45 0.41 257.45 4.91 266.45" />
                     <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="257.45" x2="4.9" y2="231.44" />
                     {label(showlabel)}
@@ -215,7 +215,7 @@ class SmallDiagram {
                 }
             }
             return (
-                <G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+                <G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                     <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 433.77 9.4 424.77 0.41 424.77 4.91 433.77" />
                     <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="424.77" x2="4.9" y2="398.77" />
                     {label(showlabel)}
@@ -238,7 +238,7 @@ class SmallDiagram {
 
                 }
             }
-            return (<G transform={`translate(${day * 13.3},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+            return (<G transform={`translate(${day * 13.3},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                 <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 601.1 9.4 592.1 0.41 592.1 4.91 601.1" />
                 <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="592.1" x2="4.9" y2="566.09" />
 
@@ -265,7 +265,7 @@ class SmallDiagram {
                 }
             }
             return (
-                <G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+                <G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                     <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 768.42 9.4 759.42 0.41 759.42 4.91 768.42" />
                     <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="759.42" x2="4.9" y2="733.42" />
                     {label(showlabel)}
@@ -279,7 +279,7 @@ class SmallDiagram {
             const showlabel = smalldiagram.showcostlabel.call(this, cost)
             const label = (showlabel) => {
                 if (showlabel) {
-                    return (<G onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+                    return (<G onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                         <Path stroke="#231f20" strokeWidth="0.5" fill="#eebe88" d="M93.84,936.73v27.66a1.11,1.11,0,0,1-1.17,1h-79a1.11,1.11,0,0,1-1.17-1V942.17a.9.9,0,0,0,0-.28L9.69,933a1.11,1.11,0,0,1,1.43-1.29l17,3.93.3,0H92.67A1.11,1.11,0,0,1,93.84,936.73Z" />
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 946.38)">
                         {abbMonth(cost.purchasedate)}, ${Number(cost.amount).toFixed(2)}, 
@@ -314,7 +314,7 @@ class SmallDiagram {
 
                 }
             }
-            return (<G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+            return (<G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                 <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 1103.07 9.4 1094.07 0.41 1094.07 4.91 1103.07" />
                 <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="1094.07" x2="4.9" y2="1068.06" />
 
@@ -340,7 +340,7 @@ class SmallDiagram {
 
                 }
             }
-            return (<G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+            return (<G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                 <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 1270.39 9.4 1261.39 0.41 1261.39 4.91 1270.39" />
                 <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="1261.39" x2="4.9" y2="1235.39" />
 
@@ -367,7 +367,7 @@ class SmallDiagram {
 
                 }
             }
-            return (<G transform={`translate(${day * 13.3},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+            return (<G transform={`translate(${day * 13.3},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                 <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 1437.72 9.4 1428.72 0.41 1428.72 4.91 1437.72" />
                 <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="1428.72" x2="4.9" y2="1402.71" />
 
@@ -394,7 +394,7 @@ class SmallDiagram {
                 }
             }
             return (
-                <G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+                <G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                     <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 1605.04 9.4 1596.04 0.41 1596.04 4.91 1605.04" />
                     <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="1596.04" x2="4.9" y2="1570.03" />
 
@@ -421,7 +421,7 @@ class SmallDiagram {
 
                 }
             }
-            return (<G transform={`translate(${day * 13.3},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+            return (<G transform={`translate(${day * 13.3},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                 <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 1772.36 9.4 1763.36 0.41 1763.36 4.91 1772.36" />
                 <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="1763.36" x2="4.9" y2="1737.36" />
 
@@ -446,7 +446,7 @@ class SmallDiagram {
 
                 }
             }
-            return (<G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onClick={() => { smalldiagram.handlecostid.call(this, cost) }}>
+            return (<G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                 <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 1939.69 9.4 1930.69 0.41 1930.69 4.91 1939.69" />
                 <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="1930.69" x2="4.9" y2="1904.68" />
 
