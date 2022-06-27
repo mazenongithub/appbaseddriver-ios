@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput} from 'react-native'
+import { View, Text, TextInput } from 'react-native'
 import { MyStylesheet } from './styles';
 import AppBasedDriver from './appbaseddriver';
 import EquipmentCalender from './equipmentcalender'
@@ -19,16 +19,16 @@ class EquipmentDate {
 
                 const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
                 if (equipment) {
-                 
+
                     const i = appbaseddriver.getequipmentkeybyid.call(this, equipmentid);
 
-                   
+
                     if (year.length === 4) {
-                    
-                       
+
+
                         if (validateYear(year)) {
 
-                    
+
                             if (this.state.activecostid) {
 
                                 const cost = appbaseddriver.getequipmentcostbyid.call(this, equipmentid, this.state.activecostid);
@@ -45,7 +45,7 @@ class EquipmentDate {
 
 
                             }
-                            appbaseddriver.updateUI.call(this,Number(year))                     
+                            appbaseddriver.updateUI.call(this, Number(year))
                             this.setState({ activeyear: Number(year) })
 
                         } else {
@@ -152,17 +152,21 @@ class EquipmentDate {
 
 
                     const i = appbaseddriver.getequipmentkeybyid.call(this, equipmentid);
+
                     if (month.length === 2) {
 
                         if (validateMonth(month)) {
 
 
-                           appbaseddriver.setUIMonth.call(this,month)
+                            appbaseddriver.setUIMonth.call(this, month)
 
 
                             if (this.state.activecostid) {
                                 const cost = appbaseddriver.getequipmentcostbyid.call(this, equipmentid, this.state.activecostid);
+
                                 if (cost) {
+
+
 
                                     let j = appbaseddriver.getequipmentcostkeybyid.call(this, equipmentid, this.state.activecostid);
                                     let day = this.state.equipmentday;
@@ -176,28 +180,48 @@ class EquipmentDate {
 
                                 }
 
-                            }
 
+
+
+                            }
 
 
                         } else {
                             alert(`Invalid month format ${month}`)
                         }
 
+
+
+
+
                     } else if (month.length === 1) {
 
                         if (Number(month)) {
 
-                            let j = appbaseddriver.getequipmentcostkeybyid.call(this, equipmentid, this.state.activecostid);
-                            let equipmentmonth = trailingZeros(month)
-                            let equipmentday = trailingZeros(this.state.equipmentday);
-                            let equipmentyear = this.state.equipmentyear;
-                            let timein = `${equipmentyear}/${equipmentmonth}/${equipmentday}`
-                            myuser.equipment[i].costs[j].purchasedate = timein;
-                            this.props.reduxUser(myuser);
-                            this.setState({ render: 'render', equipmentday })
+                            appbaseddriver.setUIMonth.call(this, Number(month))
+
+                            if (this.state.activecostid) {
+
+                                const cost = appbaseddriver.getequipmentcostbyid.call(this, equipmentid, this.state.activecostid);
+
+                                if (cost) {
+
+                                    let j = appbaseddriver.getequipmentcostkeybyid.call(this, equipmentid, this.state.activecostid);
+                                    let equipmentmonth = trailingZeros(month)
+                                    let equipmentday = trailingZeros(this.state.equipmentday);
+                                    let equipmentyear = this.state.equipmentyear;
+                                    let timein = `${equipmentyear}/${equipmentmonth}/${equipmentday}`
+                                    myuser.equipment[i].costs[j].purchasedate = timein;
+                                    this.props.reduxUser(myuser);
+                                    this.setState({ render: 'render', equipmentday })
+
+                                }
+
+                            }
                         }
                     }
+
+
 
                 }
             }
@@ -233,11 +257,11 @@ class EquipmentDate {
                         <View style={{ ...styles.generalFlex }}>
                             <View style={{ ...styles.flex1, ...styles.addMargin }}>
 
-                                <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }} 
-                                value={this.state.equipmentmonth.toString()}
-                                onChangeText={text => { equipment.handlemonth.call(this, text) }}
-                                selectTextOnFocus={true}
-                                    
+                                <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
+                                    value={this.state.equipmentmonth.toString()}
+                                    onChangeText={text => { equipment.handlemonth.call(this, text) }}
+                                    selectTextOnFocus={true}
+
                                 />
                             </View>
                             <View style={{ ...styles.flex1, ...styles.addMargin }}>
@@ -246,7 +270,7 @@ class EquipmentDate {
                                     value={this.state.equipmentday.toString()}
                                     onChangeText={text => { equipment.handleday.call(this, text) }}
                                     selectTextOnFocus={true}
-                                     />
+                                />
                             </View>
                             <View style={{ ...styles.flex1, ...styles.addMargin }}>
 
@@ -254,7 +278,7 @@ class EquipmentDate {
                                     value={this.state.equipmentyear.toString()}
                                     onChangeText={text => { equipment.handleyear.call(this, text) }}
                                     selectTextOnFocus={true}
-                                    
+
                                 />
                             </View>
 
