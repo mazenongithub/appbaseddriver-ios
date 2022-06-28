@@ -15,7 +15,7 @@ class EquipmentDate {
             const equipmentid = appbaseddriver.getEquipmentID.call(this)
             const myuser = appbaseddriver.getuser.call(this)
             if (myuser) {
-                console.log(year)
+           
 
                 const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid)
                 if (equipment) {
@@ -171,7 +171,7 @@ class EquipmentDate {
                                     let j = appbaseddriver.getequipmentcostkeybyid.call(this, equipmentid, this.state.activecostid);
                                     let day = this.state.equipmentday;
                                     let year = this.state.equipmentyear;
-                                    console.log(month, day.year)
+                                
                                     const timein = `${year}/${month}/${day}`
                                     myuser.equipment[i].costs[j].purchasedate = timein;
                                     this.props.reduxUser(myuser);

@@ -210,7 +210,8 @@ class SmallDiagram {
                             {abbMonth(cost.purchasedate)}, ${Number(cost.amount).toFixed(2)},
                         </TextSvg>
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 456.41)">
-                            {cost.detail}</TextSvg>
+                            {cost.detail}
+                        </TextSvg>
                     </G>)
 
                 }
@@ -234,7 +235,8 @@ class SmallDiagram {
                             {abbMonth(cost.purchasedate)}, ${Number(cost.amount).toFixed(2)},
                         </TextSvg>
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 623.73)">
-                            {cost.detail}</TextSvg>
+                            {cost.detail}
+                        </TextSvg>
                     </G>)
 
                 }
@@ -260,7 +262,8 @@ class SmallDiagram {
                             {abbMonth(cost.purchasedate)}, ${Number(cost.amount).toFixed(2)},
                         </TextSvg>
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 791.05)">
-                            {cost.detail}</TextSvg>
+                            {cost.detail}
+                        </TextSvg>
                     </G>)
 
                 }
@@ -286,7 +289,8 @@ class SmallDiagram {
                             {abbMonth(cost.purchasedate)}, ${Number(cost.amount).toFixed(2)},
                         </TextSvg>
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 958.38)">
-                            {cost.detail}</TextSvg>
+                            {cost.detail}
+                        </TextSvg>
                     </G>)
 
                 }
@@ -310,7 +314,8 @@ class SmallDiagram {
                             {abbMonth(cost.purchasedate)}, ${Number(cost.amount).toFixed(2)},
                         </TextSvg>
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 1125.7)">
-                            {cost.detail}</TextSvg>
+                            {cost.detail}
+                        </TextSvg>
                     </G>)
 
                 }
@@ -336,7 +341,8 @@ class SmallDiagram {
                             {abbMonth(cost.purchasedate)}, ${Number(cost.amount).toFixed(2)},
                         </TextSvg>
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 1293.03)">
-                            {cost.detail}</TextSvg>
+                            {cost.detail}
+                        </TextSvg>
                     </G>)
 
                 }
@@ -417,7 +423,8 @@ class SmallDiagram {
                             {abbMonth(cost.purchasedate)}, ${Number(cost.amount).toFixed(2)},
                         </TextSvg>
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 1795)">
-                            {cost.detail}</TextSvg>
+                            {cost.detail}
+                        </TextSvg>
                     </G>)
 
                 }
@@ -437,12 +444,14 @@ class SmallDiagram {
             const showlabel = smalldiagram.showcostlabel.call(this, cost)
             const label = (showlabel) => {
                 if (showlabel) {
-                    return (<G> <Path stroke="#231f20" strokeWidth="0.5" fill="#eebe88" d="M93.84,1940.67v27.66a1.11,1.11,0,0,1-1.17,1.05h-79a1.11,1.11,0,0,1-1.17-1.05v-22.22a1,1,0,0,0,0-.28L9.69,1937a1.11,1.11,0,0,1,1.43-1.29l17,3.93a1,1,0,0,0,.3,0H92.67A1.11,1.11,0,0,1,93.84,1940.67Z" />
+                    return (<G> 
+                    <Path stroke="#231f20" strokeWidth="0.5" fill="#eebe88" d="M93.84,1940.67v27.66a1.11,1.11,0,0,1-1.17,1.05h-79a1.11,1.11,0,0,1-1.17-1.05v-22.22a1,1,0,0,0,0-.28L9.69,1937a1.11,1.11,0,0,1,1.43-1.29l17,3.93a1,1,0,0,0,.3,0H92.67A1.11,1.11,0,0,1,93.84,1940.67Z" />
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 1950.32)">
                             {abbMonth(cost.purchasedate)}, ${Number(cost.amount).toFixed(2)},
                         </TextSvg>
                         <TextSvg fontSize="10" fill="#231f20" fontWeight="bold" transform="translate(15.93 1962.32)">
-                            {cost.detail}</TextSvg>
+                            {cost.detail}
+                        </TextSvg>
                     </G>)
 
                 }

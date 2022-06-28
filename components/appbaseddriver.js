@@ -11,7 +11,7 @@ class AppBasedDriver {
     enviornmentalVariables() {
         const variables = {
             development: {
-                serverAPI: 'http://3.89.195.19:8081'
+                serverAPI: 'http://54.209.246.64:8081'
             },
             production: {
                 serverAPI: 'https://api.civilengineer.io'
@@ -491,7 +491,7 @@ class AppBasedDriver {
 
 
             if (navigation.hasOwnProperty("costid")) {
-                console.log(`NAVIGATION COSTID: ${navigation.costid}`)
+              
                 costid = navigation.costid;
             }
 
@@ -1023,7 +1023,7 @@ class AppBasedDriver {
 
         try {
 
-            console.log(`Apple Sign In`)
+           
             const credential = await AppleAuthentication.signInAsync({
                 requestedScopes: [
                     AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
@@ -1032,10 +1032,10 @@ class AppBasedDriver {
             });
             // signed in
 
-            console.log("CREDENTIAL", credential)
+           // console.log("CREDENTIAL", credential)
 
             if (credential.hasOwnProperty("user")) {
-                console.log("CREDENTIAL", credential)
+             
                 let emailaddress = credential.email;
                 let clientid = credential.user;
                 let firstname = credential.fullName.givenName;

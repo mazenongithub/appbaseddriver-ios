@@ -45,7 +45,7 @@ class Spinner extends Component {
 
 
     spinnerPosition(num) {
-        console.log(num)
+     
         switch (num) {
 
             case 0:

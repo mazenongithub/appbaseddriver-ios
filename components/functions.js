@@ -655,9 +655,9 @@ export function check_31(timein) {
 
 
 export function check_30(timein) {
-    console.log(`check30 ${timein}`)
+
     const dateobj = new Date(timein)
-    console.log(`check30 dateobj ${dateobj}`)
+   
     let month = dateobj.getMonth();
    
     if (month !== 1) {

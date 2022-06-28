@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, Text, TextInput} from 'react-native'
+import { View, Text, TextInput } from 'react-native'
 import { MyStylesheet } from './styles';
-import { UTCTimeStringfromTime, makeTimeString, validateMonth, validateDate, validateYear, validateMinutes} from './functions';
+import { UTCTimeStringfromTime, makeTimeString, validateMonth, validateDate, validateYear, validateMinutes } from './functions';
 import AppBasedDriver from './appbaseddriver'
-import TimeInCalender from './timeincaleder';
+import TimeInCalender from './timeincalender';
 class TimeIn {
 
     handleminutes(minutes) {
@@ -104,9 +104,9 @@ class TimeIn {
             if (year.length === 4) {
 
                 if (validateYear(year)) {
-                    appbaseddriver.updateUI.call(this,Number(year))
+                    appbaseddriver.updateUI.call(this, Number(year))
 
-                    this.setState({activeyear:Number(year)}) 
+                    this.setState({ activeyear: Number(year) })
 
                     if (this.state.activeshiftid) {
                         const myshift = appbaseddriver.getshiftbyid.call(this, this.state.activeshiftid);
@@ -122,18 +122,18 @@ class TimeIn {
                             timein = UTCTimeStringfromTime(timein);
                             myuser.driver.shifts[i].timein = timein;
                             this.props.reduxUser(myuser)
-                            appbaseddriver.updateUI.call(this,Number(year))
-                            this.setState({ activeyear:Number(year) })
-                            
+                            appbaseddriver.updateUI.call(this, Number(year))
+                            this.setState({ activeyear: Number(year) })
+
 
 
                         }
-                      
+
 
                     }
-                   
 
-                   
+
+
 
 
                 } else {
@@ -151,34 +151,34 @@ class TimeIn {
         const myuser = appbaseddriver.getuser.call(this)
         if (myuser) {
 
-       
-                if (day.length === 2) {
 
-                    if (validateDate(day)) {
+            if (day.length === 2) {
 
-
-                            if (this.state.activeshiftid) {
-                                const myshift = appbaseddriver.getshiftbyid.call(this,this.state.activeshiftid);
-                                if (myshift) {
-
-                                    const i = appbaseddriver.getshiftkeybyid.call(this, this.state.activeshiftid)
-                                    let year = this.state.timeinyear;
-                                    let month = this.state.timeinmonth;
-                                    let hours = this.state.timeinhours;
-                                    let minutes = this.state.timeinminutes;
-                                    let time = this.state.timeinampm;
-                                    let timein = makeTimeString(year, month, day, hours, minutes, time);
-                                    timein = UTCTimeStringfromTime(timein);
-                                    myuser.driver.shifts[i].timein = timein;
-                                    this.props.reduxUser(myuser)
-                                    this.setState({ render: 'render' })
+                if (validateDate(day)) {
 
 
-                                }
+                    if (this.state.activeshiftid) {
+                        const myshift = appbaseddriver.getshiftbyid.call(this, this.state.activeshiftid);
+                        if (myshift) {
 
-                            }
+                            const i = appbaseddriver.getshiftkeybyid.call(this, this.state.activeshiftid)
+                            let year = this.state.timeinyear;
+                            let month = this.state.timeinmonth;
+                            let hours = this.state.timeinhours;
+                            let minutes = this.state.timeinminutes;
+                            let time = this.state.timeinampm;
+                            let timein = makeTimeString(year, month, day, hours, minutes, time);
+                            timein = UTCTimeStringfromTime(timein);
+                            myuser.driver.shifts[i].timein = timein;
+                            this.props.reduxUser(myuser)
+                            this.setState({ render: 'render' })
 
-     
+
+                        }
+
+                    }
+
+
                 } else {
                     alert(`${day} is an invalid day format`)
                 }
@@ -193,35 +193,35 @@ class TimeIn {
         const myuser = appbaseddriver.getuser.call(this)
         if (myuser) {
 
-                if (month.length === 2) {
+            if (month.length === 2) {
 
-                    if (validateMonth(month)) {
+                if (validateMonth(month)) {
 
-                        appbaseddriver.setUIMonth.call(this,month)
-                     
-
-                            if (this.state.activeshiftid) {
-                                const myshift = appbaseddriver.getshiftbyid.call(this, this.state.activeshiftid);
-                                if (myshift) {
-
-                                    const i = appbaseddriver.getshiftkeybyid.call(this, this.state.activeshiftid)
-                                    let day = this.state.timeinday;
-                                    let year = this.state.timeinyear;
-                                    let hours = this.state.timeinhours;
-                                    let minutes = this.state.timeinminutes;
-                                    let time = this.state.timeinampm;
-                                    let timein = makeTimeString(year, month, day, hours, minutes, time);
-                                    timein = UTCTimeStringfromTime(timein);
-                                    myuser.driver.shifts[i].timein = timein;
-                                    this.props.reduxUser(myuser)
-                                    this.setState({ render: 'render' })
+                    appbaseddriver.setUIMonth.call(this, month)
 
 
-                                }
+                    if (this.state.activeshiftid) {
+                        const myshift = appbaseddriver.getshiftbyid.call(this, this.state.activeshiftid);
+                        if (myshift) {
 
-                            }
+                            const i = appbaseddriver.getshiftkeybyid.call(this, this.state.activeshiftid)
+                            let day = this.state.timeinday;
+                            let year = this.state.timeinyear;
+                            let hours = this.state.timeinhours;
+                            let minutes = this.state.timeinminutes;
+                            let time = this.state.timeinampm;
+                            let timein = makeTimeString(year, month, day, hours, minutes, time);
+                            timein = UTCTimeStringfromTime(timein);
+                            myuser.driver.shifts[i].timein = timein;
+                            this.props.reduxUser(myuser)
+                            this.setState({ render: 'render' })
 
-                        
+
+                        }
+
+                    }
+
+
                 } else {
                     alert(`${month} is an invalid month format `)
                 }
@@ -241,29 +241,29 @@ class TimeIn {
         const myuser = appbaseddriver.getuser.call(this)
         if (myuser) {
 
-                    if (this.state.activeshiftid) {
-                        const myshift = appbaseddriver.getshiftbyid.call(this, this.state.activeshiftid);
-                        if (myshift) {
+            if (this.state.activeshiftid) {
+                const myshift = appbaseddriver.getshiftbyid.call(this, this.state.activeshiftid);
+                if (myshift) {
 
-                            const i = appbaseddriver.getshiftkeybyid.call(this, this.state.activeshiftid)
-                            let day = this.state.timeinday;
-                            let year = this.state.timeinyear;
-                            let month = this.state.timeinmonth;
-                            let hours = this.state.timeinhours;
-                            let time = ampm;
-                            let minutes = this.state.timeinminutes;
-                            let timein = makeTimeString(year, month, day, hours, minutes, time);
-                        
-                            timein = UTCTimeStringfromTime(timein);
-                 
-                            myuser.driver.shifts[i].timein = timein;
-                            this.props.reduxUser(myuser)
-                            this.setState({ render: 'render' })
+                    const i = appbaseddriver.getshiftkeybyid.call(this, this.state.activeshiftid)
+                    let day = this.state.timeinday;
+                    let year = this.state.timeinyear;
+                    let month = this.state.timeinmonth;
+                    let hours = this.state.timeinhours;
+                    let time = ampm;
+                    let minutes = this.state.timeinminutes;
+                    let timein = makeTimeString(year, month, day, hours, minutes, time);
+
+                    timein = UTCTimeStringfromTime(timein);
+
+                    myuser.driver.shifts[i].timein = timein;
+                    this.props.reduxUser(myuser)
+                    this.setState({ render: 'render' })
 
 
-                        }
+                }
 
-                    }
+            }
 
         }
 
@@ -276,14 +276,14 @@ class TimeIn {
         const timein = new TimeIn();
         const showam = () => {
             return (<View style={{ ...styles.generalContainer }}>
-                <Text style={{  ...headerFont, ...styles.boldFont, ...styles.alignCenter, ...styles.generalPadding }} onPress={() => { timein.toggleampm.call(this, 'pm') }}>AM</Text>
+                <Text style={{ ...headerFont, ...styles.boldFont, ...styles.alignCenter, ...styles.generalPadding }} onPress={() => { timein.toggleampm.call(this, 'pm') }}>AM</Text>
             </View>)
 
         }
         const showpm = () => {
 
             return (<View style={{ ...styles.generalContainer }}>
-                <Text style={{  ...styles.generalPadding, ...headerFont, ...styles.boldFont, ...styles.alignCenter }} onPress={() => { timein.toggleampm.call(this, 'am') }}>PM</Text>
+                <Text style={{ ...styles.generalPadding, ...headerFont, ...styles.boldFont, ...styles.alignCenter }} onPress={() => { timein.toggleampm.call(this, 'am') }}>PM</Text>
             </View>)
 
         }
@@ -308,60 +308,61 @@ class TimeIn {
         const timein = new TimeIn();
         const timeincalender = new TimeInCalender();
         const appbaseddriver = new AppBasedDriver();
-       
+
         const headerFont = appbaseddriver.getHeaderFont.call(this)
-        return(   <View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
+        return (<View style={{ ...styles.generalFlex, ...styles.bottomMargin15 }}>
             <View style={{ ...styles.flex1, ...styles.calenderContainer }}>
-    
+
                 <View style={{ ...styles.generalFlex }}>
                     <View style={{ ...styles.flex1 }}>
                         <Text style={{ ...styles.generalFont, ...headerFont }}>Time In (MM-DD-YYYY HH mm) </Text>
                     </View>
                 </View>
-    
+
                 <View style={{ ...styles.generalFlex }}>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
-    
-                        <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }} 
+
+                        <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinmonth.toString()}
                             selectTextOnFocus={true}
                             onChangeText={text => { timein.handlemonth.call(this, text) }}
-                            />
+                        />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
-    
+
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinday.toString()}
-                            onChangeText={text => { timein.handleday.call(this, text) }} 
+                            onChangeText={text => { timein.handleday.call(this, text) }}
                             selectTextOnFocus={true}
-                            
-                            />
+
+                        />
                     </View>
                     <View style={{ ...styles.flex2, ...styles.addMargin }}>
-    
+
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinyear.toString()}
-                            onChangeText={text => { timein.handleyear.call(this, text) }} 
+                            onChangeText={text => { timein.handleyear.call(this, text) }}
                             selectTextOnFocus={true}
-                            
-                            />
+
+                        />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
-    
+
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinhours.toString()}
                             onChangeText={text => { timein.handlehours.call(this, text) }}
                             selectTextOnFocus={true}
-                            />
+                        />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
-    
+
                         <TextInput style={{ ...styles.generalFont, ...headerFont, ...styles.generalField, ...styles.alignCenter }}
                             value={this.state.timeinminutes.toString()}
-                            onChangeText={text => { timein.handleminutes.call(this, text)
-                            
-                             }}
-                             selectTextOnFocus={true}     
+                            onChangeText={text => {
+                                timein.handleminutes.call(this, text)
+
+                            }}
+                            selectTextOnFocus={true}
                         />
                     </View>
                     <View style={{ ...styles.flex1, ...styles.addMargin }}>
@@ -370,9 +371,9 @@ class TimeIn {
                 </View>
 
                 {timeincalender.showTimeInCalender.call(this)}
-    
-               
-    
+
+
+
             </View>
         </View>)
     }
