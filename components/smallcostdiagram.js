@@ -155,7 +155,7 @@ class SmallDiagram {
             }
 
             // fill:#015d40;stroke:#231f20;stroke-miterlimit:10;stroke-width:0.5px;
-            // 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
+            
             return (<G transform={`translate(${day * 12.9},0)`} key={`svg${cost.costid}`} onPress={() => { smalldiagram.handlecostid.call(this, cost) }}>
                 <Polygon fill="#fdd726" strokeWidth="0.5" stroke="#231f20" points="4.91 99.13 9.4 90.13 0.41 90.13 4.91 99.13" />
                 <Line fill="#015d40" stroke="#231f20" strokeWidth="2" x1="4.9" y1="90.13" x2="4.9" y2="64.12" />
