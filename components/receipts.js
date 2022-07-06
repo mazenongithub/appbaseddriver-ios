@@ -182,14 +182,15 @@ class Receipts extends Component {
 
     }
 
-    async uploadmyuser(equipmentid, costid, imageid, myuser) {
+    async uploadmyuser(equipmentid, costid, myuser) {
 
 
 
         try {
             let myImage = await ImagePicker.launchImageLibraryAsync({
                 allowsEditing: true,
-                aspect: [1, 1],
+                aspect: [1080, 2340],
+                mediaTypes:ImagePicker.MediaTypeOptions.Images
             });
 
             if (myImage.hasOwnProperty("uri")) {
@@ -205,7 +206,7 @@ class Receipts extends Component {
 
                 }
 
-                const values = { equipmentid, costid, imageid }
+                const values = { equipmentid, costid }
                 let formData = new FormData();
                 formData.append("profilephoto", profilephoto());
                 formData.append("myuser", JSON.stringify(myuser))
@@ -245,38 +246,18 @@ class Receipts extends Component {
         let myuser = appbaseddriver.getuser.call(this)
         const receipts = new Receipts()
 
-        const CreateReceipt = (imageid, url) => {
-            return ({ imageid, url })
-
-        }
-
 
         if (myuser) {
             const equipmentid = appbaseddriver.getEquipmentID.call(this)
             const equipment = appbaseddriver.getequipmentbyid.call(this, equipmentid);
             if (equipment) {
-                const i = appbaseddriver.getequipmentkeybyid.call(this, equipmentid)
+
                 const cost = receipts.getcost.call(this)
                 if (cost) {
-
-                    const j = appbaseddriver.getequipmentcostkeybyid.call(this, equipmentid, cost.costid)
-                    const imageid = makeID(16)
-                    const newReceipt = CreateReceipt(imageid, "")
-                    if (cost.hasOwnProperty("images")) {
-
-                        myuser.equipment[i].costs[j].images.push(newReceipt)
-                    } else {
-                        myuser.equipment[i].costs[j].images = [newReceipt]
-                    }
-                    receipts.uploadmyuser.call(this, equipmentid, cost.costid, imageid, myuser)
-
-
+                    receipts.uploadmyuser.call(this, equipmentid, cost.costid, myuser)
                 }
 
-
-
             }
-
 
         }
     }
